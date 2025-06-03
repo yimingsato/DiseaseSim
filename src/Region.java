@@ -1,4 +1,4 @@
-public class Region {
+public abstract class Region {
     private String name;
     private double temp;
     private int population;
@@ -39,54 +39,35 @@ public class Region {
     
     // CompareTo methods
     public double compareToPopulation(Region other) {
-        return Double.compare(this.population, other.population);
+        return this.population - other.population;
     }
-    public double compareToTemp() {
-        return this.temp;
+    public double compareToTemp(Region other) {
+        return this.temp - other temp;
     }
-// Accessor/mutator
-// Region(String, double, int, double)
-// compareToPopulation(Region): double
-// compareToTemp(): double
 
-// updateInfectedPopulation(): int
-// Purpose: calculate number of infected people in a population 
-// Parameter: none 
-// Return: int (num infected)
-// Algorithm:
-// Run through population
-// 	If infected 
-// 		Count++
+    //in order for this to work we need to have more methods in the Person class
+    // public int updateInfectedPopulation() {
+    //     int count = 0;
+    //     for (int i = 0; i < population; i++) {
+    //         if (person[i].getHealthStatus() == 'I') { //need to have an array of person objects
+    //             count++;
+    //         }
+    //     }
+    //     this.populationInfected = count;
+    //     return count;
+    // }
 
-// calcInfectedPercentage(): double
-// Purpose: calculate percentage of infected people in a population 
-// Parameter: none 
-// Return: double (percentage)
-// Algorithm:
-// 	Return infected population/total * 100
+    public double calcInfectedPercentage() {
+        if (population == 0) {
+            return 0.0; // Avoid division by zero
+        }
+        return (double) populationInfected / population * 100;
+    }
 
-// calcInfectionRateInfluence(int baseInfectionRate )
-// Purpose: Abstract method to be implemented to calculate infection rate
-// Parameter: int baseInfectionRate (from disease transmisison rate)
-// Return: int (modified infection rate)
-// Algorithm: implemented differently per subclass 
+    public abstract calcInfectionRateInfluence(int baseInfectionRate);
 
-// calcSize()
-// Purpose: Recursively backtracks through every cell and returns size of region
-// Parameter: int int (current location)
-// Return: double (size)
-// Algorithm: go through people standing next to each other and see which ones are in the same region as the person at the beginning
-// If currentLocation is out of bounds or already visited
-// Return 0 
-// Else
-// Mark currentLocaiton as visited
-// Return 1+ recursive call
+    public static boolean fullyInfected() {
+        return populationInfected == population;
+    }
 
-// fullyInfected()
-// Purpose: checks if population of this region is fully infected
-// Parameter: N/A
-// Return: boolean
-// Algorithm: 
-//  	If infectedPopulation == population
-    
 }
