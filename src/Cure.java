@@ -24,9 +24,22 @@ public abstract class Cure {
     }   
 
     public abstract boolean applyTo(Person person);
-    public abstract String toString();
-    public double compareToEfficacy(Cure otherCure){
-        //NEED TO FINISH CODING
+
+    public abstract String toString(){
+        return "Cure{" +
+                "name='" + name + '\'' +
+                ", efficacyRate=" + efficacyRate +
+                '}';
+    }
+    
+    public double compareToEfficacy(Cure other){
+        if (this.efficacyRate > other.efficacyRate) {
+            return this.efficacyRate - other.efficacyRate; // this cure is more effective
+        } else if (this.efficacyRate < other.efficacyRate) {
+            return this.efficacyRate - other.efficacyRate; // other cure is more effective
+        } else {
+            return 0; // both cures are equally effective
+        }
     }
 
 }
