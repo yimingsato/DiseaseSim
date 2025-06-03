@@ -20,11 +20,12 @@ public class Vaccine extends Cure{
     }
 
     public boolean applyTo(Person person) {
-        if (!person.isInfected()) {
-            person.setHealthStatus(true);
-            return true; // Vaccine applied successfully
-        }
-        return false; // Person is already vaccinated
+        if (!person.getisVaccinated()) {
+        person.receiveCure(this);
+        person.setHealthStatus(true);
+        return true; // Antibiotic applied successfully
+        //UPDATE RISK FACTOR
+    }
     }
 
     public String toString() {
