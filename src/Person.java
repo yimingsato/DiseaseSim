@@ -89,7 +89,7 @@ public abstract class Person {
      * @return true if the person dies, false otherwise.
      */
     public boolean dieFromDisease() {
-        if (immunityLevel < Disease.MORTALITY_RATE && !hasAntibiotics || !vaccinated) { 
+        if (immunityLevel < Disease.mortalityRate && !hasAntibiotics || !vaccinated) { 
             healthStatus = 'D'; // Dead
             return true;
         }
