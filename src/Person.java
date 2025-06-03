@@ -17,7 +17,7 @@ public abstract class Person {
         this.location = location;
         this.immunityLevel = immunityLevel;
     }
-
+    
     // Getters and Setters
     public int getId() {
         return id;
@@ -74,10 +74,10 @@ public abstract class Person {
      * @return true if the person recovers, false otherwise.
      */
     public boolean recoverFromDisease() {
-        if (immunityLevel > Disease.MORTALITY_RATE) {
+        if (immunityLevel > getMortalityRate()){
             healthStatus = 'H'; // Healthy
             return true;
-        } else if (hasAntibiotics && immunityLevel + Antibiotic.EFFICACY > Disease.MORTALITY_RATE) {
+        } else if (hasAntibiotics && immunityLevel + Antibiotic.efficacy > Disease.MORTALITY_RATE) {
             healthStatus = 'H'; // Healthy
             return true;
         }
@@ -111,9 +111,31 @@ public abstract class Person {
     }
 
     /**
+     * Checks if the person is healthy.
+     * @return true if the person is healthy, false otherwise.
+     */
+    public boolean isHealthy() {
+        return healthStatus == 'H';
+    }
+    /**
+     * Checks if the person is infected.
+     * @return true if the person is infected, false otherwise.
+     */
+    public boolean isInfected() {
+        return healthStatus == 'I';
+    }
+    /**
+     * Checks if the person is dead.
+     * @return true if the person is dead, false otherwise.
+     */
+    public boolean isDead() {
+        return healthStatus == 'D';
+    }
+    /**
      * Returns a string representation of the person.
      * @return a string containing the person's details.
      */
+    @Override
     public String toString() {
         return "Person{" +
                 "id=" + id +
