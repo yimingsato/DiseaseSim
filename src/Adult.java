@@ -1,3 +1,3 @@
-public class Adult extends Person{
+public class Adult extends Person {
     
 }
