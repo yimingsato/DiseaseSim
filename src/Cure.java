@@ -25,7 +25,7 @@ public abstract class Cure {
 
     public abstract boolean applyTo(Person person);
 
-    public abstract String toString(){
+    public String toString(){
         return "Cure{" +
                 "name='" + name + '\'' +
                 ", efficacyRate=" + efficacyRate +
