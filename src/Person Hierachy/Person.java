@@ -65,52 +65,50 @@ public abstract class Person {
     }
     
     public abstract int calcRiskFactor();
+
     public boolean recoverFromDisease() {
-        return true;
+        if (immunityLevel > Disease.MORTALITY_RATE) {
+            healthStatus = 'H'; // Healthy
+            return true;
+        } else if (hasAntibiotics && immunityLevel + Antibiotic.EFFICACY > Disease.MORTALITY_RATE) {
+            healthStatus = 'H'; // Healthy
+            return true;
+        }
+        return false;
     }
 
-//     Person Class:
-// Accessor/mutators
-// Person() constructor
-// toString(): String 
-// 	Print all details 
-// compareTo(Person): double
-// 	Compare immunity level
+    public boolean dieFromDisease() {
+        if (immunityLevel < Disease.MORTALITY_RATE && !hasAntibiotics || !vaccinated) { 
+            healthStatus = 'D'; // Dead
+            return true;
+        }
+        return false;
+    }
+    
+    public void receiveCure(Cure cure) {
+        if (cure instanceof Vaccine) {
+            this.vaccinated = true;
+            this.immunityLevel += cure.getEfficacy();
+        } else if (cure instanceof Antibiotic) {
+            this.hasAntibiotics = true;
+            this.immunityLevel += cure.getEfficacy();
+        }
+    }
 
-// calcRiskFactor(): int
-// Purpose: abstract method to calculate immunity level 
-// Parameters: none
-// Return value: int
-// Algorithm: different per subclass
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", age=" + age +
+                ", healthStatus=" + healthStatus +
+                ", vaccinated=" + vaccinated +
+                ", hasAntibiotics=" + hasAntibiotics +
+                ", location=" + location +
+                ", immunityLevel=" + immunityLevel +
+                '}';
+    }
 
-// recover(): boolean
-// Purpose: checks if person can recover from the disease 
-// Parameter: none
-// Return value: boolean
-// Algorithm:
-// If person immunity level > mortality rate 
-// 	Set status to healthy 
-// If person person has cure
-// 	If person immunity level and cure efficacy > mortality rate of disease
-// Set status to healthy
-
-// die(): boolean
-// Purpose: simulate death by disease
-// Parameter: none
-// Return value: boolean
-// Algorithm:
-// 	If person immunity level < mortality rate
-// 		Set status to dead
-
-// recieveCure(Cure c)
-// Purpose: simulate death by disease
-// Parameter: none
-// Return value: boolean
-// Algorithm: 
-// If cure is Vaccine 
-// Set vaccine boolean to true
-// immunityLevel == higher
-// If cure is Antibiotic
-// Set vaccine boolean to true
-// immunityLevel == high
+    public double compareToImmunity(Person other) {
+        return Double.compare(this.immunityLevel, other.immunityLevel);
+    }
+    
 }
