@@ -38,7 +38,7 @@ public abstract class Person {
         return location;
     }
     public int getImmunityLevel() {
-        return immunityLevel;
+        return ImmunityLevel;
     }
     public void setId(int id) {
         this.id = id;
@@ -59,7 +59,7 @@ public abstract class Person {
         this.location = location;
     }
     public void setImmunityLevel(int immunityLevel) {
-        this.immunityLevel = immunityLevel;
+        this.ImmunityLevel = immunityLevel;
     }
     
     // Abstract methods
