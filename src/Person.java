@@ -17,7 +17,7 @@ public abstract class Person {
         this.location = location;
         this.immunityLevel = immunityLevel;
     }
-    
+
     // Getters and Setters
     public int getId() {
         return id;
@@ -73,11 +73,11 @@ public abstract class Person {
      * Determines if the person can recover from a disease based on their immunity level and whether they have antibiotics.
      * @return true if the person recovers, false otherwise.
      */
-    public boolean recoverFromDisease() {
-        if (immunityLevel > getMortalityRate()){
+    public boolean recoverFromDisease(Disease d) {
+        if (immunityLevel > d.getMortalityRate()){
             healthStatus = 'H'; // Healthy
             return true;
-        } else if (hasAntibiotics && immunityLevel + Antibiotic.efficacy > Disease.MORTALITY_RATE) {
+        } else if (hasAntibiotics && immunityLevel + getEfficacy > Disease.MORTALITY_RATE) {
             healthStatus = 'H'; // Healthy
             return true;
         }
