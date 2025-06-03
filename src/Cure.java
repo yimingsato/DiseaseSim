@@ -33,13 +33,7 @@ public abstract class Cure {
     }
     
     public double compareToEfficacy(Cure other){
-        if (this.efficacyRate > other.efficacyRate) {
             return this.efficacyRate - other.efficacyRate; // this cure is more effective
-        } else if (this.efficacyRate < other.efficacyRate) {
-            return this.efficacyRate - other.efficacyRate; // other cure is more effective
-        } else {
-            return 0; // both cures are equally effective
-        }
     }
 
 }
