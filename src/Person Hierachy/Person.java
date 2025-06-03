@@ -64,8 +64,17 @@ public abstract class Person {
         this.ImmunityLevel = immunityLevel;
     }
     
+    // Abstract methods
+    /**
+     * Calculates the risk factor of the person based on their age, health status, and other factors.
+     * @return an integer representing the risk factor.
+     */
     public abstract int calcRiskFactor();
 
+    /**
+     * Determines if the person can recover from a disease based on their immunity level and whether they have antibiotics.
+     * @return true if the person recovers, false otherwise.
+     */
     public boolean recoverFromDisease() {
         if (immunityLevel > Disease.MORTALITY_RATE) {
             healthStatus = 'H'; // Healthy
@@ -77,6 +86,10 @@ public abstract class Person {
         return false;
     }
 
+    /**
+     * Determines if the person dies from a disease based on their immunity level and whether they have antibiotics.
+     * @return true if the person dies, false otherwise.
+     */
     public boolean dieFromDisease() {
         if (immunityLevel < Disease.MORTALITY_RATE && !hasAntibiotics || !vaccinated) { 
             healthStatus = 'D'; // Dead
@@ -85,6 +98,10 @@ public abstract class Person {
         return false;
     }
     
+    /**
+     * Receives a cure (vaccine or antibiotic) and updates the person's health status accordingly.
+     * @param cure the cure to be administered.
+     */
     public void receiveCure(Cure cure) {
         if (cure instanceof Vaccine) {
             this.vaccinated = true;
@@ -95,6 +112,10 @@ public abstract class Person {
         }
     }
 
+    /**
+     * Returns a string representation of the person.
+     * @return a string containing the person's details.
+     */
     public String toString() {
         return "Person{" +
                 "id=" + id +
@@ -107,8 +128,13 @@ public abstract class Person {
                 '}';
     }
 
+    /**
+     * Compares this person with another person based on their immunity level.
+     * @param other the other person to compare with.
+     * @return a negative integer, zero, or a positive integer as this person's immunity level is less than, equal to, or greater than the specified person's immunity level.
+     */
     public double compareToImmunity(Person other) {
         return Double.compare(this.immunityLevel, other.immunityLevel);
     }
-    
+
 }
