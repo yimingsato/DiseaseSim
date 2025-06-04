@@ -1,18 +1,18 @@
 public abstract class Region {
-    private String name;
+    private char name;
     private double temp;
     private int population;
     private int populationInfected;
 
     // Constructor
-    public Region(String name, double temp, int population, int populationInfected) {
+    public Region(char name, double temp, int population, int populationInfected) {
         this.name = name;
         this.temp = temp;
         this.population = population;
         this.populationInfected = populationInfected;
     }
-    // Getters and Setters
-    public String getName() {
+    // Accessor mutators
+    public char getName() {
         return name;
     }
     public double getTemp() {
@@ -24,7 +24,7 @@ public abstract class Region {
     public int getPopulationInfected() {
         return populationInfected;
     }
-    public void setName(String name) {
+    public void setName(char name) {
         this.name = name;
     }
     public void setTemp(double temp) {
@@ -45,17 +45,17 @@ public abstract class Region {
         return this.temp - other.getTemp();
     }
 
-    //in order for this to work we need to have more methods in the Person class
-    // public int updateInfectedPopulation() {
-    //     int count = 0;
-    //     for (int i = 0; i < population; i++) {
-    //         if (person[i].getHealthStatus() == 'I') { //need to have an array of person objects
-    //             count++;
-    //         }
-    //     }
-    //     this.populationInfected = count;
-    //     return count;
-    // }
+    public int updateInfectedPopulation() {
+         int count = 0;
+         Person[] peopleInRegion = Person.getPeopleInRegion(this.name); 
+         for (int i = 0; i < peopleInRegion.length; i++) {
+             if (peopleInRegion[i].getHealthStatus() == 'I') { //need to have an array of person objects
+                 count++;
+             }
+         }
+         this.populationInfected = count;
+         return count;
+     }
 
     public double calcInfectedPercentage() {
         if (population == 0) {
@@ -70,4 +70,12 @@ public abstract class Region {
         return populationInfected == population;
     }
 
+    public String toString() {
+        return "Region{" +
+                "name=" + name +
+                ", temp=" + temp +
+                ", population=" + population +
+                ", populationInfected=" + populationInfected +
+                '}';
+    }
 }
