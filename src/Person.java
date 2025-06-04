@@ -6,9 +6,10 @@ public abstract class Person {
     private boolean hasAntibiotics;
     private Region location;
     private int immunityLevel;
+    private Disease disease;
 
     // Constructor
-    public Person(int id, int age, char healthStatus, boolean vaccinated, boolean hasAntibiotics, Region location, int immunityLevel) {
+    public Person(int id, int age, char healthStatus, boolean vaccinated, boolean hasAntibiotics, Region location, int immunityLevel, Disease disease) {
         this.id = id;
         this.age = age;
         this.healthStatus = healthStatus;
@@ -16,8 +17,9 @@ public abstract class Person {
         this.hasAntibiotics = hasAntibiotics;
         this.location = location;
         this.immunityLevel = immunityLevel;
+        this.disease = disease;
     }
-    
+
     // Getters and Setters
     public int getId() {
         return id;
@@ -38,7 +40,7 @@ public abstract class Person {
         return location;
     }
     public int getImmunityLevel() {
-        return ImmunityLevel;
+        return immunityLevel;
     }
     public void setId(int id) {
         this.id = id;
@@ -59,9 +61,15 @@ public abstract class Person {
         this.location = location;
     }
     public void setImmunityLevel(int immunityLevel) {
-        this.ImmunityLevel = immunityLevel;
+        this.immunityLevel = immunityLevel;
     }
-    
+    public Disease getDisease() {
+        return disease;
+    }
+    public void setDisease(Disease disease) {
+        this.disease = disease;
+    }
+
     // Abstract methods
     /**
      * Calculates the risk factor of the person based on their age, health status, and other factors.
@@ -69,84 +77,34 @@ public abstract class Person {
      */
     public abstract int calcRiskFactor();
 
-    /**
-     * Determines if the person can recover from a disease based on their immunity level and whether they have antibiotics.
-     * @return true if the person recovers, false otherwise.
-     */
-    public boolean recoverFromDisease() {
-        if (immunityLevel > getMortalityRate()){
-            healthStatus = 'H'; // Healthy
-            return true;
-        } else if (hasAntibiotics && immunityLevel + Antibiotic.efficacy > Disease.MORTALITY_RATE) {
-            healthStatus = 'H'; // Healthy
-            return true;
-        }
-        return false;
-    }
 
-    /**
-     * Determines if the person dies from a disease based on their immunity level and whether they have antibiotics.
-     * @return true if the person dies, false otherwise.
+    /** * Receives a cure and updates the person's health status and immunity level accordingly.
+     * @param cure the cure to be applied to the person.
      */
-    public boolean dieFromDisease() {
-        if (immunityLevel < Disease.mortalityRate && !hasAntibiotics || !vaccinated) { 
-            healthStatus = 'D'; // Dead
-            return true;
-        }
-        return false;
-    }
     
-    /**
-     * Receives a cure (vaccine or antibiotic) and updates the person's health status accordingly.
-     * @param cure the cure to be administered.
-     */
     public void receiveCure(Cure cure) {
         if (cure instanceof Vaccine) {
             this.vaccinated = true;
-            this.immunityLevel += cure.getEfficacy();
         } else if (cure instanceof Antibiotic) {
             this.hasAntibiotics = true;
-            this.immunityLevel += cure.getEfficacy();
+            this.immunityLevel += cure.getEfficacyRate();
         }
     }
+    
+    public 
 
-    /**
-     * Checks if the person is healthy.
-     * @return true if the person is healthy, false otherwise.
-     */
     public boolean isHealthy() {
         return healthStatus == 'H';
     }
-    /**
-     * Checks if the person is infected.
-     * @return true if the person is infected, false otherwise.
-     */
+
     public boolean isInfected() {
         return healthStatus == 'I';
     }
-    /**
-     * Checks if the person is dead.
-     * @return true if the person is dead, false otherwise.
-     */
-    public boolean isDead() {
+
+    public boolean diseaseID() {
         return healthStatus == 'D';
     }
-    /**
-     * Returns a string representation of the person.
-     * @return a string containing the person's details.
-     */
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", age=" + age +
-                ", healthStatus=" + healthStatus +
-                ", vaccinated=" + vaccinated +
-                ", hasAntibiotics=" + hasAntibiotics +
-                ", location=" + location +
-                ", immunityLevel=" + immunityLevel +
-                '}';
-    }
+    
 
     /**
      * Compares this person with another person based on their immunity level.
@@ -154,7 +112,7 @@ public abstract class Person {
      * @return a negative integer, zero, or a positive integer as this person's immunity level is less than, equal to, or greater than the specified person's immunity level.
      */
     public double compareToImmunity(Person other) {
-        return Double.compare(this.immunityLevel, other.immunityLevel);
+        return this.immunityLevel - other.immunityLevel;
     }
 
 }
