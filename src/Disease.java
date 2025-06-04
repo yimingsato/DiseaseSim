@@ -3,13 +3,16 @@ public abstract class Disease {
     private int diseaseID;
     private int transmissionRate;
     private int mortalityRate;
+    private int numInfected;
 
     public Disease(String name, int diseaseID, int transmissionRate, int mortalityRate) {
         this.name = name;
         this.diseaseID = diseaseID;
         this.transmissionRate = transmissionRate;
         this.mortalityRate = mortalityRate;
+        numInfected = 0;
     }
+
     public String getName() {
         return name;
     }
@@ -37,6 +40,18 @@ public abstract class Disease {
 
     public abstract void spread();
 
+    public void infect(Person person) {
+        if (!person.isHealthy()) {
+            return;
+        }
+        double risk = person.calcRiskFactor(this);
+        double roll = Math.random();
+        if (risk > roll) {
+            person.setHealthStatus('I'); // 'I' for infected
+            numInfected++;
+        }
+    }
+
     public void displaySymptoms() {
         System.out.println("Symptoms of " + name + ":");
         System.out.println("Fever, Cough, Fatigue");
@@ -46,6 +61,13 @@ public abstract class Disease {
         return this.mortalityRate - other.mortalityRate;
     }
 
-    
+    public String toString() {
+        return "Disease{" +
+                "name='" + name + '\'' +
+                ", diseaseID=" + diseaseID +
+                ", transmissionRate=" + transmissionRate +
+                ", mortalityRate=" + mortalityRate +
+                '}';
+    }
 
 }
