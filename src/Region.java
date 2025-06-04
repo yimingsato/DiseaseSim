@@ -64,7 +64,7 @@ public abstract class Region {
         return (double) populationInfected / population * 100;
     }
 
-    public abstract int calcInfectionRateInfluence(int baseInfectionRate);
+    public abstract calcInfectionRateInfluence(int baseInfectionRate);
 
     public boolean fullyInfected() {
         return populationInfected == population;
