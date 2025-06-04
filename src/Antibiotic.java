@@ -18,16 +18,16 @@ public class Antibiotic extends Cure {
         super(name, efficacyRate);
     }
 
-public boolean applyTo(Person person) {
-    if (!person.hasAntibiotics()) {
-        person.receiveCure(this);
-        person.setHealthStatus('H');
-        return true; // Antibiotic applied successfully
-        //UPDATE RISK FACTOR
-    }else{
-        return false; // Antibiotic not applied, person already has antibiotics
+    public boolean applyTo(Person person) {
+        if (!person.hasAntibiotics()) {
+            person.receiveCure(this);
+            person.setHealthStatus('H');
+            return true; // Antibiotic applied successfully
+            //UPDATE RISK FACTOR
+        }else{
+            return false; // Antibiotic not applied, person already has antibiotics
+        }
     }
-}
 
     public String toString() {
         return "Antibiotic{" +
