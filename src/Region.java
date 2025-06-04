@@ -1,8 +1,8 @@
 public abstract class Region {
     private String name;
     private double temp;
-    private static int population;
-    private static int populationInfected;
+    private int population;
+    private int populationInfected;
 
     // Constructor
     public Region(String name, double temp, int population, int populationInfected) {
@@ -64,7 +64,7 @@ public abstract class Region {
         return (double) populationInfected / population * 100;
     }
 
-    public abstract calcInfectionRateInfluence(int baseInfectionRate);
+    public abstract double calcInfectionRateInfluence(int baseInfectionRate);
 
     public static boolean fullyInfected() {
         return populationInfected == population;
