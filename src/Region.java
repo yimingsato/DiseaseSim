@@ -42,7 +42,7 @@ public abstract class Region {
         return this.population - other.population;
     }
     public double compareToTemp(Region other) {
-        return this.temp - other temp;
+        return this.temp - other.getTemp();
     }
 
     //in order for this to work we need to have more methods in the Person class
@@ -66,7 +66,7 @@ public abstract class Region {
 
     public abstract double calcInfectionRateInfluence(int baseInfectionRate);
 
-    public static boolean fullyInfected() {
+    public boolean fullyInfected() {
         return populationInfected == population;
     }
 

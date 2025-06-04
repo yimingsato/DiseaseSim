@@ -23,19 +23,17 @@ public class Hot extends Region{
     }
 
 //calcInfectionRateInfluence(int baseInfectionRate ): double
-    @Override
     public double calcInfectionRateInfluence(int baseInfectionRate) {
         double influence = baseInfectionRate;
         if (healthySunExposure) {
-            influence *= 0.9; // Healthy sun exposure reduces infection rate by 10%
+            influence *= 0.9;
         }
         if (dryClimate) {
-            influence *= 0.8; // Dry climate reduces infection rate by 20%
+            influence *= 1.1; 
         }
         return influence;
     }
 
-    @Override
     public String toString() {
         return "Hot{" +
                 "name='" + getName() + '\'' +
