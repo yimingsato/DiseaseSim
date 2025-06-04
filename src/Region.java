@@ -1,8 +1,8 @@
 public abstract class Region {
     private String name;
     private double temp;
-    private int population;
-    private int populationInfected;
+    private static int population;
+    private static int populationInfected;
 
     // Constructor
     public Region(String name, double temp, int population, int populationInfected) {

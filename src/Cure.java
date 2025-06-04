@@ -33,7 +33,7 @@ public abstract class Cure {
     }
     
     public double compareToEfficacy(Cure other){
-            return this.efficacyRate - other.efficacyRate; // this cure is more effective
+            return this.efficacyRate - other.efficacyRate;
     }
 
 }
