@@ -1,6 +1,7 @@
 public abstract class Cure {
     String name;		// way to identify each vaccine type 
     int efficacyRate;	// 1-10 scale, 1 least effective, 10 most effective
+//efficacy rate will be determined by the type of cure and immunity level of the person
 
     //accessor methods
     public String getName() {
@@ -23,6 +24,7 @@ public abstract class Cure {
         this.efficacyRate = efficacyRate;
     }   
 
+    public abstract int calcEfficacyRate(Person person);
     public abstract boolean applyTo(Person person);
 
     public String toString(){

@@ -31,7 +31,6 @@ public class Senior extends Person {
      * @return the calculated risk factor as an integer
      */
     public int calcRiskFactor() {
-        
         if (inCareHome) {
             return getAge()/2; // Higher risk factor for those in care homes
         } else {

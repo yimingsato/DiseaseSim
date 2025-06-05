@@ -40,7 +40,11 @@ public abstract class Person {
         return location;
     }
     public int getImmunityLevel() {
+    
         return immunityLevel;
+    }
+    public Disease getDisease() {
+        return disease;
     }
     public void setId(int id) {
         this.id = id;
@@ -63,9 +67,6 @@ public abstract class Person {
     public void setImmunityLevel(int immunityLevel) {
         this.immunityLevel = immunityLevel;
     }
-    public Disease getDisease() {
-        return disease;
-    }
     public void setDisease(Disease disease) {
         this.disease = disease;
     }
@@ -77,21 +78,15 @@ public abstract class Person {
      */
     public abstract int calcRiskFactor();
 
-
-    /** * Receives a cure and updates the person's health status and immunity level accordingly.
-     * @param cure the cure to be applied to the person.
-     */
-    
-    public void receiveCure(Cure cure) {
-        if (cure instanceof Vaccine) {
-            this.vaccinated = true;
-        } else if (cure instanceof Antibiotic) {
-            this.hasAntibiotics = true;
-            this.immunityLevel += cure.getEfficacyRate();
+    public void updateImmunityLevel() {
+        if (hasAntibiotics) {
+            immunityLevel += 10; // Increase immunity level if person has antibiotics
+        }
+        if (vaccinated) {
+            immunityLevel += 20; // Increase immunity level if person is vaccinated
         }
     }
-    
-    public 
+
 
     public boolean isHealthy() {
         return healthStatus == 'H';
