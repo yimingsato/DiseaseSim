@@ -20,10 +20,7 @@ public class Antibiotic extends Cure {
     }
 
     public String toString() {
-        return "Antibiotic{" +
-                "name='" + name + '\'' +
-                ", efficacyRate=" + efficacyRate +
-                '}';
+        return name + "\nAntibiotic\n" + efficacyRate
     }
 
 }

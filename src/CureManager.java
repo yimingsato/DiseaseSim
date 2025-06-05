@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.nio.Buffer;
+import java.io.*;
 
 public class CureManager {
     Cure[] cures; // Array to hold Cure objects
@@ -15,7 +13,7 @@ public class CureManager {
     }
 
     // Method to load cures from a file
-    public void loadCures(String fileName) {
+    public void loadCures(String filename) {
         int numCures = 0;
         
         try{
@@ -29,7 +27,7 @@ public class CureManager {
                 //need to implement the way to read the file
                 name = in.readLine(); // Read the name of the cure
                 type = in.readLine(); // Read the type of the cure
-                if(type.equals("Vaccine"){
+                if(type.equals("Vaccine")){
                     efficacyRate = Integer.parseInt(in.readLine()); // Read the efficacy rate for Vaccine
                     Cure cure = new Vaccine(name, efficacyRate); // Create a Vaccine object
                     addCure(cure); // Add the cure to the manager
@@ -43,16 +41,25 @@ public class CureManager {
 
             }
 
-
-
         }catch(IOException iox){
             System.out.println("error reading file ");
         }
     }
 
     // Method to save cures to a file
-    public boolean saveCures(String fileName) {
-        // Implementation to write cures array to file
+    public boolean saveCures(String filename) {
+        try {
+         BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+         out.write(Integer.toString(numCures));
+         out.newLine();
+         for (int i = 0; i < numCures; i++) {
+            out.write(cures[i].toString());
+            out.newLine();
+         }
+         out.close();
+      } catch (IOException e) {
+         System.out.println("Error saving to file.");
+      }
         return true; // Placeholder return value
     }
 
@@ -104,4 +111,5 @@ public class CureManager {
             0; i < numCures; i++) {
             System.out.println(cures[i]);
         }
+    }
 }

@@ -28,10 +28,7 @@ public abstract class Cure {
     public abstract boolean applyTo(Person person);
 
     public String toString(){
-        return "Cure{" +
-                "name='" + name + '\'' +
-                ", efficacyRate=" + efficacyRate +
-                '}';
+        return name + "\nCure\n" + efficacyRate;
     }
     
     public double compareToEfficacy(Cure other){
