@@ -14,7 +14,7 @@ public class CureManager {
 
     // Method to load cures from a file
     public void loadCures(String filename) {
-        int numCures = 0;
+        numCures = 0;
         
         try{
             BufferedReader in = new BufferedReader(new FileReader(filename));
@@ -89,10 +89,9 @@ public class CureManager {
                 return cures[i];
             }else if (cures[i] instanceof Antibiotic && d instanceof Bacteria) {
                 return cures[i];
-            }else{
-                return null; // No suitable cure found
             }
         }
+        return null;
     }
 
     // Method to sort cures by efficacy rate
