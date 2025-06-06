@@ -5,8 +5,6 @@ public class Antibiotic extends Cure {
         super(name, efficacyRate);
     }
 
-
-
     public boolean applyTo(Person person) {
         if (!person.hasAntibiotics()) {
             person.setHasAntibiotics(true);
@@ -20,7 +18,7 @@ public class Antibiotic extends Cure {
     }
 
     public String toString() {
-        return name + "\nAntibiotic\n" + efficacyRate
+        return name + "\nAntibiotic\n" + efficacyRate;
     }
 
 }

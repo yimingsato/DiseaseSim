@@ -18,6 +18,6 @@ public class Vaccine extends Cure{
     }
 
     public String toString() {
-        return name + "\nVaccine\n" + efficacyRate
+        return name + "\nVaccine\n" + efficacyRate;
     }
 }
