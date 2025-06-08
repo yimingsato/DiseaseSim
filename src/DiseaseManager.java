@@ -26,20 +26,18 @@ public boolean loadDisease(String filename){
             int arrayLength = Integer.parseInt(in.readLine());
             String name;
             String type;
-            int diseaseID, transmissionRate, mortalityRate, numInfected;
+            int transmissionRate, mortalityRate, numInfected;
 
             for(int i = 0; i < arrayLength; i++) {
                 //need to implement the way to read the file
                 name = in.readLine(); // Read the name of the cure
                 type = in.readLine(); // Read the type of the cure
                 if(type.equals("Virus")){
-                    diseaseID = Integer.parseInt(in.readLine()); // Read the disease ID
                     transmissionRate = Integer.parseInt(in.readLine()); // Read the transmission rate
                     mortalityRate = Integer.parseInt(in.readLine()); // Read the mortality rate
                     numInfected = Integer.parseInt(in.readLine()); // Read the number of infected
                     Disease disease = new Virus(name, diseaseID, transmissionRate, mortalityRate); // Create a Virus object
                 } else if(type.equals("Bacteria")) {
-                    diseaseID = Integer.parseInt(in.readLine()); // Read the disease ID
                     transmissionRate = Integer.parseInt(in.readLine()); // Read the transmission rate
                     mortalityRate = Integer.parseInt(in.readLine()); // Read the mortality rate
                     numInfected = Integer.parseInt(in.readLine()); // Read the number of infected
