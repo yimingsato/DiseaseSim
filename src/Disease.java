@@ -25,6 +25,9 @@ public abstract class Disease {
     public int getMortalityRate() {
         return mortalityRate;
     }
+    public int getNumInfected() {
+        return numInfected;
+    }
     public void setName(String name) {
         this.name = name;
     }
@@ -40,16 +43,18 @@ public abstract class Disease {
 
     public abstract void spread();
 
-    public void infect(Person person) {
+    public boolean infect(Person person) {
         if (!person.isHealthy()) {
-            return;
+            return false;
         }
         double risk = person.calcRiskFactor(this);
         double roll = Math.random();
         if (risk > roll) {
             person.setHealthStatus('I'); // 'I' for infected
             numInfected++;
+            return true;
         }
+        return false;
     }
 
     public void displaySymptoms() {
