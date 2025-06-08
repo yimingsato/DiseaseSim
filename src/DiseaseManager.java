@@ -24,7 +24,7 @@ public boolean loadDisease(String filename){
         try{
             BufferedReader in = new BufferedReader(new FileReader(filename));
             int arrayLength = Integer.parseInt(in.readLine());
-            char name;
+            String name;
             String type;
             int diseaseID, transmissionRate, mortalityRate, numInfected;
 
@@ -71,7 +71,7 @@ public boolean loadDisease(String filename){
     }
 
 
-public boolean addCure(Disease disease) {
+public boolean addDisease(Disease disease) {
         if (numDiseases < maxDiseases) {
             diseases[numDiseases++] = disease;
             return true;
@@ -136,7 +136,5 @@ public void listAllDisease() {
                 System.out.println(diseases[i]);
             }
         }
-
-    //toString()
 
 }

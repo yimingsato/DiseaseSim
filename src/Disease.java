@@ -1,5 +1,6 @@
 public abstract class Disease {
-    private char name;
+    private String name;
+    private int diseaseID;
     private int transmissionRate;
     private int mortalityRate;
     private int numInfected;
