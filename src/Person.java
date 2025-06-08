@@ -87,7 +87,6 @@ public abstract class Person {
         }
     }
 
-
     public boolean isHealthy() {
         return healthStatus == 'H';
     }
