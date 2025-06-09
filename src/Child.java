@@ -25,23 +25,16 @@ public class Child extends Person {
 
     
     @Override
-    /*  
-     * calculates the risk factor for a child based on their age, school status, and number of friends.
-     * If the child is in school and has more than 5 friends, the risk factor is age squared.
-     * If the child is in school but has 5 or fewer friends, the risk factor is age multiplied by 2.
-     * If the child is not in school, the risk factor is simply their age.
-     * @return the calculated risk factor as an integer
-     */
-    public int calcRiskFactor() {
-        if (inSchool) {
-            if (numFriends > 5) {
-                return getAge() * getAge();
-            } else {
-                return getAge() * 2;
-            }
-        } else {
-            return this.getAge();
-        }
+    /*Takes in base immunity, disease transmission rate, region influence and numFriends and whether or not in school attended as an child to 
+      calculate risk factor, higher risk returns higher num */ 
+    public double calcRiskFactor(Disease d) {
+        double baseImmunity = getBaseImmunityLevel();
+        double diseaseTransmissionRate = d.getTransmissionRate();
+        double regionInfluence = getLocation().calcInfectionRateInfluence(numFriends);
+
+        
+
+
     }
 
     /*

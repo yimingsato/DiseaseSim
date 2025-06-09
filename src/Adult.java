@@ -16,18 +16,13 @@ public class Adult extends Person {
     }   
 
     @Override
-    /*
-     * Calculates the risk factor for an adult based on their age and the number of events attended.
-     * If the adult has attended more than 10 events, the risk factor is age plus half of age.
-     * If they have attended 10 or fewer events, the risk factor is simply their age.
-     * @return the calculated risk factor as an integer
-     */
-    public int calcRiskFactor() {
-        if (numEventsAttended > 10) {
-            return getAge() + getAge()/2; // Higher risk factor for attending many events
-        } else {
-            return getAge(); // Moderate risk factor for fewer events
-        }
+    /*Takes in base immunity, disease transmission rate, region influence and num events attended as an adult to 
+      calculate risk factor, higher risk returns higher num */ 
+    public double calcRiskFactor(Disease d) {
+        double baseImmunity = getBaseImmunityLevel();
+        double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);
+        
+        return modifiedTransmissionRate * (1 - baseImmunity) * (1 + 0.1 * numEventsAttended);
     }
 
     /*
@@ -44,7 +39,7 @@ public class Adult extends Person {
                 ", vaccinated=" + isVaccinated() +
                 ", hasAntibiotics=" + hasAntibiotics() +
                 ", location=" + getLocation() +
-                ", immunityLevel=" + getImmunityLevel() +
+                ", immunityLevel=" + getBaseImmunityLevel() +
                 ", numEventsAttended=" + numEventsAttended +
                 '}';
     }

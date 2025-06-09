@@ -16,24 +16,35 @@ public class Cold extends Region{
         this.crowdedIndoors = crowdedIndoors;
     }
 //Cold(String, double, int, double, int, int)
-    public Cold(String name, double temp, int population, int populationInfected, boolean snowCoverage, boolean crowdedIndoors) {
+    public Cold(char name, double temp, int population, int populationInfected, boolean snowCoverage, boolean crowdedIndoors) {
         super(name, temp, population, populationInfected);
         this.snowCoverage = snowCoverage;
         this.crowdedIndoors = crowdedIndoors;
     }   
 
-//calcInfectionRateInfluence(int baseInfectionRate): double
-    public double calcInfectionRateInfluence(int baseInfectionRate) {
-        double influence = baseInfectionRate;
-        if (snowCoverage) {
-            influence *= 0.9; // Snow coverage increases infection rate
+    @Override
+    public double calcInfectionRateInfluence(Disease d) {
+        double transmissionRate = d.getTransmissionRate();
+        if (d instanceof Virus) {
+            if (snowCoverage) {
+                transmissionRate += 0.1;
+            }
+            if (crowdedIndoors) {
+                transmissionRate += 0.15;
+            }
+        } else if (d instanceof Bacteria) {
+            if (snowCoverage) {
+                transmissionRate -= 0.05;
+            }
+            if (crowdedIndoors) {
+                transmissionRate += 0.1;
+            }
         }
-        if (crowdedIndoors) {
-            influence *= 1.5; // Crowded indoors increases infection rate
-        }
-        return influence;
+        transmissionRate = Math.max(0, Math.min(1, transmissionRate)); //max 1
+        return transmissionRate;
     }
 
+    @Override
     public String toString() {
         return "Cold{" +
                 "name='" + getName() + '\'' +

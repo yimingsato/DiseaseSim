@@ -1,23 +1,26 @@
 public abstract class Person {
+    public static final char HEALTHY = 'H';
+    public static final char INFECTED = 'I';
+    public static final char DEAD = 'D';
+    public static final char RECOVERED = 'R';
+
     private int id;
     private int age;
     private char healthStatus;
     private boolean vaccinated;
     private boolean hasAntibiotics;
     private Region location;
-    private int immunityLevel;
-    private Disease disease;
+    private int baseImmunityLevel;
 
     // Constructor
-    public Person(int id, int age, char healthStatus, boolean vaccinated, boolean hasAntibiotics, Region location, int immunityLevel, Disease disease) {
+    public Person(int id, int age, char healthStatus, boolean vaccinated, boolean hasAntibiotics, Region location, int immunityLevel) {
         this.id = id;
         this.age = age;
         this.healthStatus = healthStatus;
         this.vaccinated = vaccinated;
         this.hasAntibiotics = hasAntibiotics;
         this.location = location;
-        this.immunityLevel = immunityLevel;
-        this.disease = disease;
+        this.baseImmunityLevel = immunityLevel;
     }
 
     // Getters and Setters
@@ -39,12 +42,9 @@ public abstract class Person {
     public Region getLocation() {
         return location;
     }
-    public int getImmunityLevel() {
+    public int getBaseImmunityLevel() {
     
         return immunityLevel;
-    }
-    public Disease getDisease() {
-        return disease;
     }
     public void setId(int id) {
         this.id = id;
@@ -64,11 +64,8 @@ public abstract class Person {
     public void setLocation(Region location) {
         this.location = location;
     }
-    public void setImmunityLevel(int immunityLevel) {
-        this.immunityLevel = immunityLevel;
-    }
-    public void setDisease(Disease disease) {
-        this.disease = disease;
+    public void setBaseImmunityLevel(int immunityLevel) {
+        this.baseImmunityLevel = immunityLevel;
     }
 
     // Abstract methods
@@ -76,17 +73,7 @@ public abstract class Person {
      * Calculates the risk factor of the person based on their age, health status, and other factors.
      * @return an integer representing the risk factor.
      */
-    public abstract int calcRiskFactor();
-
-    public void updateImmunityLevel() {
-        if (hasAntibiotics) {
-            immunityLevel += 10; // Increase immunity level if person has antibiotics
-        }
-        if (vaccinated) {
-            immunityLevel += 20; // Increase immunity level if person is vaccinated
-        }
-    }
-
+    public abstract double calcRiskFactor(Disease D);
 
     public boolean isHealthy() {
         return healthStatus == 'H';
@@ -107,7 +94,7 @@ public abstract class Person {
      * @return a negative integer, zero, or a positive integer as this person's immunity level is less than, equal to, or greater than the specified person's immunity level.
      */
     public double compareToImmunity(Person other) {
-        return this.immunityLevel - other.immunityLevel;
+        return this.baseImmunityLevel - other.baseImmunityLevel;
     }
 
 }

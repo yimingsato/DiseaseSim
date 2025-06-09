@@ -24,20 +24,14 @@ public class Senior extends Person {
     }
 
     @Override
-    /*
-     * Calculates the risk factor for a senior based on their age and mobility level.
-     * If the senior is in a care home, the risk factor is age plus mobility level.
-     * If they are not in a care home, the risk factor is simply their age.
-     * @return the calculated risk factor as an integer
-     */
-    public int calcRiskFactor() {
-        if (inCareHome) {
-            return getAge()/2; // Higher risk factor for those in care homes
-        } else {
-            if (mobilityLevel > 5) {
-                return getAge()/3; // Higher risk factor for those with lower mobility
-            }
-            return getAge(); // Moderate risk factor for those not in care homes
-        }
+    /*Takes in base immunity, disease transmission rate, region influence and mobility level and whether or not in care home attended as a senior to
+      calculate risk factor, higher risk returns higher num */ 
+    public double calcRiskFactor(Disease D) {
+        double baseImmunity = getBaseImmunityLevel();
+        double diseaseTransmissionRate = D.getTransmissionRate();
+        double regionInfluence = getLocation().calcInfectionRateInfluence(mobilityLevel);
+        
+
     
+    }
 }

@@ -16,24 +16,35 @@ public class Hot extends Region{
         this.dryClimate = dryClimate;
     }
 //Hot(String, double, int, double, int, int)
-    public Hot(String name, double temp, int population, int populationInfected, boolean healthySunExposure, boolean dryClimate) {
+    public Hot(char name, double temp, int population, int populationInfected, boolean healthySunExposure, boolean dryClimate) {
         super(name, temp, population, populationInfected);
         this.healthySunExposure = healthySunExposure;
         this.dryClimate = dryClimate;
     }
 
 //calcInfectionRateInfluence(int baseInfectionRate ): double
-    public double calcInfectionRateInfluence(int baseInfectionRate) {
-        double influence = baseInfectionRate;
-        if (healthySunExposure) {
-            influence *= 0.9;
+    @Override
+    public double calcInfectionRateInfluence(Disease d) {
+        double transmissionRate = d.getTransmissionRate();
+        if (d instanceof Virus) {
+            if (healthySunExposure) {
+                transmissionRate -= 0.1; // Healthy sun exposure reduces transmission
+            }
+            if (dryClimate) {
+                transmissionRate += 0.05; // Dry climate can increase transmission
+            }
+        } else if (d instanceof Bacteria) {
+            if (healthySunExposure) {
+                transmissionRate += 0.05; // Healthy sun exposure can increase transmission
+            }
+            if (dryClimate) {
+                transmissionRate -= 0.1; // Dry climate reduces transmission
+            }
         }
-        if (dryClimate) {
-            influence *= 1.1; 
-        }
-        return influence;
+        return transmissionRate;
     }
 
+    @Override
     public String toString() {
         return "Hot{" +
                 "name='" + getName() + '\'' +
