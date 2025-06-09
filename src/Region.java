@@ -47,7 +47,7 @@ public abstract class Region {
 
     public int updateInfectedPopulation() {
          int count = 0;
-         Person[] peopleInRegion = Person.getPeopleInRegion(this.name); 
+         Person[] peopleInRegion = Person.getPeopleInRegion(this.name); //needsto have a method to recusively find number of people in a region
          for (int i = 0; i < peopleInRegion.length; i++) {
              if (peopleInRegion[i].getHealthStatus() == 'I') { //need to have an array of person objects
                  count++;

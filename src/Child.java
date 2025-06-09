@@ -31,12 +31,7 @@ public class Child extends Person {
         double baseImmunity = getBaseImmunityLevel();
         double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);
         double socialRiskFactor = 1 + 0.05 * numFriends;
-        double schoolFactor;
-        if (inSchool) {
-            schoolFactor = 1.3; // Higher risk if in school
-        } else {
-            schoolFactor = 1.0; // Normal risk if not in school
-        }
+        double schoolFactor = inSchool ? 1.3 : 1.0; // Higher risk if in school
         
         double riskFactor = modifiedTransmissionRate * (1 - baseImmunity) * schoolFactor * socialRiskFactor;
         return Math.max(0, Math.min(1, riskFactor)); // Ensure risk factor is between 0 and 1
