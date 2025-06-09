@@ -14,7 +14,7 @@ public class CureManager {
 
     // Method to load cures from a file
     public void loadCures(String filename) {
-        int numCures = 0;
+        numCures = 0;
         
         try{
             BufferedReader in = new BufferedReader(new FileReader(filename));
@@ -40,7 +40,7 @@ public class CureManager {
                 }
 
             }
-
+            in.close();
         }catch(IOException iox){
             System.out.println("error reading file ");
         }
@@ -85,11 +85,13 @@ public class CureManager {
     // Method to find a cure for a specific disease
     public Cure cureFor(Disease d) {
         for (int i = 0; i < numCures; i++) {
-            if (cures[i].isForDisease(d)) {
+            if (cures[i] instanceof Vaccine && d instanceof Virus) {
+                return cures[i];
+            }else if (cures[i] instanceof Antibiotic && d instanceof Bacteria) {
                 return cures[i];
             }
         }
-        return null; // No cure found for the disease
+        return null;
     }
 
     // Method to sort cures by efficacy rate

@@ -24,7 +24,6 @@ public abstract class Cure {
         this.efficacyRate = efficacyRate;
     }   
 
-    public abstract int calcEfficacyRate(Person person);
     public abstract boolean applyTo(Person person);
 
     public String toString(){

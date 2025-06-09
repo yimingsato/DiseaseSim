@@ -3,7 +3,6 @@ public class Bacteria extends Disease{
 
     public Bacteria(String name, int diseaseID, int transmissionRate, int mortalityRate, int resistance) {
         super(name, diseaseID, transmissionRate, mortalityRate);
-        int antibioticResistance = resistance;
     }
 
     public int getAntibioticResistance() {
@@ -14,8 +13,8 @@ public class Bacteria extends Disease{
         this.antibioticResistance = antibioticResistance;
     }
 
-    public void spread() {
-        
+    public void spread(char[][] grid, int x, int y, int daysLeft, ),  {
+        if ()
     }
     
 
