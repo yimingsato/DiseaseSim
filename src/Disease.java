@@ -33,7 +33,7 @@ public abstract class Disease {
         this.mortalityRate = mortalityRate;
     }
 
-    public abstract void spread();
+    public abstract void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
 
     public boolean infect(Person person) {
         if (!person.isHealthy()) {
