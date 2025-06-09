@@ -45,14 +45,8 @@ public class Cold extends Region{
 
     @Override
     public String toString() {
-        return "Cold{" +
-                "name='" + getName() + '\'' +
-                ", temp=" + getTemp() +
-                ", population=" + getPopulation() +
-                ", populationInfected=" + getPopulationInfected() +
-                ", snowCoverage=" + snowCoverage +
-                ", crowdedIndoors=" + crowdedIndoors +
-                '}';
+        return "Cold" + "\n" + getName() + "\n" + getTemp() + "\n" +
+                getPopulation() + "\n" + getPopulationInfected() + "\n" + snowCoverage + "\n" + crowdedIndoors;
     }
 
 }

@@ -97,4 +97,12 @@ public abstract class Person {
     public double compareToImmunity(Person other) {
         return this.baseImmunityLevel - other.baseImmunityLevel;
     }
+
+    public String toString() {
+        return "Person" + "\n" + id + "\n" + age + "\n" + healthStatus + "\n" +
+                vaccinated + "\n" + hasAntibiotics + "\n" + location.getName() + "\n" +
+                baseImmunityLevel;
+    }
+
+
 }

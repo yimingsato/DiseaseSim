@@ -8,7 +8,6 @@ public class Antibiotic extends Cure {
     public boolean applyTo(Person person) {
         if (!person.hasAntibiotics()) {
             person.setHasAntibiotics(true);
-            person.updateImmunityLevel();
             person.setHealthStatus('H');
             return true; // Antibiotic applied successfully
             //UPDATE RISK FACTOR
