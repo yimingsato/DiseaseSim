@@ -16,5 +16,8 @@ public class Bacteria extends Disease{
         if ()
     }
     
+    public String toString() {
+        return getName() + "Bacteria\n" + getTransmissionRate() + "\n" + getMortalityRate();
+    }
 
 }

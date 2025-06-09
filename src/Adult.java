@@ -33,15 +33,8 @@ public class Adult extends Person {
      */
     @Override 
     public String toString() {
-        return "Adult{" +
-                "id=" + getId() +
-                ", age=" + getAge() +
-                ", healthStatus=" + getHealthStatus() +
-                ", vaccinated=" + isVaccinated() +
-                ", hasAntibiotics=" + hasAntibiotics() +
-                ", location=" + getLocation() +
-                ", immunityLevel=" + getBaseImmunityLevel() +
-                ", numEventsAttended=" + numEventsAttended +
-                '}';
+        return "Adult" + "\n" + getId() + "\n" + getAge() + "\n" + getHealthStatus() + "\n" +
+                isVaccinated() + "\n" + hasAntibiotics() + "\n" + getLocation().getName() + "\n" + 
+                getBaseImmunityLevel() + "\n" + numEventsAttended;
     }
 }

@@ -59,7 +59,7 @@ public abstract class Disease {
     }
 
     public String toString() {
-        return name +"\n" + transmissionRate + "\n" + mortalityRate + "\n";
+        return name +"\n" + "Disease\n" + transmissionRate + "\n" + mortalityRate + "\n";
     }
 
 }
