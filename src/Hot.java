@@ -46,14 +46,8 @@ public class Hot extends Region{
 
     @Override
     public String toString() {
-        return "Hot{" +
-                "name='" + getName() + '\'' +
-                ", temp=" + getTemp() +
-                ", population=" + getPopulation() +
-                ", populationInfected=" + getPopulationInfected() +
-                ", healthySunExposure=" + healthySunExposure +
-                ", dryClimate=" + dryClimate +
-                '}';
+        return "Hot" + "\n" + getName() + "\n" + getTemp() + "\n" +
+                getPopulation() + "\n" + getPopulationInfected() + "\n" + healthySunExposure + "\n" + dryClimate;
     }
 
 }

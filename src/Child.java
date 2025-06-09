@@ -44,16 +44,8 @@ public class Child extends Person {
      */
     @Override
     public String toString() {
-        return "Child{" +
-                "id=" + getId() +
-                ", age=" + getAge() +
-                ", healthStatus=" + getHealthStatus() +
-                ", vaccinated=" + isVaccinated() +
-                ", hasAntibiotics=" + hasAntibiotics() +
-                ", location=" + getLocation() +
-                ", immunityLevel=" + getBaseImmunityLevel() +
-                ", inSchool=" + inSchool +
-                ", numFriends=" + numFriends +
-                '}';
+        return "Child" + "\n" + getId() + "\n" + getAge() + "\n" + getHealthStatus() + "\n" +
+                isVaccinated() + "\n" + hasAntibiotics() + "\n" +getLocation().getName() + "\n" +
+                getBaseImmunityLevel() + "\n" + inSchool + "\n" + numFriends;
     }
 }

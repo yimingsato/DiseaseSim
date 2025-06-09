@@ -45,17 +45,17 @@ public abstract class Region {
         return this.temp - other.getTemp();
     }
 
-    public int updateInfectedPopulation() {
-         int count = 0;
-         Person[] peopleInRegion = Person.getPeopleInRegion(this.name); //needsto have a method to recusively find number of people in a region
-         for (int i = 0; i < peopleInRegion.length; i++) {
-             if (peopleInRegion[i].getHealthStatus() == 'I') { //need to have an array of person objects
-                 count++;
-             }
-         }
-         this.populationInfected = count;
-         return count;
-     }
+    // public int updateInfectedPopulation() {
+    //      int count = 0;
+    //      Person[] peopleInRegion = Person.getPeopleInRegion(this.name); //needsto have a method to recusively find number of people in a region
+    //      for (int i = 0; i < peopleInRegion.length; i++) {
+    //          if (peopleInRegion[i].getHealthStatus() == 'I') { //need to have an array of person objects
+    //              count++;
+    //          }
+    //      }
+    //      this.populationInfected = count;
+    //      return count;
+    //  }
 
     public double calcInfectedPercentage() {
         if (population == 0) {
@@ -71,11 +71,6 @@ public abstract class Region {
     }
 
     public String toString() {
-        return "Region{" +
-                "name=" + name +
-                ", temp=" + temp +
-                ", population=" + population +
-                ", populationInfected=" + populationInfected +
-                '}';
+        return name + "\n" + temp + "\n" + population + "\n" + populationInfected;
     }
 }

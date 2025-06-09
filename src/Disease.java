@@ -4,7 +4,7 @@ public abstract class Disease {
     private int mortalityRate;
     private int numInfected;
 
-    public Disease(String name, int diseaseID, int transmissionRate, int mortalityRate) {
+    public Disease(String name, int transmissionRate, int mortalityRate) {
         this.name = name;
         this.transmissionRate = transmissionRate;
         this.mortalityRate = mortalityRate;

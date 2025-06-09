@@ -8,7 +8,6 @@ public class Vaccine extends Cure{
     public boolean applyTo(Person person) {
         if (!person.isVaccinated()) {
         person.setVaccinated(true);
-        person.updateImmunityLevel();
         person.setHealthStatus('H');
         return true; // Antibiotic applied successfully
         //UPDATE RISK FACTOR
