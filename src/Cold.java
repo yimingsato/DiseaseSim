@@ -40,8 +40,7 @@ public class Cold extends Region{
                 transmissionRate += 0.1;
             }
         }
-        transmissionRate = Math.max(0, Math.min(1, transmissionRate)); //max 1
-        return transmissionRate;
+        return Math.max(0, Math.min(1, transmissionRate)); //max 1
     }
 
     @Override

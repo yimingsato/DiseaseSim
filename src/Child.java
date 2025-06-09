@@ -29,12 +29,17 @@ public class Child extends Person {
       calculate risk factor, higher risk returns higher num */ 
     public double calcRiskFactor(Disease d) {
         double baseImmunity = getBaseImmunityLevel();
-        double diseaseTransmissionRate = d.getTransmissionRate();
-        double regionInfluence = getLocation().calcInfectionRateInfluence(numFriends);
-
+        double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);
+        double socialRiskFactor = 1 + 0.05 * numFriends;
+        double schoolFactor;
+        if (inSchool) {
+            schoolFactor = 1.3; // Higher risk if in school
+        } else {
+            schoolFactor = 1.0; // Normal risk if not in school
+        }
         
-
-
+        double riskFactor = modifiedTransmissionRate * (1 - baseImmunity) * schoolFactor * socialRiskFactor;
+        return Math.max(0, Math.min(1, riskFactor)); // Ensure risk factor is between 0 and 1
     }
 
     /*
@@ -51,7 +56,7 @@ public class Child extends Person {
                 ", vaccinated=" + isVaccinated() +
                 ", hasAntibiotics=" + hasAntibiotics() +
                 ", location=" + getLocation() +
-                ", immunityLevel=" + getImmunityLevel() +
+                ", immunityLevel=" + getBaseImmunityLevel() +
                 ", inSchool=" + inSchool +
                 ", numFriends=" + numFriends +
                 '}';

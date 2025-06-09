@@ -22,7 +22,8 @@ public class Adult extends Person {
         double baseImmunity = getBaseImmunityLevel();
         double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);
         
-        return modifiedTransmissionRate * (1 - baseImmunity) * (1 + 0.1 * numEventsAttended);
+        double riskFactor = modifiedTransmissionRate * (1 - baseImmunity) * (1 + 0.1 * numEventsAttended); 
+        return Math.max(0, Math.min(1, riskFactor)); // Ensure risk factor is between 0 and 1
     }
 
     /*

@@ -41,7 +41,7 @@ public class Hot extends Region{
                 transmissionRate -= 0.1; // Dry climate reduces transmission
             }
         }
-        return transmissionRate;
+        return Math.max(0, Math.min(1, transmissionRate)); // Ensure transmission rate is between 0 and 1
     }
 
     @Override

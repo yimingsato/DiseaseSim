@@ -10,10 +10,10 @@ public abstract class Person {
     private boolean vaccinated;
     private boolean hasAntibiotics;
     private Region location;
-    private int baseImmunityLevel;
+    private double baseImmunityLevel;
 
     // Constructor
-    public Person(int id, int age, char healthStatus, boolean vaccinated, boolean hasAntibiotics, Region location, int immunityLevel) {
+    public Person(int id, int age, char healthStatus, boolean vaccinated, boolean hasAntibiotics, Region location, double immunityLevel) {
         this.id = id;
         this.age = age;
         this.healthStatus = healthStatus;
@@ -42,10 +42,9 @@ public abstract class Person {
     public Region getLocation() {
         return location;
     }
-    public int getBaseImmunityLevel() {
+    public double getBaseImmunityLevel() {
         return baseImmunityLevel;
     }
-    
     public void setId(int id) {
         this.id = id;
     }
@@ -67,26 +66,28 @@ public abstract class Person {
     public void setBaseImmunityLevel(int immunityLevel) {
         this.baseImmunityLevel = immunityLevel;
     }
-
-    // Abstract methods
+    public boolean isHealthy() {
+        return healthStatus == 'H';
+    }
+    public boolean isInfected() {
+        return healthStatus == 'I';
+    }
+    public boolean isDead() {
+        return healthStatus == 'D';
+    }
+    public boolean isRecovered() {
+        return healthStatus == 'R';
+    }
+    public void setHealthy() {
+    
+        this.healthStatus = HEALTHY;
+    }
+    // Abstract method
     /**
      * Calculates the risk factor of the person based on their age, health status, and other factors.
      * @return an integer representing the risk factor.
      */
     public abstract double calcRiskFactor(Disease D);
-
-    public boolean isHealthy() {
-        return healthStatus == 'H';
-    }
-
-    public boolean isInfected() {
-        return healthStatus == 'I';
-    }
-
-    public boolean diseaseID() {
-        return healthStatus == 'D';
-    }
-    
 
     /**
      * Compares this person with another person based on their immunity level.
@@ -96,5 +97,4 @@ public abstract class Person {
     public double compareToImmunity(Person other) {
         return this.baseImmunityLevel - other.baseImmunityLevel;
     }
-
 }
