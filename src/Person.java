@@ -43,9 +43,9 @@ public abstract class Person {
         return location;
     }
     public int getBaseImmunityLevel() {
-    
-        return immunityLevel;
+        return baseImmunityLevel;
     }
+    
     public void setId(int id) {
         this.id = id;
     }
