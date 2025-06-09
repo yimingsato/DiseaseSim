@@ -22,7 +22,7 @@ public class Hot extends Region{
         this.dryClimate = dryClimate;
     }
 
-//calcInfectionRateInfluence(int baseInfectionRate ): double
+//calcInfectionRateInfluence(int baseInfectionRate ); returns a modified transmission rate
     @Override
     public double calcInfectionRateInfluence(Disease d) {
         double transmissionRate = d.getTransmissionRate();
