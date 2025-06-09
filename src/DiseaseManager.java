@@ -3,12 +3,11 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 
 public class DiseaseManager {
     Disease[] diseases;
-    int numDiseases;
-    int maxDiseases;
+    private int numDiseases;
+    private int maxDiseases;
     
 
 //Constructor
@@ -36,12 +35,12 @@ public boolean loadDisease(String filename){
                     transmissionRate = Integer.parseInt(in.readLine()); // Read the transmission rate
                     mortalityRate = Integer.parseInt(in.readLine()); // Read the mortality rate
                     numInfected = Integer.parseInt(in.readLine()); // Read the number of infected
-                    Disease disease = new Virus(name, diseaseID, transmissionRate, mortalityRate); // Create a Virus object
+                    Disease disease = new Virus(name, transmissionRate, mortalityRate); // Create a Virus object
                 } else if(type.equals("Bacteria")) {
                     transmissionRate = Integer.parseInt(in.readLine()); // Read the transmission rate
                     mortalityRate = Integer.parseInt(in.readLine()); // Read the mortality rate
                     numInfected = Integer.parseInt(in.readLine()); // Read the number of infected
-                    Disease disease = new Bacteria(name, diseaseID, transmissionRate, mortalityRate); // Create a Bacteria object
+                    Disease disease = new Bacteria(name, transmissionRate, mortalityRate); // Create a Bacteria object
                 } else {
                     System.out.println("Unknown disease type: " + type);
                 }
@@ -118,7 +117,6 @@ public void listAllDisease() {
             System.out.println(diseases[i]);
         }
     }
-}
 
     public void listBacteria() {
         for (int i = 0; i < numDiseases; i++) {
@@ -135,4 +133,5 @@ public void listAllDisease() {
             }
         }
 
+    }
 }
