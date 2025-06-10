@@ -23,22 +23,23 @@ public class DiseaseManager {
     private int maxDiseases;
     
 
-//Constructor
-public DiseaseManager(int maxDiseases) {
-    this.maxDiseases = maxDiseases;
-    this.diseases = new Disease[maxDiseases];
-    this.numDiseases = 0;
-}
+    //Constructor
+    public DiseaseManager(int maxDiseases) {
+        this.maxDiseases = maxDiseases;
+        this.diseases = new Disease[maxDiseases];
+        this.numDiseases = 0;
+    }
 
-public boolean loadDisease(String filename){
-    numDiseases = 0;
-        
+    //
+    public void loadDisease(String filename){
+        numDiseases = 0;
+            
         try{
             BufferedReader in = new BufferedReader(new FileReader(filename));
             int arrayLength = Integer.parseInt(in.readLine());
             String name;
             String type;
-            int transmissionRate, mortalityRate, numInfected;
+            int transmissionRate, mortalityRate, mutationRate;
 
             for(int i = 0; i < arrayLength; i++) {
                 //need to implement the way to read the file
@@ -47,13 +48,12 @@ public boolean loadDisease(String filename){
                 if(type.equals("Virus")){
                     transmissionRate = Integer.parseInt(in.readLine()); // Read the transmission rate
                     mortalityRate = Integer.parseInt(in.readLine()); // Read the mortality rate
-                    numInfected = Integer.parseInt(in.readLine()); // Read the number of infected
-                    Disease disease = new Virus(name, transmissionRate, mortalityRate); // Create a Virus object
+                    mutationRate = Integer.parseInt(in.readLine()); // Read the mutation rate
+                    diseases[i] = new Virus(name, transmissionRate, mortalityRate, mutationRate); // Create a Virus object
                 } else if(type.equals("Bacteria")) {
                     transmissionRate = Integer.parseInt(in.readLine()); // Read the transmission rate
                     mortalityRate = Integer.parseInt(in.readLine()); // Read the mortality rate
-                    numInfected = Integer.parseInt(in.readLine()); // Read the number of infected
-                    Disease disease = new Bacteria(name, transmissionRate, mortalityRate); // Create a Bacteria object
+                    diseases[i] = new Bacteria(name, transmissionRate, mortalityRate); // Create a Bacteria object
                 } else {
                     System.out.println("Unknown disease type: " + type);
                 }
@@ -62,7 +62,7 @@ public boolean loadDisease(String filename){
         }catch(IOException iox){
             System.out.println("error reading file ");
         }
-}
+    }
 
     public boolean saveDiseases(String filename) {
         try {
