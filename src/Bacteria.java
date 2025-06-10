@@ -1,7 +1,7 @@
 public class Bacteria extends Disease{
 
     private int antibioticResistance;
-    
+
     public Bacteria(String name, int transmissionRate, int mortalityRate) {
         super(name, transmissionRate, mortalityRate);
     }
@@ -17,13 +17,6 @@ public class Bacteria extends Disease{
     public void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays) {
         spreadFromOrigin(grid, x, y, 0, dayLimit, infectionDays);
     }
-<<<<<<< HEAD
-    
-    public String toString() {
-        return getName() + "Bacteria\n" + getTransmissionRate() + "\n" + getMortalityRate();
-    }
-=======
->>>>>>> 87e5807088baa6ad844aebc75096e7e7d5a464f6
 
     private void spreadFromOrigin(Person[][] grid, int x, int y, int currentDay, int dayLimit, int[][] infectionDays) {
         if (currentDay > dayLimit) return;
