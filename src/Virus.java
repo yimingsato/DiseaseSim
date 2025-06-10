@@ -47,5 +47,9 @@ public class Virus extends Disease {
             spreadFromOrigin(grid, nx, ny, currentDay + 1, dayLimit, infectionDays);
         }
     }
+
+    public String toString() {
+        return getName() + "Virus\n" + getTransmissionRate() + "\n" + getMortalityRate();
+    }
     
 }
