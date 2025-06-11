@@ -87,7 +87,26 @@ public abstract class Person {
      * Calculates the risk factor of the person based on their age, health status, and other factors.
      * @return an integer representing the risk factor.
      */
-    public abstract double calcRiskFactor(Disease D);
+    public abstract double calcRiskFactor(Disease d, Cure c);
+
+    //returns an updated base immunity level based presence of cure and effectiveness of cure.
+    public double calcBaseRiskFactor(Disease d, Cure c) {
+        if (d instanceof Bacteria) {
+            if (hasAntibiotics) {
+                baseImmunityLevel += c.getEfficacyRate();
+            }
+            double antibioticResistance = ((Bacteria)d).getAntibioticResistance();
+            baseImmunityLevel -=  antibioticResistance ;
+        } else if (d instanceof Virus) {
+            double mutationRate = ((Virus)d).getMutationRate();
+            if (vaccinated) {
+                baseImmunityLevel += c.getEfficacyRate();
+            }
+            baseImmunityLevel -= (mutationRate + 0.05);
+        }
+        
+        return Math.max(0, Math.min(1, baseImmunityLevel));
+    }
 
     /**
      * Compares this person with another person based on their immunity level.

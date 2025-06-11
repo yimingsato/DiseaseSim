@@ -16,13 +16,13 @@ public class Adult extends Person {
     }   
 
     @Override
-    /*Takes in base immunity, disease transmission rate, region influence and num events attended as an adult to 
+    /*Takes in base immunity, cure or no cure, disease transmission rate and any antibiotic resistance/mutation rate of virus, region influence and num events attended as an adult to 
       calculate risk factor, higher risk returns higher num */ 
-    public double calcRiskFactor(Disease d) {
-        double baseImmunity = getBaseImmunityLevel();
+    public double calcRiskFactor(Disease d, Cure c) {
+        double baseRiskFactor = calcBaseRiskFactor(d, c);
         double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);
         
-        double riskFactor = modifiedTransmissionRate * (1 - baseImmunity) * (1 + 0.1 * numEventsAttended); 
+        double riskFactor = modifiedTransmissionRate * (1 - baseRiskFactor) * (1 + 0.1 * numEventsAttended); 
         return Math.max(0, Math.min(1, riskFactor)); // Ensure risk factor is between 0 and 1
     }
 

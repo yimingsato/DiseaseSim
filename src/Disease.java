@@ -3,12 +3,14 @@ public abstract class Disease {
     private int transmissionRate;
     private int mortalityRate;
     private int numInfected;
+    private Cure cure;
 
-    public Disease(String name, int transmissionRate, int mortalityRate) {
+    public Disease(String name, int transmissionRate, int mortalityRate, Cure cure) {
         this.name = name;
         this.transmissionRate = transmissionRate;
         this.mortalityRate = mortalityRate;
         numInfected = 0;
+        this.cure = cure;
     }
 
     public String getName() {
@@ -39,7 +41,7 @@ public abstract class Disease {
         if (!person.isHealthy()) {
             return false;
         }
-        double risk = person.calcRiskFactor(this);
+        double risk = person.calcRiskFactor(this, findCureName);
         double roll = Math.random();
         if (risk > roll) {
             person.setHealthStatus('I'); // 'I' for infected
@@ -47,6 +49,10 @@ public abstract class Disease {
             return true;
         }
         return false;
+    }
+
+    public Cure findCureName() {
+        return (Cure)(name + "Cure").getName();
     }
 
     public void displaySymptoms() {

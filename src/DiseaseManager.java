@@ -81,7 +81,7 @@ public class DiseaseManager {
     }
 
 
-public boolean addDisease(Disease disease) {
+    public boolean addDisease(Disease disease) {
         if (numDiseases < maxDiseases) {
             diseases[numDiseases++] = disease;
             return true;
@@ -99,7 +99,7 @@ public boolean addDisease(Disease disease) {
     }  
 
 
-public Disease mostDeadlyDisease() {
+    public Disease mostDeadlyDisease() {
         if (numDiseases == 0) {
             return null; // No diseases available
         }
@@ -112,7 +112,7 @@ public Disease mostDeadlyDisease() {
         return mostDeadly;
     }
 
-public void sortByMortality() {
+    public void sortByMortality() {
         for (int i = 0; i < numDiseases - 1; i++) {
             for (int j = i + 1; j < numDiseases; j++) {
                 if (diseases[i].compareToMortalityRate(diseases[j]) < 0) {
@@ -125,7 +125,7 @@ public void sortByMortality() {
         }
     }
 
-public void listAllDisease() {
+    public void listAllDisease() {
         for (int i = 0; i < numDiseases; i++) {
             System.out.println(diseases[i]);
         }

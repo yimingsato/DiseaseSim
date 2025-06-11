@@ -24,15 +24,17 @@ public class Senior extends Person {
     }
 
     @Override
-    /*Takes in base immunity, disease transmission rate, region influence and mobility level and whether or not in care home attended as a senior to
+    /*Takes in base immunity, disease transmission rate, cure or no cure and any cure influence 
+    (antibotic resistance/mutation rate of virus), 
+    region influence and mobility level and whether or not in care home attended as a senior to
       calculate risk factor, higher risk returns higher num */ 
-    public double calcRiskFactor(Disease d) {
-        double baseImmunity = getBaseImmunityLevel();
+    public double calcRiskFactor(Disease d, Cure c) {
+        double baseRiskFactor = calcBaseRiskFactor(d, c);
         double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);
         double careHomeFactor = inCareHome ? 1.4 : 1.0; // Higher risk if in care home
         double mobilityFactor = 1 + 0.05 * mobilityLevel;
 
-        double risk = modifiedTransmissionRate * (1 - baseImmunity) * careHomeFactor * mobilityFactor;
+        double risk = modifiedTransmissionRate * (1 - baseRiskFactor) * careHomeFactor * mobilityFactor;
         return Math.max(0, Math.min(1, risk)); // Ensure risk factor is between 0 and 1
     }
     

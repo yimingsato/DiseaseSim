@@ -25,15 +25,16 @@ public class Child extends Person {
 
     
     @Override
-    /*Takes in base immunity, disease transmission rate, region influence and numFriends and whether or not in school attended as an child to 
+    /*Takes in base immunity, disease transmission rate, cure or no cure and any cure influence (antibotic resistance/mutation rate of virus),
+    region influence and numFriends and whether or not in school attended as an child to 
       calculate risk factor, higher risk returns higher num */ 
-    public double calcRiskFactor(Disease d) {
-        double baseImmunity = getBaseImmunityLevel();
+    public double calcRiskFactor(Disease d, Cure c) {
+        double baseRiskFactor = calcBaseRiskFactor(d, c);
         double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);
         double socialRiskFactor = 1 + 0.05 * numFriends;
         double schoolFactor = inSchool ? 1.3 : 1.0; // Higher risk if in school
         
-        double riskFactor = modifiedTransmissionRate * (1 - baseImmunity) * schoolFactor * socialRiskFactor;
+        double riskFactor = modifiedTransmissionRate * (1 - baseRiskFactor) * schoolFactor * socialRiskFactor;
         return Math.max(0, Math.min(1, riskFactor)); // Ensure risk factor is between 0 and 1
     }
 
