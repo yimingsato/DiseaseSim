@@ -1,7 +1,7 @@
 public class Bacteria extends Disease{
 
     private int antibioticResistance;
-    
+
     public Bacteria(String name, int transmissionRate, int mortalityRate) {
         super(name, transmissionRate, mortalityRate);
     }
