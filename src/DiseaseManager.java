@@ -39,20 +39,21 @@ public class DiseaseManager {
             int arrayLength = Integer.parseInt(in.readLine());
             String name;
             String type;
-            int transmissionRate, mortalityRate, mutationRate;
+            double transmissionRate, mortalityRate, mutationRate, cureEfficacyRate;
 
             for(int i = 0; i < arrayLength; i++) {
-                //need to implement the way to read the file
-                name = in.readLine(); // Read the name of the cure
-                type = in.readLine(); // Read the type of the cure
+                name = in.readLine(); 
+                type = in.readLine(); 
                 if(type.equals("Virus")){
-                    transmissionRate = Integer.parseInt(in.readLine()); // Read the transmission rate
-                    mortalityRate = Integer.parseInt(in.readLine()); // Read the mortality rate
-                    mutationRate = Integer.parseInt(in.readLine()); // Read the mutation rate
+                    transmissionRate = Double.parseDouble(in.readLine()); 
+                    mortalityRate = Double.parseDouble(in.readLine()); 
+                    mutationRate = Double.parseDouble(in.readLine());     
+                    Cure c = new Cure(name, Double.parseDouble(in.readLine())); // Read the cure efficacy rate 
+                     
                     diseases[i] = new Virus(name, transmissionRate, mortalityRate, mutationRate); // Create a Virus object
                 } else if(type.equals("Bacteria")) {
-                    transmissionRate = Integer.parseInt(in.readLine()); // Read the transmission rate
-                    mortalityRate = Integer.parseInt(in.readLine()); // Read the mortality rate
+                    transmissionRate = Double.parseDouble(in.readLine()); // Read the transmission rate
+                    mortalityRate = Double.parseDouble(in.readLine()); // Read the mortality rate
                     diseases[i] = new Bacteria(name, transmissionRate, mortalityRate); // Create a Bacteria object
                 } else {
                     System.out.println("Unknown disease type: " + type);

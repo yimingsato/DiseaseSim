@@ -19,8 +19,8 @@ public abstract class Cure {
     }
 
     //constructor
-    public Cure(String name, int efficacyRate) {
-        this.name = name;
+    public Cure(String DiseaseName, int efficacyRate) {
+        this.name = DiseaseName + " Cure";
         this.efficacyRate = efficacyRate;
     }   
 

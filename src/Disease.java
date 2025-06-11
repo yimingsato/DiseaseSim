@@ -25,6 +25,9 @@ public abstract class Disease {
     public int getNumInfected() {
         return numInfected;
     }
+    public Cure getCure() {
+        return cure;
+    }
     public void setName(String name) {
         this.name = name;
     }
@@ -34,6 +37,9 @@ public abstract class Disease {
     public void setMortalityRate(int mortalityRate) {
         this.mortalityRate = mortalityRate;
     }
+    public void setCure(Cure cure) {
+        this.cure = cure;
+    }
 
     public abstract void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
 
@@ -41,7 +47,7 @@ public abstract class Disease {
         if (!person.isHealthy()) {
             return false;
         }
-        double risk = person.calcRiskFactor(this, findCureName);
+        double risk = person.calcRiskFactor(this, cure);
         double roll = Math.random();
         if (risk > roll) {
             person.setHealthStatus('I'); // 'I' for infected
@@ -49,10 +55,6 @@ public abstract class Disease {
             return true;
         }
         return false;
-    }
-
-    public Cure findCureName() {
-        return (Cure)(name + "Cure").getName();
     }
 
     public void displaySymptoms() {
