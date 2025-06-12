@@ -49,7 +49,7 @@ public class DiseaseManager {
                     mortalityRate = Double.parseDouble(in.readLine()); 
                     mutationRate = Double.parseDouble(in.readLine());     
                     Cure c = new Cure(name, Double.parseDouble(in.readLine())); // Read the cure efficacy rate 
-                     
+                    
                     diseases[i] = new Virus(name, transmissionRate, mortalityRate, mutationRate); // Create a Virus object
                 } else if(type.equals("Bacteria")) {
                     transmissionRate = Double.parseDouble(in.readLine()); // Read the transmission rate
