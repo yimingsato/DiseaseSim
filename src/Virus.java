@@ -1,12 +1,12 @@
 public class Virus extends Disease {
-    private int mutationRate;
+    private double mutationRate;
     
-    public Virus(String name, int transmissionRate, int mortalityRate, Cure cure, int mutationRate) {
-        super(name, transmissionRate, mortalityRate, cure);
+    public Virus(String name, double transmissionRate, double mortalityRate, double mutationRate) {
+        super(name, transmissionRate, mortalityRate );
         this.mutationRate = mutationRate;
     }
 
-    public int getMutationRate() {
+    public double getMutationRate() {
         return mutationRate;
     }
 

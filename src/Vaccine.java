@@ -1,10 +1,11 @@
 public class Vaccine extends Cure{
 
     // Constructor
-    public Vaccine(String name, int efficacyRate) {
-        super(name, efficacyRate);
+    public Vaccine(String name, int id, double efficacyRate) {
+        super(name, id, efficacyRate);
     }
 
+    @Override
     public boolean applyTo(Person person) {
         if (!person.isVaccinated()) {
         person.setVaccinated(true);
@@ -16,7 +17,8 @@ public class Vaccine extends Cure{
     }
     }
 
+    @Override
     public String toString() {
-        return name + "\nVaccine\n" + efficacyRate;
+        return this.getName() + "\nVaccine\n" + this.getEfficacyRate();
     }
 }

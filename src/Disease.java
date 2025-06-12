@@ -1,44 +1,44 @@
 public abstract class Disease {
     private String name;
-    private int transmissionRate;
-    private int mortalityRate;
+    private int diseaseID;
+    private double transmissionRate;
+    private double mortalityRate;
     private int numInfected;
-    private Cure cure;
 
-    public Disease(String name, int transmissionRate, int mortalityRate, Cure cure) {
+    public Disease(String name, int diseaseID, double transmissionRate, double mortalityRate) {
         this.name = name;
+        this.diseaseID = diseaseID;
         this.transmissionRate = transmissionRate;
         this.mortalityRate = mortalityRate;
         numInfected = 0;
-        this.cure = cure;
     }
 
     public String getName() {
         return name;
     }
-    public int getTransmissionRate() {
+    public double getTransmissionRate() {
         return transmissionRate;
     }
-    public int getMortalityRate() {
+    public double getMortalityRate() {
         return mortalityRate;
     }
     public int getNumInfected() {
         return numInfected;
     }
-    public Cure getCure() {
-        return cure;
+    public int getDiseaseID() {
+        return diseaseID;
     }
     public void setName(String name) {
         this.name = name;
     }
-    public void setTransmissionRate(int transmissionRate) {
+    public void setTransmissionRate(double transmissionRate) {
         this.transmissionRate = transmissionRate;
     }
-    public void setMortalityRate(int mortalityRate) {
+    public void setMortalityRate(double mortalityRate) {
         this.mortalityRate = mortalityRate;
     }
-    public void setCure(Cure cure) {
-        this.cure = cure;
+    public void setDiseaseID(int diseaseID) {
+        this.diseaseID = diseaseID;
     }
 
     public abstract void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
@@ -47,7 +47,7 @@ public abstract class Disease {
         if (!person.isHealthy()) {
             return false;
         }
-        double risk = person.calcRiskFactor(this, cure);
+        double risk = person.calcRiskFactor(this, CureManager.getCureByID(diseaseID)); //BRO I GOT NO CLUE HOW TO IMPLEMENET THIS
         double roll = Math.random();
         if (risk > roll) {
             person.setHealthStatus('I'); // 'I' for infected
@@ -56,6 +56,8 @@ public abstract class Disease {
         }
         return false;
     }
+
+    
 
     public void displaySymptoms() {
         System.out.println("Symptoms of " + name + ":");
@@ -66,6 +68,7 @@ public abstract class Disease {
         return this.mortalityRate - other.mortalityRate;
     }
 
+    @Override
     public String toString() {
         return name +"\n" + "Disease\n" + transmissionRate + "\n" + mortalityRate + "\n";
     }

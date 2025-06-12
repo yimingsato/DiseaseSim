@@ -1,13 +1,12 @@
 public class Bacteria extends Disease{
+    private double antibioticResistance;
 
-    private int antibioticResistance;
-
-    public Bacteria(String name, int transmissionRate, int mortalityRate, Cure cure, int antibioticResistance) {
-        super(name, transmissionRate, mortalityRate, cure);
+    public Bacteria(String name, double transmissionRate, double mortalityRate, double antibioticResistance) {
+        super(name, transmissionRate, mortalityRate);
         this.antibioticResistance = antibioticResistance;
     }
     
-    public int getAntibioticResistance() {
+    public double getAntibioticResistance() {
         return antibioticResistance;
     }
     public void setAntibioticResistance(int antibioticResistance) {
