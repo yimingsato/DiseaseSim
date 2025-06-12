@@ -108,15 +108,20 @@ public abstract class Person {
         return Math.max(0, Math.min(1, baseImmunityLevel));
     }
 
-    /**
-     * Compares this person with another person based on their immunity level.
-     * @param other the other person to compare with.
-     * @return a negative integer, zero, or a positive integer as this person's immunity level is less than, equal to, or greater than the specified person's immunity level.
-     */
     public double compareToImmunity(Person other) {
         return this.baseImmunityLevel - other.baseImmunityLevel;
     }
 
+    // public Cure getCure(Disease d) {
+    //     if (d instanceof Virus && vaccinated) {
+    //         return CureManager.getCureByDiseaseName("Vaccine");
+    //     } else if (d instanceof Bacteria && hasAntibiotics) {
+    //         return CureManager.getCureByDiseaseName("Antibiotic");
+    //     }
+        
+    // }
+
+    @Override
     public String toString() {
         return "Person" + "\n" + id + "\n" + age + "\n" + healthStatus + "\n" +
                 vaccinated + "\n" + hasAntibiotics + "\n" + location.getName() + "\n" +

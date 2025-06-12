@@ -1,8 +1,8 @@
 public class Antibiotic extends Cure {
     
     //Constructor
-    public Antibiotic(String name, double efficacyRate, String targetDiseaseName) {
-        super(name, efficacyRate, targetDiseaseName);
+    public Antibiotic(String name, int ID, double efficacyRate) {
+        super(name, ID, efficacyRate);
     }
 
     public boolean applyTo(Person person) {

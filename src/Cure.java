@@ -6,12 +6,12 @@ public abstract class Cure {
     
 
     //constructor
-    public Cure(String name, double efficacyRate, int cureID) {
+    public Cure(String name, int cureID, double efficacyRate) {
         this.name = name;
-        this.efficacyRate = efficacyRate;
         this.cureID = cureID;
+        this.efficacyRate = efficacyRate;
     }
-    
+
     //accessor methods
     public String getName() {
         return name;
@@ -19,7 +19,7 @@ public abstract class Cure {
     public double getEfficacyRate() {
         return efficacyRate;
     }
-    public int getId() {
+    public int getCureId() {
         return cureID;
     }
     //mutator methods
@@ -29,7 +29,7 @@ public abstract class Cure {
     public void setEfficacyRate(int efficacyRate) {
         this.efficacyRate = efficacyRate;
     } 
-    public void setId(int id) {
+    public void setCureId(int id) {
         this.cureID = id;
     }
 

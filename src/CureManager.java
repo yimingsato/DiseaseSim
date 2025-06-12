@@ -6,12 +6,13 @@ public class CureManager {
     int numCures; // Current number of cures
     int maxCures; // Maximum number of cures allowed
 
-
     // Method relate cure with disease id
-    public Cure getCureByID(int id) {
-        return cures.get(id); // Returns null if the cure does not exist
-    }
-
+    // public Cure getCureByID(int id) {
+    //     for (Cure c : cures) {
+    //         if (c.getCureID() == id) return c;
+    //     }
+    //     return null;
+    // }
 
     //CureManager() Constructor
     public CureManager(int maxCures) {
@@ -20,9 +21,8 @@ public class CureManager {
         this.numCures = 0;
     }
 
-
     // Method to load cures from a file
-    public void loadCures(String filename) {
+    public boolean loadCures(String filename) {
         numCures = 0;
         try {
             BufferedReader in = new BufferedReader(new FileReader(filename));
@@ -32,10 +32,19 @@ public class CureManager {
                 String name = in.readLine();
                 double efficacyRate = Double.parseDouble(in.readLine());
                 int cureID = Integer.parseInt(in.readLine());
-                
+                if (type.equalsIgnoreCase("Vaccine")) {
+                    cures[numCures++] = new Vaccine(name, cureID, efficacyRate );
+                } else if (type.equalsIgnoreCase("Antibiotic")) {
+                    cures[numCures++] = new Antibiotic(name, cureID, efficacyRate);
+                } else {
+                    System.out.println("Unknown cure type: " + type);
+                }
             }
+            in.close();
+            return true;
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
+            return false;
         }
     }
 

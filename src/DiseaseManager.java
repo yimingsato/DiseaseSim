@@ -19,44 +19,44 @@ public class DiseaseManager {
     // private int numDiseases;
     // private int maxDiseases;
     
-    private HashMap<String, Disease> diseases = new HashMap<>();
+    // private HashMap<String, Disease> diseases = new HashMap<>();
 
-    public void loadDiseases(String filename) {
-        try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
-            int count = Integer.parseInt(in.readLine());
-            for (int i = 0; i < count; i++) {
-                String name = in.readLine();
-                String type = in.readLine();
-                double transmissionRate = Double.parseDouble(in.readLine());
-                double mortalityRate = Double.parseDouble(in.readLine());
+    // public void loadDiseases(String filename) {
+    //     try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
+    //         int count = Integer.parseInt(in.readLine());
+    //         for (int i = 0; i < count; i++) {
+    //             String name = in.readLine();
+    //             String type = in.readLine();
+    //             double transmissionRate = Double.parseDouble(in.readLine());
+    //             double mortalityRate = Double.parseDouble(in.readLine());
                 
-                Disease disease = null;
-                if (type.equalsIgnoreCase("Virus")) {
-                    double mutationRate = Double.parseDouble(in.readLine());
-                    disease = new Virus(name, transmissionRate, mortalityRate, mutationRate);
-                } else if (type.equalsIgnoreCase("Bacteria")) {
-                    double antibioticResistance = Double.parseDouble(in.readLine());
-                    disease = new Bacteria(name, transmissionRate, mortalityRate, antibioticResistance);
-                } else {
-                    System.out.println("Unknown disease type: " + type);
-                    continue; // Skip to the next iteration
-                }
+    //             Disease disease = null;
+    //             if (type.equalsIgnoreCase("Virus")) {
+    //                 double mutationRate = Double.parseDouble(in.readLine());
+    //                 disease = new Virus(name, transmissionRate, mortalityRate, mutationRate);
+    //             } else if (type.equalsIgnoreCase("Bacteria")) {
+    //                 double antibioticResistance = Double.parseDouble(in.readLine());
+    //                 disease = new Bacteria(name, transmissionRate, mortalityRate, antibioticResistance);
+    //             } else {
+    //                 System.out.println("Unknown disease type: " + type);
+    //                 continue; // Skip to the next iteration
+    //             }
                 
-                diseases.put(name, disease);
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
-        }
-    }
+    //             diseases.put(name, disease);
+    //         }
+    //     } catch (IOException e) {
+    //         System.out.println("Error reading file: " + e.getMessage());
+    //     }
+    // }
 
-    public void assignCures(Collection<Cure> cures) {
-        for (Cure cure : cures) {
-            String diseaseName = cure.getTargetDisease();
-            if (diseases.containsKey(diseaseName)) {
-                diseases.get(diseaseName).setCure(cure);
-            }
-        }
-    }
+    // public void assignCures(Collection<Cure> cures) {
+    //     for (Cure cure : cures) {
+    //         String diseaseName = cure.getTargetDisease();
+    //         if (diseases.containsKey(diseaseName)) {
+    //             diseases.get(diseaseName).setCure(cure);
+    //         }
+    //     }
+    // }
     
     // //Constructor
     // public DiseaseManager(int maxDiseases) {
