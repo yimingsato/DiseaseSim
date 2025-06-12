@@ -13,13 +13,12 @@ public class Bacteria extends Disease{
     public void setAntibioticResistance(int antibioticResistance) {
         this.antibioticResistance = antibioticResistance;
     }
-
-    public void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays) {
-        spreadFromOrigin(grid, x, y, 0, dayLimit, infectionDays);
-    }
-    
     public String toString() {
         return getName() + "Bacteria\n" + getTransmissionRate() + "\n" + getMortalityRate();
+    }
+    
+    public void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays) {
+        spreadFromOrigin(grid, x, y, 0, dayLimit, infectionDays);
     }
 
     private void spreadFromOrigin(Person[][] grid, int x, int y, int currentDay, int dayLimit, int[][] infectionDays) {
