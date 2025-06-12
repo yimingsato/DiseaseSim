@@ -2,93 +2,42 @@ import java.io.*;
 import java.util.*;
 
 public class CureManager {
-    // Cure[] cures; // Array to hold Cure objects
-    // int numCures; // Current number of cures
-    // int maxCures; // Maximum number of cures allowed
+    Cure[] cures; // Array to hold Cure objects
+    int numCures; // Current number of cures
+    int maxCures; // Maximum number of cures allowed
 
-    private HashMap<String, Cure> cures = new HashMap<>();
 
+    // Method relate cure with disease id
+    public Cure getCureByID(int id) {
+        return cures.get(id); // Returns null if the cure does not exist
+    }
+
+
+    //CureManager() Constructor
+    public CureManager(int maxCures) {
+        this.maxCures = maxCures;
+        this.cures = new Cure[maxCures];
+        this.numCures = 0;
+    }
+
+
+    // Method to load cures from a file
     public void loadCures(String filename) {
-        try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
+        numCures = 0;
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(filename));
             int count = Integer.parseInt(in.readLine());
-
             for (int i = 0; i < count; i++) {
-                String name = in.readLine();
                 String type = in.readLine();
-                double efficacy = Double.parseDouble(in.readLine());
-                String targetDiseaseName = in.readLine();
-
-                Cure c = null;
-                if (type.equalsIgnoreCase("Vaccine")) {
-                    c = new Vaccine(name, efficacy, targetDiseaseName);
-                } else if (type.equalsIgnoreCase("Antibiotic")) {
-                    c = new Antibiotic(name, efficacy, targetDiseaseName);
-                } else {
-                    System.out.println("Unknown cure type: " + type);
-                    continue; // Skip to the next iteration
-                }
-                cures.put(name, c);
+                String name = in.readLine();
+                double efficacyRate = Double.parseDouble(in.readLine());
+                int cureID = Integer.parseInt(in.readLine());
+                
             }
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
     }
-
-    public HashMap<String, Cure> getCures() {
-        return cures;
-    }
-
-    public Cure getCureForDisease(String diseaseName) {
-        for (Cure cure : cures.values()) {
-            if (cure.getTargetDisease().equalsIgnoreCase(diseaseName)) {
-                return cure;
-            }
-        }
-        return null; // No cure found for the disease
-    }
-
-
-    // //CureManager() Constructor
-    // public CureManager(int maxCures) {
-    //     this.maxCures = maxCures;
-    //     this.cures = new Cure[maxCures];
-    //     this.numCures = 0;
-    // }
-
-
-    // // Method to load cures from a file
-    // public void loadCures(String filename) {
-    //     numCures = 0;
-        
-    //     try{
-    //         BufferedReader in = new BufferedReader(new FileReader(filename));
-    //         int arrayLength = Integer.parseInt(in.readLine());
-    //         String name;
-    //         String type;
-    //         int efficacyRate;
-
-    //         for(int i = 0; i < arrayLength; i++) {
-    //             //need to implement the way to read the file
-    //             name = in.readLine(); // Read the name of the cure
-    //             type = in.readLine(); // Read the type of the cure
-    //             if(type.equals("Vaccine")){
-    //                 efficacyRate = Integer.parseInt(in.readLine()); // Read the efficacy rate for Vaccine
-    //                 Cure cure = new Vaccine(name, efficacyRate); // Create a Vaccine object
-    //                 addCure(cure); // Add the cure to the manager
-    //             } else if(type.equals("Antibiotic")) {
-    //                 efficacyRate = Integer.parseInt(in.readLine()); // Read the efficacy rate for Antidote
-    //                 Cure cure = new Antibiotic(name, efficacyRate); // Create an Antidote object
-    //                 addCure(cure); // Add the cure to the manager
-    //             } else {
-    //                 System.out.println("Unknown cure type: " + type);
-    //             }
-
-    //         }
-    //         in.close();
-    //     }catch(IOException iox){
-    //         System.out.println("error reading file ");
-    //     }
-    // }
 
     // // Method to save cures to a file
     // public boolean saveCures(String filename) {

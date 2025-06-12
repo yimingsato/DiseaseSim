@@ -1,15 +1,17 @@
 public abstract class Cure {
     private String name;		// way to identify each vaccine type 
+    private int cureID; // unique identifier for each cure corresponding to disease id
     private double efficacyRate;	// 1-10 scale, 1 least effective, 10 most effective
 //efficacy rate will be determined by the type of cure and immunity level of the person
-    private String targetDisease;
+    
 
     //constructor
-    public Cure(String DiseaseName, double efficacyRate, String targetDiseaseName) {
-        this.name = DiseaseName + " Cure";
+    public Cure(String name, double efficacyRate, int cureID) {
+        this.name = name;
         this.efficacyRate = efficacyRate;
-        this.targetDisease = targetDiseaseName;
-    }  
+        this.cureID = cureID;
+    }
+    
     //accessor methods
     public String getName() {
         return name;
@@ -17,8 +19,8 @@ public abstract class Cure {
     public double getEfficacyRate() {
         return efficacyRate;
     }
-    public String getTargetDisease() {
-        return targetDisease;
+    public int getId() {
+        return cureID;
     }
     //mutator methods
     public void setName(String name) {
@@ -27,8 +29,8 @@ public abstract class Cure {
     public void setEfficacyRate(int efficacyRate) {
         this.efficacyRate = efficacyRate;
     } 
-    public void setTargetDisease(String targetDisease) {
-        this.targetDisease = targetDisease;
+    public void setId(int id) {
+        this.cureID = id;
     }
 
     public abstract boolean applyTo(Person person);

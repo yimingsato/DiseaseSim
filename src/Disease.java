@@ -1,16 +1,16 @@
 public abstract class Disease {
     private String name;
+    private int diseaseID;
     private double transmissionRate;
     private double mortalityRate;
     private int numInfected;
-    private Cure cure;
 
-    public Disease(String name, double transmissionRate, double mortalityRate) {
+    public Disease(String name, int diseaseID, double transmissionRate, double mortalityRate) {
         this.name = name;
+        this.diseaseID = diseaseID;
         this.transmissionRate = transmissionRate;
         this.mortalityRate = mortalityRate;
         numInfected = 0;
-
     }
 
     public String getName() {
@@ -25,8 +25,8 @@ public abstract class Disease {
     public int getNumInfected() {
         return numInfected;
     }
-    public Cure getCure() {
-        return cure;
+    public int getDiseaseID() {
+        return diseaseID;
     }
     public void setName(String name) {
         this.name = name;
@@ -37,8 +37,8 @@ public abstract class Disease {
     public void setMortalityRate(double mortalityRate) {
         this.mortalityRate = mortalityRate;
     }
-    public void setCure(Cure cure) {
-        this.cure = cure;
+    public void setDiseaseID(int diseaseID) {
+        this.diseaseID = diseaseID;
     }
 
     public abstract void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
