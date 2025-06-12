@@ -1,10 +1,11 @@
+import java.util.*;
 public class Child extends Person {
     private boolean inSchool;
     private int numFriends;
-    
+
     // Constructor
-    public Child(int id, int age, char healthStatus, boolean vaccinated, boolean hasAntibiotics, Region location, int immunityLevel, boolean inSchool, int numFriends) {
-        super(id, age, healthStatus, vaccinated, hasAntibiotics, location, immunityLevel);
+    public Child(int id, int age, char healthStatus, Region location, int immunityLevel, ArrayList<Cure> cures, boolean inSchool, int numFriends) {
+        super(id, age, healthStatus, location, immunityLevel, cures);
         this.inSchool = inSchool;
         this.numFriends = numFriends;
     }
@@ -23,17 +24,17 @@ public class Child extends Person {
         this.numFriends = numFriends;
     }
 
-    
+
     @Override
     /*Takes in base immunity, disease transmission rate, cure or no cure and any cure influence (antibotic resistance/mutation rate of virus),
-    region influence and numFriends and whether or not in school attended as an child to 
-      calculate risk factor, higher risk returns higher num */ 
-    public double calcRiskFactor(Disease d, Cure c) {
-        double baseRiskFactor = calcBaseRiskFactor(d, c);
+    region influence and numFriends and whether or not in school attended as an child to
+      calculate risk factor, higher risk returns higher num */
+    public double calcRiskFactor(Disease d) {
+        double baseRiskFactor = calcBaseRiskFactor(d);
         double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);
         double socialRiskFactor = 1 + 0.05 * numFriends;
         double schoolFactor = inSchool ? 1.3 : 1.0; // Higher risk if in school
-        
+
         double riskFactor = modifiedTransmissionRate * (1 - baseRiskFactor) * schoolFactor * socialRiskFactor;
         return Math.max(0, Math.min(1, riskFactor)); // Ensure risk factor is between 0 and 1
     }
@@ -45,8 +46,6 @@ public class Child extends Person {
      */
     @Override
     public String toString() {
-        return "Child" + "\n" + getId() + "\n" + getAge() + "\n" + getHealthStatus() + "\n" +
-                isVaccinated() + "\n" + hasAntibiotics() + "\n" +getLocation().getName() + "\n" +
-                getBaseImmunityLevel() + "\n" + inSchool + "\n" + numFriends;
+        return "Child"; //placeholder
     }
 }

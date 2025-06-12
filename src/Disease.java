@@ -47,7 +47,7 @@ public abstract class Disease {
         if (!person.isHealthy()) {
             return false;
         }
-        double risk = person.calcRiskFactor(this, CureManager.getCureByID(diseaseID)); //BRO I GOT NO CLUE HOW TO IMPLEMENET THIS
+        double risk = person.calcRiskFactor(this ); //BRO I GOT NO CLUE HOW TO IMPLEMENET THIS
         double roll = Math.random();
         if (risk > roll) {
             person.setHealthStatus('I'); // 'I' for infected
@@ -57,7 +57,7 @@ public abstract class Disease {
         return false;
     }
 
-    
+
 
     public void displaySymptoms() {
         System.out.println("Symptoms of " + name + ":");
@@ -74,3 +74,5 @@ public abstract class Disease {
     }
 
 }
+
+

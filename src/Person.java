@@ -1,3 +1,5 @@
+import java.util.*;
+
 public abstract class Person {
     public static final char HEALTHY = 'H';
     public static final char INFECTED = 'I';
@@ -7,23 +9,20 @@ public abstract class Person {
     private int id;
     private int age;
     private char healthStatus;
-    private boolean vaccinated;
-    private boolean hasAntibiotics;
     private Region location;
     private double baseImmunityLevel;
+    private ArrayList<Cure> cures;
 
     // Constructor
-    public Person(int id, int age, char healthStatus, boolean vaccinated, boolean hasAntibiotics, Region location, double immunityLevel) {
+    public Person(int id, int age, char healthStatus, Region location, double immunityLevel, ArrayList<Cure> cures) {
         this.id = id;
         this.age = age;
         this.healthStatus = healthStatus;
-        this.vaccinated = vaccinated;
-        this.hasAntibiotics = hasAntibiotics;
         this.location = location;
         this.baseImmunityLevel = immunityLevel;
+        this.cures = cures;
     }
-
-    // Getters and Setters
+    // Getters
     public int getId() {
         return id;
     }
@@ -32,12 +31,6 @@ public abstract class Person {
     }
     public char getHealthStatus() {
         return healthStatus;
-    }   
-    public boolean isVaccinated() {
-        return vaccinated;
-    }
-    public boolean hasAntibiotics() {
-        return hasAntibiotics;
     }
     public Region getLocation() {
         return location;
@@ -45,6 +38,11 @@ public abstract class Person {
     public double getBaseImmunityLevel() {
         return baseImmunityLevel;
     }
+    public ArrayList<Cure> getCures() {
+        return cures;
+    }
+
+    //Setters
     public void setId(int id) {
         this.id = id;
     }
@@ -54,57 +52,82 @@ public abstract class Person {
     public void setHealthStatus(char healthStatus) {
         this.healthStatus = healthStatus;
     }
-    public void setVaccinated(boolean vaccinated) {
-        this.vaccinated = vaccinated;
-    }
-    public void setHasAntibiotics(boolean hasAntibiotics) {
-        this.hasAntibiotics = hasAntibiotics;
-    }
     public void setLocation(Region location) {
         this.location = location;
     }
     public void setBaseImmunityLevel(int immunityLevel) {
         this.baseImmunityLevel = immunityLevel;
     }
+    public void setCures(ArrayList<Cure> cures) {
+        this.cures = cures;
+    }
     public boolean isHealthy() {
-        return healthStatus == 'H';
+        return healthStatus == HEALTHY;
     }
     public boolean isInfected() {
-        return healthStatus == 'I';
+        return healthStatus == INFECTED;
     }
     public boolean isDead() {
-        return healthStatus == 'D';
+        return healthStatus == DEAD;
     }
     public boolean isRecovered() {
-        return healthStatus == 'R';
+        return healthStatus == RECOVERED;
     }
+
     public void setHealthy() {
-    
         this.healthStatus = HEALTHY;
     }
-    // Abstract method
-    /**
-     * Calculates the risk factor of the person based on their age, health status, and other factors.
-     * @return an integer representing the risk factor.
-     */
-    public abstract double calcRiskFactor(Disease d, Cure c);
 
-    //returns an updated base immunity level based presence of cure and effectiveness of cure.
-    public double calcBaseRiskFactor(Disease d, Cure c) {
+    public boolean addCure(Cure cure) {
+        if (cure != null && !cures.contains(cure)) {
+            cures.add(cure);
+            return true;  // Successfully added
+        }
+        return false;  // Null or already present
+    }
+
+
+    public boolean hasCureForDisease(Disease disease) {
+        if (disease == null) return false;
+        int diseaseID = disease.getDiseaseID();
+
+        for (Cure cure : cures) {
+            if (cure.getCureID() == diseaseID) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Cure getCureForDisease(Disease disease) {
+        if (disease == null) return null;
+        int diseaseID = disease.getDiseaseID();
+
+        for (Cure cure : cures) {
+            if (cure.getCureID() == diseaseID) {
+                return cure;
+            }
+        }
+        return null;
+    }
+
+    public abstract double calcRiskFactor(Disease d);
+
+    public double calcBaseRiskFactor(Disease d) {
         if (d instanceof Bacteria) {
-            if (hasAntibiotics) {
-                baseImmunityLevel += c.getEfficacyRate();
+            if (hasCureForDisease(d)) {
+                baseImmunityLevel += getCureForDisease(d).getEfficacyRate();
             }
             double antibioticResistance = ((Bacteria)d).getAntibioticResistance();
             baseImmunityLevel -=  antibioticResistance ;
         } else if (d instanceof Virus) {
             double mutationRate = ((Virus)d).getMutationRate();
-            if (vaccinated) {
-                baseImmunityLevel += c.getEfficacyRate();
+            if (hasCureForDisease(d)) {
+                baseImmunityLevel += getCureForDisease(d).getEfficacyRate();
             }
             baseImmunityLevel -= (mutationRate + 0.05);
         }
-        
+
         return Math.max(0, Math.min(1, baseImmunityLevel));
     }
 
@@ -112,21 +135,8 @@ public abstract class Person {
         return this.baseImmunityLevel - other.baseImmunityLevel;
     }
 
-    // public Cure getCure(Disease d) {
-    //     if (d instanceof Virus && vaccinated) {
-    //         return CureManager.getCureByDiseaseName("Vaccine");
-    //     } else if (d instanceof Bacteria && hasAntibiotics) {
-    //         return CureManager.getCureByDiseaseName("Antibiotic");
-    //     }
-        
-    // }
-
     @Override
     public String toString() {
-        return "Person" + "\n" + id + "\n" + age + "\n" + healthStatus + "\n" +
-                vaccinated + "\n" + hasAntibiotics + "\n" + location.getName() + "\n" +
-                baseImmunityLevel;
+        return ""; //placehholder for now
     }
-
-
 }

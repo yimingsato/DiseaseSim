@@ -36,7 +36,7 @@ public abstract class Region {
     public void setPopulationInfected(int populationInfected) {
         this.populationInfected = populationInfected;
     }
-    
+
     // CompareTo methods
     public double compareToPopulation(Region other) {
         return this.population - other.population;
@@ -44,18 +44,6 @@ public abstract class Region {
     public double compareToTemp(Region other) {
         return this.temp - other.getTemp();
     }
-
-    // public int updateInfectedPopulation() {
-    //      int count = 0;
-    //      Person[] peopleInRegion = Person.getPeopleInRegion(this.name); //needsto have a method to recusively find number of people in a region
-    //      for (int i = 0; i < peopleInRegion.length; i++) {
-    //          if (peopleInRegion[i].getHealthStatus() == 'I') { //need to have an array of person objects
-    //              count++;
-    //          }
-    //      }
-    //      this.populationInfected = count;
-    //      return count;
-    //  }
 
     public double calcInfectedPercentage() {
         if (population == 0) {
