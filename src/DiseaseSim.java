@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class DiseaseSim {
@@ -38,5 +39,33 @@ public class DiseaseSim {
         return false;
     }
 
+    public void runSimulation(int startX, int startY) {
+        Person[][] grid = map.getGrid();
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        // Initialize infection day tracking
+        int[][] infectionDays = new int[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            Arrays.fill(infectionDays[i], -1); // -1 means not infected yet
+        }
+
+        // Start the infection from a given coordinate
+        if (map.inBounds(startX, startY) && grid[startX][startY] != null) {
+            System.out.println("Starting simulation at (" + startX + ", " + startY + ")");
+            disease.spread(grid, startX, startY, dayLimit, infectionDays);
+        } else {
+            System.out.println("Invalid starting position.");
+            return;
+        }
+
+        // Print simulation result
+        System.out.println("\nFinal map status:");
+        map.printMapStatus();
+    }
+
     // Add more methods as needed (apply cures, print map, etc.)
+
+
+
 }
