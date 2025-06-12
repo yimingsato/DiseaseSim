@@ -1,8 +1,8 @@
 public class Virus extends Disease {
     private double mutationRate;
-    
-    public Virus(String name, double transmissionRate, double mortalityRate, double mutationRate) {
-        super(name, transmissionRate, mortalityRate );
+
+    public Virus(String name, int id, double transmissionRate, double mortalityRate, double mutationRate) {
+        super(name, id, transmissionRate, mortalityRate);
         this.mutationRate = mutationRate;
     }
 
@@ -37,8 +37,8 @@ public class Virus extends Disease {
 
         // Spread to all 8 directions (bacteria-style)
         int[][] directions = {
-            {-1, 0}, {0, 1},
-            {1, 0}, {0, -1}
+                {-1, 0}, {0, 1},
+                {1, 0}, {0, -1}
         };
 
         for (int[] dir : directions) {
@@ -51,5 +51,5 @@ public class Virus extends Disease {
     public String toString() {
         return getName() + "Virus\n" + getTransmissionRate() + "\n" + getMortalityRate();
     }
-    
+
 }

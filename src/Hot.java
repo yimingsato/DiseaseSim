@@ -15,14 +15,14 @@ public class Hot extends Region{
     public void setDryClimate(boolean dryClimate) {
         this.dryClimate = dryClimate;
     }
-//Hot(String, double, int, double, int, int)
+    //Hot(String, double, int, double, int, int)
     public Hot(char name, double temp, int population, int populationInfected, boolean healthySunExposure, boolean dryClimate) {
         super(name, temp, population, populationInfected);
         this.healthySunExposure = healthySunExposure;
         this.dryClimate = dryClimate;
     }
 
-//calcInfectionRateInfluence(int baseInfectionRate ); returns a modified transmission rate
+    //calcInfectionRateInfluence(int baseInfectionRate ); returns a modified transmission rate
     @Override
     public double calcInfectionRateInfluence(Disease d) {
         double transmissionRate = d.getTransmissionRate();

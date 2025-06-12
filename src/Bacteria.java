@@ -1,17 +1,25 @@
 public class Bacteria extends Disease{
     private double antibioticResistance;
 
-    public Bacteria(String name, double transmissionRate, double mortalityRate, double antibioticResistance) {
-        super(name, transmissionRate, mortalityRate);
+    public Bacteria(String name, int id, double transmissionRate, double mortalityRate, double antibioticResistance) {
+        super(name, id, transmissionRate, mortalityRate);
         this.antibioticResistance = antibioticResistance;
     }
-    
+
     public double getAntibioticResistance() {
         return antibioticResistance;
     }
     public void setAntibioticResistance(int antibioticResistance) {
         this.antibioticResistance = antibioticResistance;
     }
+<<<<<<< HEAD
+=======
+
+    public void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays) {
+        spreadFromOrigin(grid, x, y, 0, dayLimit, infectionDays);
+    }
+
+>>>>>>> 2550d55d6fc6c887e07f9c229f5cf3097befd690
     public String toString() {
         return getName() + "Bacteria\n" + getTransmissionRate() + "\n" + getMortalityRate();
     }
@@ -39,8 +47,8 @@ public class Bacteria extends Disease{
 
         // Spread to all 8 directions (bacteria-style)
         int[][] directions = {
-            {-1, 0}, {-1, 1}, {0, 1}, {1, 1},
-            {1, 0}, {1, -1}, {0, -1}, {-1, -1}
+                {-1, 0}, {-1, 1}, {0, 1}, {1, 1},
+                {1, 0}, {1, -1}, {0, -1}, {-1, -1}
         };
 
         for (int[] dir : directions) {

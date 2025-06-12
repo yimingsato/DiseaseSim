@@ -1,9 +1,10 @@
+import java.util.*;
 public class Adult extends Person {
     private int numEventsAttended;
 
     // Constructor
-    public Adult(int id, int age, char healthStatus, boolean vaccinated, boolean hasAntibiotics, Region location, int immunityLevel, int numEventsAttended) {
-        super(id, age, healthStatus, vaccinated, hasAntibiotics, location, immunityLevel);
+    public Adult(int id, int age, char healthStatus, Region location, ArrayList<Cure> cures, int immunityLevel, int numEventsAttended) {
+        super(id, age, healthStatus, location, immunityLevel, cures);
         this.numEventsAttended = numEventsAttended;
     }
 
@@ -13,16 +14,16 @@ public class Adult extends Person {
     }
     public void setNumEventsAttended(int numEventsAttended) {
         this.numEventsAttended = numEventsAttended;
-    }   
+    }
 
     @Override
-    /*Takes in base immunity, cure or no cure, disease transmission rate and any antibiotic resistance/mutation rate of virus, region influence and num events attended as an adult to 
-      calculate risk factor, higher risk returns higher num */ 
-    public double calcRiskFactor(Disease d, Cure c) {
-        double baseRiskFactor = calcBaseRiskFactor(d, c);
+    /*Takes in base immunity, cure or no cure, disease transmission rate and any antibiotic resistance/mutation rate of virus, region influence and num events attended as an adult to
+      calculate risk factor, higher risk returns higher num */
+    public double calcRiskFactor(Disease d) {
+        double baseRiskFactor = calcBaseRiskFactor(d);
         double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);
-        
-        double riskFactor = modifiedTransmissionRate * (1 - baseRiskFactor) * (1 + 0.1 * numEventsAttended); 
+
+        double riskFactor = modifiedTransmissionRate * (1 - baseRiskFactor) * (1 + 0.1 * numEventsAttended);
         return Math.max(0, Math.min(1, riskFactor)); // Ensure risk factor is between 0 and 1
     }
 
@@ -31,10 +32,8 @@ public class Adult extends Person {
      * antibiotic status, location, immunity level, and number of events attended.
      * @return a string representation of the Adult object
      */
-    @Override 
+    @Override
     public String toString() {
-        return "Adult" + "\n" + getId() + "\n" + getAge() + "\n" + getHealthStatus() + "\n" +
-                isVaccinated() + "\n" + hasAntibiotics() + "\n" + getLocation().getName() + "\n" + 
-                getBaseImmunityLevel() + "\n" + numEventsAttended;
+        return ""; //placeholder
     }
 }

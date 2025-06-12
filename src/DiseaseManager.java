@@ -2,11 +2,11 @@ import java.io.*;
 import java.util.*;
 
 // Note when running the spread method, keep track of the starting point. It spreads out like a ripple moving farther
-    // each time from the starting point. This means each Region has to have a starting point for the spread method.
-    // This can be hard coded since it doesnt matter.
-    // An infection days array is also used:
+// each time from the starting point. This means each Region has to have a starting point for the spread method.
+// This can be hard coded since it doesnt matter.
+// An infection days array is also used:
     /*
-     * 
+     *
 int[][] infectionDays = new int[grid.length][grid[0].length];
 for (int i = 0; i < grid.length; i++) {
     Arrays.fill(infectionDays[i], -1); // -1 means not reached
@@ -15,40 +15,17 @@ for (int i = 0; i < grid.length; i++) {
      */
 
 public class DiseaseManager {
-    // Disease[] diseases;
-    // private int numDiseases;
-    // private int maxDiseases;
-    
-    // private HashMap<String, Disease> diseases = new HashMap<>();
+     private Disease[] diseases;
+     private int numDiseases;
+     private int maxDiseases;
 
-    // public void loadDiseases(String filename) {
-    //     try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
-    //         int count = Integer.parseInt(in.readLine());
-    //         for (int i = 0; i < count; i++) {
-    //             String name = in.readLine();
-    //             String type = in.readLine();
-    //             double transmissionRate = Double.parseDouble(in.readLine());
-    //             double mortalityRate = Double.parseDouble(in.readLine());
-                
-    //             Disease disease = null;
-    //             if (type.equalsIgnoreCase("Virus")) {
-    //                 double mutationRate = Double.parseDouble(in.readLine());
-    //                 disease = new Virus(name, transmissionRate, mortalityRate, mutationRate);
-    //             } else if (type.equalsIgnoreCase("Bacteria")) {
-    //                 double antibioticResistance = Double.parseDouble(in.readLine());
-    //                 disease = new Bacteria(name, transmissionRate, mortalityRate, antibioticResistance);
-    //             } else {
-    //                 System.out.println("Unknown disease type: " + type);
-    //                 continue; // Skip to the next iteration
-    //             }
-                
-    //             diseases.put(name, disease);
-    //         }
-    //     } catch (IOException e) {
-    //         System.out.println("Error reading file: " + e.getMessage());
-    //     }
-    // }
+     public DiseaseManager(int max) {
+         diseases = new Disease[max];
+         maxDiseases = max;
+         numDiseases = 0;
+     }
 
+     public
     // public void assignCures(Collection<Cure> cures) {
     //     for (Cure cure : cures) {
     //         String diseaseName = cure.getTargetDisease();
@@ -57,7 +34,7 @@ public class DiseaseManager {
     //         }
     //     }
     // }
-    
+
     // //Constructor
     // public DiseaseManager(int maxDiseases) {
     //     this.maxDiseases = maxDiseases;
@@ -90,7 +67,7 @@ public class DiseaseManager {
     //     }
     //     return false; // No space to add new cure
     // }
-    
+
     // public void removeDisease(int index) {
     //     if (index >= 0 && index < numDiseases) {
     //         for (int i = index; i < numDiseases - 1; i++) {
@@ -98,7 +75,7 @@ public class DiseaseManager {
     //         }
     //         diseases[--numDiseases] = null; // Clear last element
     //     }
-    // }  
+    // }
 
 
     // public Disease mostDeadlyDisease() {

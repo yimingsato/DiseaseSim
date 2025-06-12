@@ -1,7 +1,7 @@
 public class Cold extends Region{
     private boolean snowCoverage;
     private boolean crowdedIndoors;
-    
+
     //Accessor/Mutator
     public boolean isSnowCoverage() {
         return snowCoverage;
@@ -15,12 +15,12 @@ public class Cold extends Region{
     public void setCrowdedIndoors(boolean crowdedIndoors) {
         this.crowdedIndoors = crowdedIndoors;
     }
-//Cold(String, double, int, double, int, int)
+    //Cold(String, double, int, double, int, int)
     public Cold(char name, double temp, int population, int populationInfected, boolean snowCoverage, boolean crowdedIndoors) {
         super(name, temp, population, populationInfected);
         this.snowCoverage = snowCoverage;
         this.crowdedIndoors = crowdedIndoors;
-    }   
+    }
 
     @Override
     public double calcInfectionRateInfluence(Disease d) {
