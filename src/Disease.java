@@ -41,6 +41,8 @@ public abstract class Disease {
         this.diseaseID = diseaseID;
     }
 
+    public void 
+
     public abstract void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
 
     public boolean infect(Person person) {
