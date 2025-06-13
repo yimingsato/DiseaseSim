@@ -43,7 +43,16 @@ public abstract class Cure {
 
     @Override
     public String toString(){
-        return name + "\nCure\n" + efficacyRate;
+        String s = null;
+        if (this instanceof Antibiotic) {
+            s = "Antibiotic: " + name + 
+                   "\n\tCure ID: " + cureID + 
+                   "\n\tEfficacy Rate: " + efficacyRate;
+        } else if (this instanceof Vaccine) {
+            s =  "Vaccine: " + name + 
+                   "\n\tCure ID: " + cureID + 
+                   "\n\tEfficacy Rate: " + efficacyRate;
+        }
+        return s;
     }
-
 }

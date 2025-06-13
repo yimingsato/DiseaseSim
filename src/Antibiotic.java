@@ -5,6 +5,7 @@ public class Antibiotic extends Cure {
         super(name, ID, efficacyRate);
     }
 
+    @Override
     public String toString() {
         return this.getName() + "\nAntibiotic\n" + this.getEfficacyRate();
     }

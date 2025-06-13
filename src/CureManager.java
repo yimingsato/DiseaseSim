@@ -1,30 +1,27 @@
 import java.io.*;
+import java.util.*;
 
 public class CureManager {
-    private Cure[] cures;
-    private int numCures;
-    private int maxCures;
+    private ArrayList<Cure> cures;
 
-    public CureManager(int maxCures) {
-        this.maxCures = maxCures;
-        this.cures = new Cure[maxCures];
-        this.numCures = 0;
+    public CureManager() {
+        cures = new ArrayList<>();
     }
 
     public boolean loadCures(String filename) {
-        numCures = 0;
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(filename));
+        cures.clear();
+        try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
             int count = Integer.parseInt(in.readLine());
             for (int i = 0; i < count; i++) {
                 String type = in.readLine();
                 String name = in.readLine();
-                double efficacyRate = Double.parseDouble(in.readLine());
                 int cureID = Integer.parseInt(in.readLine());
+                double efficacyRate = Double.parseDouble(in.readLine());
+
                 if (type.equalsIgnoreCase("Vaccine")) {
-                    cures[numCures++] = new Vaccine(name, cureID, efficacyRate );
+                    cures.add(new Vaccine(name, cureID, efficacyRate));
                 } else if (type.equalsIgnoreCase("Antibiotic")) {
-                    cures[numCures++] = new Antibiotic(name, cureID, efficacyRate);
+                    cures.add(new Antibiotic(name, cureID, efficacyRate));
                 } else {
                     System.out.println("Unknown cure type: " + type);
                 }
@@ -37,72 +34,84 @@ public class CureManager {
         }
     }
 
-     // Method to save cures to a file
-     public boolean saveCures(String filename) {
-         try {
-          BufferedWriter out = new BufferedWriter(new FileWriter(filename));
-          out.write(Integer.toString(numCures));
-          out.newLine();
-          for (int i = 0; i < numCures; i++) {
-             out.write(cures[i].toString());
-             out.newLine();
-          }
-          out.close();
-       } catch (IOException e) {
-          System.out.println("Error saving to file.");
-       }
-         return true; // Placeholder return value
-     }
+    public boolean saveCures(String filename) {
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(filename))) {
+            out.write(Integer.toString(cures.size()));
+            out.newLine();
+            for (Cure cure : cures) {
+                out.write(cure.toString());
+                out.newLine();
+            }
+            out.close();
+            return true;
+        } catch (IOException e) {
+            System.out.println("Error saving to file.");
+            return false;
+        }
+    }
 
-     // Method to add a new cure
-     public boolean addCure(Cure cure) {
-         if (numCures < maxCures) {
-             cures[numCures++] = cure;
-             return true;
-         }
-         return false; // No space to add new cure
-     }
+    public boolean addCure(Cure cure) {
+        if (cure != null && !cures.contains(cure)) {
+            cures.add(cure);
+            return true;
+        }
+        return false;
+    }
 
-     // Method to remove a cure by index
-     public void removeCure(int index) {
-         if (index >= 0 && index < numCures) {
-             for (int i = index; i < numCures - 1; i++) {
-                 cures[i] = cures[i + 1];
-             }
-             cures[--numCures] = null; // Clear last element
-         }
-     }
+    public boolean removeCure(int index) {
+        if (index >= 0 && index < cures.size()) {
+            cures.remove(index);
+            return true;
+        }
+        return false;
+    }
 
-     // Method to find a cure for a specific disease
-     public Cure cureFor(Disease d) {
-         for (int i = 0; i < numCures; i++) {
-             if (cures[i] instanceof Vaccine && d instanceof Virus) {
-                 return cures[i];
-             }else if (cures[i] instanceof Antibiotic && d instanceof Bacteria) {
-                 return cures[i];
-             }
-         }
-         return null;
-     }
+    public Cure searchByDisease(Disease d) {
+        for (Cure cure : cures) {
+            if (cure.getCureID() == d.getDiseaseID()) {
+                return cure;
+            }
+        }
+        return null;
+    }
 
-     // Method to sort cures by efficacy rate
-     public void sortByEfficacyRate() {
-         for (int i = 0; i < numCures - 1; i++) {
-             for (int j = i + 1; j < numCures; j++) {
-                 if (cures[i].getEfficacyRate() > cures[j].getEfficacyRate()) {
-                     Cure temp = cures[i];
-                     cures[i] = cures[j];
-                     cures[j] = temp;
-                 }
-             }
-         }
-     }
+    public Cure searchByID(int id) {
+        for (Cure cure : cures) {
+            if (cure.getCureID() == id) {
+                return cure;
+            }
+        }
+        return null;
+    }
 
-     // Method to list all cures
-     public void listAllCures() {
-         for (int i =
-             0; i < numCures; i++) {
-             System.out.println(cures[i]);
-         }
-     }
+    public void sortByEfficacyRate() {
+        cures.sort((a, b) -> Double.compare(a.getEfficacyRate(), b.getEfficacyRate()));
+    }
+
+    public void listAllCures() {
+        for (Cure cure : cures) {
+            System.out.println(cure);
+        }
+    }
+
+    public void listAllVaccines() {
+        for (Cure cure : cures) {
+            if (cure instanceof Vaccine) {
+                System.out.println(cure);
+            }
+        }
+    }
+
+    public void listAllAntibiotics() {
+        for (Cure cure : cures) {
+            if (cure instanceof Antibiotic) {
+                System.out.println(cure);
+            }
+        }
+    }
+
+
+    public ArrayList<Cure> getCures() {
+        return cures;
+    }
 }
