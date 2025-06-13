@@ -5,6 +5,9 @@ public class Vaccine extends Cure{
         super(name, id, efficacyRate);
     }
 
+    public boolean applyTo(Person person) {
+        
+    }
     @Override
     public String toString() {
         return this.getName() + "\nVaccine\n" + this.getEfficacyRate();

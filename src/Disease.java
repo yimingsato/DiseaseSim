@@ -47,7 +47,7 @@ public abstract class Disease {
         if (!person.isHealthy()) {
             return false;
         }
-        double risk = person.calcRiskFactor(this ); //BRO I GOT NO CLUE HOW TO IMPLEMENET THIS
+        double risk = person.calcRiskFactor(this);
         double roll = Math.random();
         if (risk > roll) {
             person.setHealthStatus('I'); // 'I' for infected
