@@ -70,9 +70,20 @@ public abstract class Disease {
 
     @Override
     public String toString() {
-        return name +"\n" + "Disease\n" + transmissionRate + "\n" + mortalityRate + "\n";
+        String s = null;
+        if (this instanceof Bacteria) {
+            s = "Bacteria: " + name + 
+                   "\n\tDisease ID: " + diseaseID + 
+                   "\n\tTransmission Rate: " + transmissionRate + 
+                   "\n\tMortality Rate: " + mortalityRate;
+        } else if (this instanceof Virus) {
+            s =  "Virus: " + name + 
+                   "\n\tDisease ID: " + diseaseID + 
+                   "\n\tTransmission Rate: " + transmissionRate + 
+                   "\n\tMortality Rate: " + mortalityRate;
+        }
+        return s;
     }
-
 }
 
 

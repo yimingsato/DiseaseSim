@@ -1,129 +1,134 @@
 import java.io.*;
 import java.util.*;
 
-// Note when running the spread method, keep track of the starting point. It spreads out like a ripple moving farther
-// each time from the starting point. This means each Region has to have a starting point for the spread method.
-// This can be hard coded since it doesnt matter.
-// An infection days array is also used:
-    /*
-     *
-int[][] infectionDays = new int[grid.length][grid[0].length];
-for (int i = 0; i < grid.length; i++) {
-    Arrays.fill(infectionDays[i], -1); // -1 means not reached
-}
-
-     */
-
 public class DiseaseManager {
-     private Disease[] diseases;
-     private int numDiseases;
-     private int maxDiseases;
+    private ArrayList<Disease> diseases;
 
-     public DiseaseManager(int max) {
-         diseases = new Disease[max];
-         maxDiseases = max;
-         numDiseases = 0;
-     }
+    public DiseaseManager() {
+        diseases = new ArrayList<>();
+    }
 
-     public
-    // public void assignCures(Collection<Cure> cures) {
-    //     for (Cure cure : cures) {
-    //         String diseaseName = cure.getTargetDisease();
-    //         if (diseases.containsKey(diseaseName)) {
-    //             diseases.get(diseaseName).setCure(cure);
-    //         }
-    //     }
-    // }
+    public boolean loadDiseases(String filename) {
+        diseases.clear();
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(filename));
+            int count = Integer.parseInt(in.readLine());
+            for (int i = 0; i < count; i++) {
+                String type = in.readLine();
+                String name = in.readLine();
+                int diseaseID = Integer.parseInt(in.readLine());
+                double transmissionRate = Double.parseDouble(in.readLine());
+                double mortalityRate = Double.parseDouble(in.readLine());
 
-    // //Constructor
-    // public DiseaseManager(int maxDiseases) {
-    //     this.maxDiseases = maxDiseases;
-    //     this.diseases = new Disease[maxDiseases];
-    //     this.numDiseases = 0;
-    // }
+                if (type.equalsIgnoreCase("Bacteria")) {
+                    double resistanceLevel = Double.parseDouble(in.readLine());
+                    diseases.add(new Bacteria(name, diseaseID, transmissionRate, mortalityRate, resistanceLevel));
+                } else if (type.equalsIgnoreCase("Virus")) {
+                    double mutationRate = Double.parseDouble(in.readLine());
+                    diseases.add(new Virus(name, diseaseID, transmissionRate, mortalityRate, mutationRate));
+                } else {
+                    System.out.println("Unknown disease type: " + type);
+                }
+            }
 
+            in.close();
+            return true;
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+            return false;
+        }
+    }
 
-    // public boolean saveDiseases(String filename) {
-    //     try {
-    //      BufferedWriter out = new BufferedWriter(new FileWriter(filename));
-    //      out.write(Integer.toString(numDiseases));
-    //      out.newLine();
-    //      for (int i = 0; i < numDiseases; i++) {
-    //         out.write(diseases[i].toString());
-    //         out.newLine();
-    //      }
-    //      out.close();
-    //   } catch (IOException e) {
-    //      System.out.println("Error saving to file.");
-    //   }
-    //     return true; // Placeholder return value
-    // }
+    public boolean saveDiseases(String filename) {
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(filename))) {
+            out.write(Integer.toString(diseases.size()));
+            out.newLine();
+            for (Disease d : diseases) {
+                out.write(d.toString());
+                out.newLine();
+            }
+            out.close();
+            return true;
+        } catch (IOException e) {
+            System.out.println("Error saving to file.");
+            return false;
+        }
+    }
 
+    public boolean addDisease(Disease disease) {
+        if (disease != null && !diseases.contains(disease)) {
+            diseases.add(disease);
+            return true;
+        }
+        return false;
+    }
 
-    // public boolean addDisease(Disease disease) {
-    //     if (numDiseases < maxDiseases) {
-    //         diseases[numDiseases++] = disease;
-    //         return true;
-    //     }
-    //     return false; // No space to add new cure
-    // }
+    public boolean removeDisease(int index) {
+        if (index >= 0 && index < diseases.size()) {
+            diseases.remove(index);
+            return true;
+        }
+        return false;
+    }
 
-    // public void removeDisease(int index) {
-    //     if (index >= 0 && index < numDiseases) {
-    //         for (int i = index; i < numDiseases - 1; i++) {
-    //             diseases[i] = diseases[i + 1];
-    //         }
-    //         diseases[--numDiseases] = null; // Clear last element
-    //     }
-    // }
+    public Disease mostDeadlyDisease() {
+        if (diseases.isEmpty()) return null;
+        Disease mostDeadly = diseases.get(0);
+        for (Disease d : diseases) {
+            if (d.getMortalityRate() > mostDeadly.getMortalityRate()) {
+                mostDeadly = d;
+            }
+        }
+        return mostDeadly;
+    }
 
+    // Selection Sort by mortality rate (descending)
+    public void sortByMortality() {
+        for (int i = 0; i < diseases.size() - 1; i++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < diseases.size(); j++) {
+                if (diseases.get(j).getMortalityRate() > diseases.get(maxIndex).getMortalityRate()) {
+                    maxIndex = j;
+                }
+            }
+            if (i != maxIndex) {
+                Disease temp = diseases.get(i);
+                diseases.set(i, diseases.get(maxIndex));
+                diseases.set(maxIndex, temp);
+            }
+        }
+    }
 
-    // public Disease mostDeadlyDisease() {
-    //     if (numDiseases == 0) {
-    //         return null; // No diseases available
-    //     }
-    //     Disease mostDeadly = diseases[0];
-    //     for (int i = 1; i < numDiseases; i++) {
-    //         if (diseases[i].compareToMortalityRate(mostDeadly) > 0) {
-    //             mostDeadly = diseases[i];
-    //         }
-    //     }
-    //     return mostDeadly;
-    // }
+    public void listAllDisease() {
+        for (Disease d : diseases) {
+            System.out.println(d);
+        }
+    }
 
-    // public void sortByMortality() {
-    //     for (int i = 0; i < numDiseases - 1; i++) {
-    //         for (int j = i + 1; j < numDiseases; j++) {
-    //             if (diseases[i].compareToMortalityRate(diseases[j]) < 0) {
-    //                 // Swap diseases[i] and diseases[j]
-    //                 Disease temp = diseases[i];
-    //                 diseases[i] = diseases[j];
-    //                 diseases[j] = temp;
-    //             }
-    //         }
-    //     }
-    // }
+    public void listBacteria() {
+        for (Disease d : diseases) {
+            if (d instanceof Bacteria) {
+                System.out.println(d);
+            }
+        }
+    }
 
-    // public void listAllDisease() {
-    //     for (int i = 0; i < numDiseases; i++) {
-    //         System.out.println(diseases[i]);
-    //     }
-    // }
+    public void listVirus() {
+        for (Disease d : diseases) {
+            if (d instanceof Virus) {
+                System.out.println(d);
+            }
+        }
+    }
 
-    // public void listBacteria() {
-    //     for (int i = 0; i < numDiseases; i++) {
-    //         if (diseases[i] instanceof Bacteria) {
-    //             System.out.println(diseases[i]);
-    //         }
-    //     }
-    // }
+    public ArrayList<Disease> getDiseases() {
+        return diseases;
+    }
 
-    // public void listVirus() {
-    //     for (int i = 0; i < numDiseases; i++) {
-    //         if (diseases[i] instanceof Virus) {
-    //             System.out.println(diseases[i]);
-    //         }
-    //     }
-
-    // }
+    public Disease getDiseaseByID(int id) {
+        for (Disease d : diseases) {
+            if (d.getDiseaseID() == id) return d;
+        }
+        return null;
+    }
 }
