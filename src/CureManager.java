@@ -35,8 +35,7 @@ public class CureManager {
     }
 
     public boolean saveCures(String filename) {
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(filename))) {
             out.write(Integer.toString(cures.size()));
             out.newLine();
             for (Cure cure : cures) {

@@ -114,21 +114,21 @@ public abstract class Person {
     public abstract double calcRiskFactor(Disease d);
 
     public double calcBaseRiskFactor(Disease d) {
-        if (d instanceof Bacteria) {
-            if (hasCureForDisease(d)) {
-                baseImmunityLevel += getCureForDisease(d).getEfficacyRate();
+        if (d instanceof Bacteria) { //if disease is bacteria
+            if (hasCureForDisease(d)) { //if has cure
+                baseImmunityLevel += getCureForDisease(d).getEfficacyRate(); //apply efficacy rate of cure to immunity level(might want to impliment a method in Cure class to effect efficacy based on person/vaccine vs antibiotic
             }
-            double antibioticResistance = ((Bacteria)d).getAntibioticResistance();
-            baseImmunityLevel -=  antibioticResistance ;
-        } else if (d instanceof Virus) {
-            double mutationRate = ((Virus)d).getMutationRate();
-            if (hasCureForDisease(d)) {
-                baseImmunityLevel += getCureForDisease(d).getEfficacyRate();
+            double antibioticResistance = ((Bacteria)d).getAntibioticResistance(); //get antibiotic resistance of bacteria
+            baseImmunityLevel -=  antibioticResistance; //apply antibiotic resistance to immunity level (higher antibiotic resistance, lower immunity level)
+        } else if (d instanceof Virus) { //if disease is virus
+            double mutationRate = ((Virus)d).getMutationRate(); //get mutation rate of virus, there will be mutation regardless of vaccine or not
+            if (hasCureForDisease(d)) { //if has cure 
+                baseImmunityLevel += getCureForDisease(d).getEfficacyRate(); //apply efficacy rate of cure to immunity level
             }
-            baseImmunityLevel -= (mutationRate + 0.05);
+            baseImmunityLevel -= (mutationRate + 0.05); //apply mutation rate to immunity level (higher mutation rate, lower immunity level)
         }
 
-        return Math.max(0, Math.min(1, baseImmunityLevel));
+        return Math.max(0, Math.min(1, baseImmunityLevel)); //return immunity level between 0 and 1
     }
 
     public double compareToImmunity(Person other) {

@@ -10,8 +10,7 @@ public class DiseaseManager {
 
     public boolean loadDiseases(String filename) {
         diseases.clear();
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(filename));
+        try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
             int count = Integer.parseInt(in.readLine());
             for (int i = 0; i < count; i++) {
                 String type = in.readLine();
