@@ -41,13 +41,15 @@ public abstract class Disease {
         this.diseaseID = diseaseID;
     }
 
+    public void 
+
     public abstract void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
 
     public boolean infect(Person person) {
         if (!person.isHealthy()) {
             return false;
         }
-        double risk = person.calcRiskFactor(this ); //BRO I GOT NO CLUE HOW TO IMPLEMENET THIS
+        double risk = person.calcRiskFactor(this);
         double roll = Math.random();
         if (risk > roll) {
             person.setHealthStatus('I'); // 'I' for infected

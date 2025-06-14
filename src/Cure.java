@@ -34,9 +34,8 @@ public abstract class Cure {
         this.efficacyRate = efficacyRate;
     }
 
-    public boolean applyTo(Person person) {
-        return person.addCure(this);
-    }
+    public abstract void applyTo(Person person);
+    
 
     public double compareToEfficacy(Cure other){
         return this.efficacyRate - other.efficacyRate;
