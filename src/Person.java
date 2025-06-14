@@ -55,7 +55,7 @@ public abstract class Person {
     public void setLocation(Region location) {
         this.location = location;
     }
-    public void setBaseImmunityLevel(int immunityLevel) {
+    public void setBaseImmunityLevel(double immunityLevel) {
         this.baseImmunityLevel = immunityLevel;
     }
     public void setCures(ArrayList<Cure> cures) {

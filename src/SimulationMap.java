@@ -19,8 +19,8 @@ public class SimulationMap {
             }
         }
         // Example: place some actual people
-        grid[1][1] = new Adult();
-        grid[1][2] = new Senior();
+        // grid[1][1] = new Adult();
+        // grid[1][2] = new Senior();
         // etc.
     }
 

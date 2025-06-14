@@ -5,7 +5,7 @@ public class DiseaseSim {
     private Person[] population;
     private Disease disease;
     private int mapSize;
-
+t
     public DiseaseSim(int populationSize, int mapSize, Disease disease) {
         this.mapSize = mapSize;
         this.disease = disease;
