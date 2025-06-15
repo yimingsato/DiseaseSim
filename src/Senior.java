@@ -1,11 +1,16 @@
-import java.util.*;
 public class Senior extends Person {
     private boolean inCareHome;
     private int mobilityLevel;
 
     // Constructor
-    public Senior(int id, int age, char healthStatus, Region location, int immunityLevel, ArrayList<Cure> cures, boolean inCareHome, int mobilityLevel) {
-        super(id, age, healthStatus, location, immunityLevel, cures);
+    public Senior(int id, int age, char healthStatus, Region location, double immunityLevel, Cure cure, boolean inCareHome, int mobilityLevel) {
+        super(id, age, healthStatus, location, immunityLevel, cure);
+        this.inCareHome = inCareHome;
+        this.mobilityLevel = mobilityLevel;
+    }
+
+    public Senior(int id, int age, char healthStatus, double immunityLevel, boolean inCareHome, int mobilityLevel) {
+        super(id, age, healthStatus, immunityLevel);
         this.inCareHome = inCareHome;
         this.mobilityLevel = mobilityLevel;
     }

@@ -44,10 +44,10 @@ public abstract class Disease {
     public abstract void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
 
     public boolean infect(Person person) {
-        if (!person.isHealthy()) {
+        if (!(person.getHealthStatus() == Person.HEALTHY)) {
             return false;
         }
-        double risk = person.calcRiskFactor(this);
+        double risk = person.calcRiskFactor(this );
         double roll = Math.random();
         if (risk > roll) {
             person.setHealthStatus('I'); // 'I' for infected
@@ -56,8 +56,6 @@ public abstract class Disease {
         }
         return false;
     }
-
-
 
     public void displaySymptoms() {
         System.out.println("Symptoms of " + name + ":");
@@ -70,20 +68,9 @@ public abstract class Disease {
 
     @Override
     public String toString() {
-        String s = null;
-        if (this instanceof Bacteria) {
-            s = "Bacteria: " + name + 
-                   "\n\tDisease ID: " + diseaseID + 
-                   "\n\tTransmission Rate: " + transmissionRate + 
-                   "\n\tMortality Rate: " + mortalityRate;
-        } else if (this instanceof Virus) {
-            s =  "Virus: " + name + 
-                   "\n\tDisease ID: " + diseaseID + 
-                   "\n\tTransmission Rate: " + transmissionRate + 
-                   "\n\tMortality Rate: " + mortalityRate;
-        }
-        return s;
+        return name +"\n" + "Disease\n" + transmissionRate + "\n" + mortalityRate + "\n";
     }
+
 }
 
 

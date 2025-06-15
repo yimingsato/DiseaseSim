@@ -3,8 +3,13 @@ public class Adult extends Person {
     private int numEventsAttended;
 
     // Constructor
-    public Adult(int id, int age, char healthStatus, Region location, ArrayList<Cure> cures, int immunityLevel, int numEventsAttended) {
-        super(id, age, healthStatus, location, immunityLevel, cures);
+    public Adult(int id, int age, char healthStatus, Region location, double immunityLevel, int numEventsAttended, Cure cure) {
+        super(id, age, healthStatus, location, immunityLevel, cure);
+        this.numEventsAttended = numEventsAttended;
+    }
+
+    public Adult(int id, int age, char healthStatus, double immunityLevel, int numEventsAttended) {
+        super(id, age, healthStatus, immunityLevel);
         this.numEventsAttended = numEventsAttended;
     }
 

@@ -47,8 +47,10 @@ public class CureManager {
 
                 if (type.equalsIgnoreCase("Vaccine")) {
                     cures.add(new Vaccine(name, cureID, efficacyRate));
+                    System.out.println("Cure #" + (i+1) + " added successfully.");
                 } else if (type.equalsIgnoreCase("Antibiotic")) {
                     cures.add(new Antibiotic(name, cureID, efficacyRate));
+                    System.out.println("Cure #" + (i+1) + " added successfully.");
                 } else {
                     System.out.println("Unknown cure type: " + type);
                 }

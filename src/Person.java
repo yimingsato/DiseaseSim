@@ -1,33 +1,56 @@
-import java.util.*;
 
 public abstract class Person {
     public static final char HEALTHY = 'H';
     public static final char INFECTED = 'I';
     public static final char DEAD = 'D';
     public static final char RECOVERED = 'R';
+    public static final int CHILD = 18;
+    public static final int SENIOR = 60;
+    public static final int AGE_LIMIT = 120;
 
-    private int id;
+    private int personID;
     private int age;
     private char healthStatus;
     private Region location;
     private double baseImmunityLevel;
-    private ArrayList<Cure> cures;
+    private Cure cure;
 
     // Constructor
-    public Person(int id, int age, char healthStatus, Region location, double immunityLevel, ArrayList<Cure> cures) {
-        this.id = id;
+    public Person(int personId, int age, char healthStatus, Region location, double immunityLevel, Cure cure) {
+        this.personID = personId;
         this.age = age;
         this.healthStatus = healthStatus;
         this.location = location;
         this.baseImmunityLevel = immunityLevel;
-        this.cures = cures;
+        this.cure = cure;
     }
+
+    public Person(int personId, int age, char healthStatus, double immunityLevel) {
+        this.personID = personId;
+        this.age = age;
+        this.healthStatus = HEALTHY;
+        this.location = null;
+        this.baseImmunityLevel = immunityLevel;
+        cure = null;
+    }
+
     // Getters
-    public int getId() {
-        return id;
+    public int getPersonId() {
+        return personID;
     }
     public int getAge() {
         return age;
+    }
+    public String getAgeCategory() {
+        if (age > 0 && age < CHILD){
+            return "Child";
+        } else if (age >= CHILD && age <= SENIOR) {
+            return "Adult";
+        } else if (age >= SENIOR && age <= AGE_LIMIT) {
+            return "Senior";
+        } else {
+            return "Invalid age";
+        }
     }
     public char getHealthStatus() {
         return healthStatus;
@@ -38,13 +61,13 @@ public abstract class Person {
     public double getBaseImmunityLevel() {
         return baseImmunityLevel;
     }
-    public ArrayList<Cure> getCures() {
-        return cures;
+    public Cure getCure() {
+        return cure;
     }
 
     //Setters
     public void setId(int id) {
-        this.id = id;
+        this.personID = id;
     }
     public void setAge(int age) {
         this.age = age;
@@ -55,47 +78,19 @@ public abstract class Person {
     public void setLocation(Region location) {
         this.location = location;
     }
-    public void setBaseImmunityLevel(double immunityLevel) {
+    public void setBaseImmunityLevel(int immunityLevel) {
         this.baseImmunityLevel = immunityLevel;
     }
-    public void setCures(ArrayList<Cure> cures) {
-        this.cures = cures;
+    public void setCure(Cure cure) {
+        this.cure = cure;
     }
-    public boolean isHealthy() {
-        return healthStatus == HEALTHY;
-    }
-    public boolean isInfected() {
-        return healthStatus == INFECTED;
-    }
-    public boolean isDead() {
-        return healthStatus == DEAD;
-    }
-    public boolean isRecovered() {
-        return healthStatus == RECOVERED;
-    }
-
-    public void setHealthy() {
-        this.healthStatus = HEALTHY;
-    }
-
-    public boolean addCure(Cure cure) {
-        if (cure != null && !cures.contains(cure)) {
-            cures.add(cure);
-            return true;  // Successfully added
-        }
-        return false;  // Null or already present
-    }
-
 
     public boolean hasCureForDisease(Disease disease) {
         if (disease == null) return false;
         int diseaseID = disease.getDiseaseID();
 
-        for (Cure cure : cures) {
-            if (cure.getCureID() == diseaseID) {
-                return true;
-            }
-        }
+        if (cure.getCureID() == diseaseID) return true;
+
         return false;
     }
 
@@ -103,26 +98,29 @@ public abstract class Person {
         if (disease == null) return null;
         int diseaseID = disease.getDiseaseID();
 
-        for (Cure cure : cures) {
-            if (cure.getCureID() == diseaseID) {
-                return cure;
-            }
-        }
+        if (cure.getCureID() == diseaseID) return cure;
+
         return null;
     }
 
     public abstract double calcRiskFactor(Disease d);
 
     public double calcBaseRiskFactor(Disease d) {
-        if (d instanceof Bacteria) { //if disease is bacteria
-            double antibioticResistance = ((Bacteria)d).getAntibioticResistance(); //get antibiotic resistance of bacteria
-            baseImmunityLevel -=  antibioticResistance; //apply antibiotic resistance to immunity level (higher antibiotic resistance, lower immunity level)
-        } else if (d instanceof Virus) { //if disease is virus
-            double mutationRate = ((Virus)d).getMutationRate(); //get mutation rate of virus, there will be mutation regardless of vaccine or not
-            baseImmunityLevel -= (mutationRate + 0.05); //apply mutation rate to immunity level (higher mutation rate, lower immunity level)
+        if (d instanceof Bacteria) {
+            if (hasCureForDisease(d)) {
+                baseImmunityLevel += getCureForDisease(d).getEfficacyRate();
+            }
+            double antibioticResistance = ((Bacteria)d).getAntibioticResistance();
+            baseImmunityLevel -=  antibioticResistance ;
+        } else if (d instanceof Virus) {
+            double mutationRate = ((Virus)d).getMutationRate();
+            if (hasCureForDisease(d)) {
+                baseImmunityLevel += getCureForDisease(d).getEfficacyRate();
+            }
+            baseImmunityLevel -= (mutationRate + 0.05);
         }
 
-        return Math.max(0, Math.min(1, baseImmunityLevel)); //return immunity level between 0 and 1
+        return Math.max(0, Math.min(1, baseImmunityLevel));
     }
 
     public double compareToImmunity(Person other) {

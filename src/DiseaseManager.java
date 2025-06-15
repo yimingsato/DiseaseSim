@@ -53,12 +53,15 @@ public class DiseaseManager {
                 if (type.equalsIgnoreCase("Bacteria")) {
                     double resistanceLevel = Double.parseDouble(in.readLine());
                     diseases.add(new Bacteria(name, diseaseID, transmissionRate, mortalityRate, resistanceLevel));
+                    System.out.println("Disease #" + (i+1) + " added successfully.");
                 } else if (type.equalsIgnoreCase("Virus")) {
                     double mutationRate = Double.parseDouble(in.readLine());
                     diseases.add(new Virus(name, diseaseID, transmissionRate, mortalityRate, mutationRate));
+                    System.out.println("Disease #" + (i+1) + " added successfully.");
                 } else {
                     System.out.println("Unknown disease type: " + type);
                 }
+                in.readLine(); //each will be separated by a space
             }
 
             in.close();

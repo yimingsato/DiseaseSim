@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class DiseaseSim {
-    ublic class DiseaseSimulation {
     public static final int MAP_LENGTH = 100;
     public static final int MAP_WIDTH = 100;
     public static final int POPULATION = MAP_LENGTH * MAP_WIDTH;
@@ -17,7 +16,7 @@ public class DiseaseSim {
     private Region[][] regionMap; //parallel array with populationMap
     private Disease chosenDisease;
 
-    public DiseaseSimulation(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String mapFile) {
+    public DiseaseSim(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String mapFile) {
         this.chosenDisease = disease;
         this.cureDatabase = new CureManager(cureFileName); //initialize cureDatabase
         this.diseaseDatabase = new DiseaseManager(diseaseFileName);
@@ -101,7 +100,7 @@ public class DiseaseSim {
         }
         // Update map or other simulation state as needed
     }
-
+    
     // Example helper to check if two people are near each other
     private boolean isNearby(Person a, Person b) {
         // Implement your logic based on positions
@@ -134,7 +133,4 @@ public class DiseaseSim {
     }
 
     // Add more methods as needed (apply cures, print map, etc.)
-
-
-
 }

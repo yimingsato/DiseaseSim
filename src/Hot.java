@@ -16,7 +16,7 @@ public class Hot extends Region{
         this.dryClimate = dryClimate;
     }
     //Hot(String, double, int, double, int, int)
-    public Hot(char name, double temp, int population, int populationInfected, boolean healthySunExposure, boolean dryClimate) {
+    public Hot(char name, int temp, int population, int populationInfected, boolean healthySunExposure, boolean dryClimate) {
         super(name, temp, population, populationInfected);
         this.healthySunExposure = healthySunExposure;
         this.dryClimate = dryClimate;

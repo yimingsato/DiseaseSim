@@ -4,8 +4,14 @@ public class Child extends Person {
     private int numFriends;
 
     // Constructor
-    public Child(int id, int age, char healthStatus, Region location, int immunityLevel, ArrayList<Cure> cures, boolean inSchool, int numFriends) {
-        super(id, age, healthStatus, location, immunityLevel, cures);
+    public Child(int id, int age, char healthStatus, Region location, double immunityLevel, Cure cure, boolean inSchool, int numFriends) {
+        super(id, age, healthStatus, location, immunityLevel, cure);
+        this.inSchool = inSchool;
+        this.numFriends = numFriends;
+    }
+
+    public Child(int id, int age, char healthStatus, double immunityLevel, boolean inSchool, int numFriends) {
+        super(id, age, healthStatus, immunityLevel);
         this.inSchool = inSchool;
         this.numFriends = numFriends;
     }
