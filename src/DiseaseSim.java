@@ -1,19 +1,88 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 
 public class DiseaseSim {
-    private Person[] population;
-    private Disease disease;
-    private int mapSize;
-t
-    public DiseaseSim(int populationSize, int mapSize, Disease disease) {
-        this.mapSize = mapSize;
-        this.disease = disease;
-        this.population = new Person[populationSize];
-        // Initialize population with random positions and health status
-        for (int i = 0; i < populationSize; i++) {
-            population[i] = new Person(/* random position, initial health status, etc. */);
+    ublic class DiseaseSimulation {
+    public static final int MAP_LENGTH = 100;
+    public static final int MAP_WIDTH = 100;
+    public static final int POPULATION = MAP_LENGTH * MAP_WIDTH;
+
+    private CureManager cureDatabase;
+    private DiseaseManager diseaseDatabase;
+    private Person[][] populationMap;
+    private Region[][] regionMap; //parallel array with populationMap
+    private Disease chosenDisease;
+
+    public DiseaseSimulation(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String mapFile) {
+        this.chosenDisease = disease;
+        this.cureDatabase = new CureManager(cureFileName); //initialize cureDatabase
+        this.diseaseDatabase = new DiseaseManager(diseaseFileName);
+
+        populationMap = new Person[MAP_LENGTH][MAP_WIDTH]; //initialize people by reading in people file
+        regionMap = new Region[MAP_LENGTH][MAP_WIDTH];
+        try (BufferedReader in = new BufferedReader(new FileReader(peopleFileName))) {
+            for (int i = 0; i < MAP_LENGTH; i++) {
+                for (int j = 0; j < MAP_WIDTH; j++) {
+                    int personID = Integer.parseInt(in.readLine());
+                    int age = Integer.parseInt(in.readLine());
+                    char healthStatus = Person.HEALTHY; //everyone starts out healthy
+                    double baseImmunityLevel = Double.parseDouble(in.readLine());
+
+                    //take in secondary conditions for adult, child, senior
+                    if (ageGroup(age).equals("Child")) {
+                        boolean inSchool = in.readLine().charAt(0) == 'Y';
+                        int numFriends = Integer.parseInt(in.readLine());
+                        populationMap[i][j] = new Child(personID, age, healthStatus, baseImmunityLevel, inSchool, numFriends);
+                    } else if (ageGroup(age).equals("Adult")) {
+                        int numEventsAttended = Integer.parseInt(in.readLine());
+                        populationMap[i][j] = new Adult(personID, age, healthStatus, baseImmunityLevel, numEventsAttended);
+                    } else if (ageGroup(age).equals("Senior")) {
+                        boolean inCareHome = in.readLine().charAt(0) == 'Y';
+                        int mobilityLevel = Integer.parseInt(in.readLine());
+                        populationMap[i][j] = new Senior(personID, age, healthStatus, baseImmunityLevel, inCareHome, mobilityLevel);
+                    } else {
+                        System.out.println(ageGroup(age));
+                    }
+                }
+            }
+            in.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Error reading file");
         }
+
+        try (BufferedReader in = new BufferedReader(new FileReader(mapFile))) {
+            for (int i = 0; i < MAP_LENGTH; i++) {
+                for (int j = 0; j < MAP_WIDTH; j++) {
+                    char regionChar = in.readLine().charAt(0);
+                    int temp = Integer.parseInt(in.readLine());
+                    int population = Integer.parseInt(in.readLine());
+
+                }
+            }
+
+            in.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not fouund");
+        } catch (IOException e) {
+            System.out.println("Error reading file");
+        }
+    }
+
+    private String ageGroup(int age) {
+        if (age > 0 && age < Person.CHILD) {
+            return "Child";
+        } else if (age >= Person.CHILD && age <= Person.SENIOR) {
+            return "Adult";
+        } else if (age >= Person.SENIOR && age <= Person.AGE_LIMIT) {
+            return "Senior";
+        }
+        return "Invalid age";
     }
 
     // Simulate one step of disease spread
