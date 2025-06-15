@@ -3,7 +3,6 @@ public abstract class Person {
     public static final char HEALTHY = 'H';
     public static final char INFECTED = 'I';
     public static final char DEAD = 'D';
-    public static final char RECOVERED = 'R';
     public static final int CHILD = 18;
     public static final int SENIOR = 60;
     public static final int AGE_LIMIT = 120;
@@ -93,10 +92,22 @@ public abstract class Person {
     public boolean isDead() {
         return healthStatus == DEAD;
     }
-    public boolean isRecovered() {
-        return healthStatus == RECOVERED;
-    }
 
+    public boolean killedByDisease(Disease disease) {
+        if (disease == null || !isInfected()) return false;
+
+        double mortalityRate = disease.getMortalityRate();
+        double effectiveMortalityRate = mortalityRate * (1 - baseImmunityLevel);
+        effectiveMortalityRate = Math.max(0, Math.min(1, effectiveMortalityRate));
+
+        double roll = Math.random(); // random number between 0.0 and 1.0
+
+        if (roll < effectiveMortalityRate) {
+            setHealthStatus(DEAD);
+            return true;
+        }
+        return false;
+    }
 
     public boolean hasCureForDisease(Disease disease) {
         if (disease == null) return false;

@@ -14,12 +14,7 @@ public class Virus extends Disease {
         this.mutationRate = mutationRate;
     }
 
-    public int spread(Person[][] grid, int x, int y, int dayLimit, int width, int height) {
-        int[][] infectionDays = new int[width][height];
-        for (int[] row : infectionDays) {
-            Arrays.fill(row, -1);
-        }
-
+    public int spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays) {
         return spreadFromOrigin(grid, x, y, 0, dayLimit, infectionDays);
     }
 

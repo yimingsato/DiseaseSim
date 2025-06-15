@@ -18,6 +18,7 @@ public class DiseaseSim {
     private Disease chosenDisease;
     private int x, y;
     private int numInfected;
+    private int[][] infectionDays;
 
     public DiseaseSim(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String regionFile, int x, int y) {
         this.chosenDisease = disease;
@@ -88,6 +89,13 @@ public class DiseaseSim {
         } catch (IOException e) {
             System.out.println("Error reading file");
         }
+
+        // Initialize infectionDays with -1 (uninfected)
+        infectionDays = new int[MAP_LENGTH][MAP_WIDTH];
+        for (int[] row : infectionDays) {
+            Arrays.fill(row, -1);
+        }
+
     }
 
     public int getPopulation() {
@@ -151,8 +159,6 @@ public class DiseaseSim {
         this.numInfected = numInfected;
     }
 
-    
-
     private String ageGroup(int age) {
         if (age > 0 && age < Person.CHILD) {
             return "Child";
@@ -165,9 +171,18 @@ public class DiseaseSim {
     }
 
     // Simulate one step of disease spread
-    public void simulateStep(int x, int y, int days) {
-        numInfected += chosenDisease.spread(populationMap, x, y, days);
+    public void simulateSpread(int x, int y, int days) {
+        numInfected += chosenDisease.spread(populationMap, x, y, days, infectionDays);
         // Update map or other simulation state as needed
     }
 
+    public void infectPatientZero() {
+    Person p = populationMap[x][y];
+    if (p.getHealthStatus() == Person.HEALTHY) {
+        p.infect(chosenDisease);
+        populationInfected++;
+        numInfected++;
+    }
+
+    
 }
