@@ -18,7 +18,7 @@ public class Virus extends Disease {
         spreadFromOrigin(grid, x, y, 0, dayLimit, infectionDays);
     }
 
-    private void spreadFromOrigin(Person[][] grid, int x, int y, int currentDay, int dayLimit, int[][] infectionDays) {
+    private int spreadFromOrigin(Person[][] grid, int x, int y, int currentDay, int dayLimit, int[][] infectionDays) {
         if (currentDay > dayLimit) return;
 
         Person current = grid[x][y];
@@ -30,9 +30,12 @@ public class Virus extends Disease {
         // Update day of infection arrival
         infectionDays[x][y] = currentDay;
 
+        
+
         if (current.isHealthy()) {
             boolean infected = this.infect(current);
-            if (!infected) return; // don't spread further if not infected
+            if (!infected) return 0;
+             // don't spread further if not infected
         }
 
         // Spread to all 8 directions (bacteria-style)

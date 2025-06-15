@@ -16,8 +16,8 @@ public class Hot extends Region{
         this.dryClimate = dryClimate;
     }
     //Hot(String, double, int, double, int, int)
-    public Hot(char name, int temp, int population, int populationInfected, boolean healthySunExposure, boolean dryClimate) {
-        super(name, temp, population, populationInfected);
+    public Hot(char name, int temp, boolean healthySunExposure, boolean dryClimate) {
+        super(name, temp);
         this.healthySunExposure = healthySunExposure;
         this.dryClimate = dryClimate;
     }
@@ -46,8 +46,12 @@ public class Hot extends Region{
 
     @Override
     public String toString() {
-        return "Hot" + "\n" + getName() + "\n" + getTemp() + "\n" +
-                getPopulation() + "\n" + getPopulationInfected() + "\n" + healthySunExposure + "\n" + dryClimate;
+        return "Hot{" +
+                "name=" + getName() +
+                ", temp=" + getTemp() +
+                ", healthySunExposure=" + healthySunExposure +
+                ", dryClimate=" + dryClimate +
+                '}';
     }
 
 }

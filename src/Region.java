@@ -1,5 +1,5 @@
 public abstract class Region {
-    private char name;
+    private char type;
     private double temp;
 
     // Constructor

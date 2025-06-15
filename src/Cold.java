@@ -16,8 +16,8 @@ public class Cold extends Region{
         this.crowdedIndoors = crowdedIndoors;
     }
     //Cold(String, double, int, double, int, int)
-    public Cold(char name, double temp, int population, int populationInfected, boolean snowCoverage, boolean crowdedIndoors) {
-        super(name, temp, population, populationInfected);
+    public Cold(char name, double temp, boolean snowCoverage, boolean crowdedIndoors) {
+        super(name, temp);
         this.snowCoverage = snowCoverage;
         this.crowdedIndoors = crowdedIndoors;
     }
@@ -45,8 +45,12 @@ public class Cold extends Region{
 
     @Override
     public String toString() {
-        return "Cold" + "\n" + getName() + "\n" + getTemp() + "\n" +
-                getPopulation() + "\n" + getPopulationInfected() + "\n" + snowCoverage + "\n" + crowdedIndoors;
+        return "Cold{" +
+                "name=" + getName() +
+                ", temp=" + getTemp() +
+                ", snowCoverage=" + snowCoverage +
+                ", crowdedIndoors=" + crowdedIndoors +
+                '}';
     }
 
 }
