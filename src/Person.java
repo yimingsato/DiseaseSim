@@ -96,8 +96,7 @@ public abstract class Person {
     public boolean killedByDisease(Disease disease) {
         if (disease == null || !isInfected()) return false;
 
-        double mortalityRate = disease.getMortalityRate();
-        double effectiveMortalityRate = mortalityRate * (1 - baseImmunityLevel);
+        double effectiveMortalityRate = disease.getMortalityRate() * (1 - baseImmunityLevel);
         effectiveMortalityRate = Math.max(0, Math.min(1, effectiveMortalityRate));
 
         double roll = Math.random(); // random number between 0.0 and 1.0

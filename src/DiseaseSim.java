@@ -1,9 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
 
 public class DiseaseSim {
     public static final int MAP_LENGTH = 100;
@@ -18,9 +14,10 @@ public class DiseaseSim {
     private Disease chosenDisease;
     private int x, y;
     private int numInfected;
-    private int[][] infectionDays;
+    private int days;
+    private int[][] infectedPeople;
 
-    public DiseaseSim(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String regionFile, int x, int y) {
+    public DiseaseSim(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String regionFile, int x, int y, int days) {
         this.chosenDisease = disease;
         this.cureDatabase = new CureManager(cureFileName); //initialize cureDatabase
         this.diseaseDatabase = new DiseaseManager(diseaseFileName);
@@ -28,6 +25,7 @@ public class DiseaseSim {
         this.populationInfected = 0; //initialize infected population to 0
         this.x = x;
         this.y = y;
+        this.days = days;
         numInfected = 0;
         
         //initialize populationMap and regionMap
@@ -91,11 +89,21 @@ public class DiseaseSim {
         }
 
         // Initialize infectionDays with -1 (uninfected)
-        infectionDays = new int[MAP_LENGTH][MAP_WIDTH];
-        for (int[] row : infectionDays) {
+        infectedPeople = new int[MAP_LENGTH][MAP_WIDTH];
+        for (int[] row : infectedPeople) {
             Arrays.fill(row, -1);
         }
+    }
 
+    private String ageGroup(int age) {
+        if (age > 0 && age < Person.CHILD) {
+            return "Child";
+        } else if (age >= Person.CHILD && age <= Person.SENIOR) {
+            return "Adult";
+        } else if (age >= Person.SENIOR && age <= Person.AGE_LIMIT) {
+            return "Senior";
+        }
+        return "Invalid age";
     }
 
     public int getPopulation() {
@@ -128,6 +136,9 @@ public class DiseaseSim {
     public int getNumInfected() {
         return numInfected;
     }
+    public int getDays() {
+        return days;
+    }
     public void setPopulation(int population) {
         this.population = population;
     }
@@ -158,31 +169,159 @@ public class DiseaseSim {
     public void setNumInfected(int numInfected) {
         this.numInfected = numInfected;
     }
+    public void setDays(int days) {
+        this.days = days;
+    }
 
-    private String ageGroup(int age) {
-        if (age > 0 && age < Person.CHILD) {
-            return "Child";
-        } else if (age >= Person.CHILD && age <= Person.SENIOR) {
-            return "Adult";
-        } else if (age >= Person.SENIOR && age <= Person.AGE_LIMIT) {
-            return "Senior";
+    //Save the current state of the simulation to files
+    public boolean saveToFile(String peopleFileName, String cureFileName, String diseaseFileName, String regionFile, String simulationData) {
+        try {
+            // Save people data
+            try (BufferedWriter out = new BufferedWriter(new FileWriter(peopleFileName))) {
+                for (int i = 0; i < MAP_LENGTH; i++) {
+                    for (int j = 0; j < MAP_WIDTH; j++) {
+                        Person person = populationMap[i][j];
+                        if (person != null) {
+                            out.write(person.getPersonId() + "\n");
+                            out.write(person.getAge() + "\n");
+                            out.write(person.getBaseImmunityLevel() + "\n");
+                            if (person instanceof Child) {
+                                Child child = (Child) person;
+                                out.write((child.isInSchool() ? "Y" : "N") + "\n");
+                                out.write(child.getNumFriends() + "\n");
+                            } else if (person instanceof Adult) {
+                                Adult adult = (Adult) person;
+                                out.write(adult.getNumEventsAttended() + "\n");
+                            } else if (person instanceof Senior) {
+                                Senior senior = (Senior) person;
+                                out.write((senior.isInCareHome() ? "Y" : "N") + "\n");
+                                out.write(senior.getMobilityLevel() + "\n");
+                            }
+                        }
+                    }
+                }
+                out.close();
+            }
+
+            // Save cure data
+            cureDatabase.saveCures(cureFileName);
+
+            // Save disease data
+            diseaseDatabase.saveDiseases(diseaseFileName);
+
+            // Save region data
+            try (BufferedWriter out = new BufferedWriter(new FileWriter(regionFile))) {
+                for (int i = 0; i < MAP_LENGTH; i++) {
+                    for (int j = 0; j < MAP_WIDTH; j++) {
+                        Region region = regionMap[i][j];
+                        if (region != null) {
+                            out.write(region.getName() + "\n");
+                            out.write(region.getTemp() + "\n");
+                            if (region instanceof Cold) {
+                                Cold coldRegion = (Cold) region;
+                                out.write((coldRegion.isSnowCoverage() ? "Y" : "N") + "\n");
+                                out.write((coldRegion.isCrowdedIndoors() ? "Y" : "N") + "\n");
+                            } else if (region instanceof Hot) {
+                                Hot hotRegion = (Hot) region;
+                                out.write((hotRegion.isHealthySunExposure() ? "Y" : "N") + "\n");
+                                out.write((hotRegion.isDryClimate() ? "Y" : "N") + "\n");
+                            }
+                        }
+                    }
+                }
+                out.close();
+            }
+            
+            // Save simulation data
+            try (BufferedWriter out = new BufferedWriter(new FileWriter(simulationData))) {
+                out.write("Population: " + population + "\n");
+                out.write("Population Infected: " + populationInfected + "\n");
+                out.write("Chosen Disease: " + chosenDisease.getName() + "\n");
+                out.write("Starting X: " + x + "\n");
+                out.write("Starting Y: " + y + "\n");
+                out.write("Number of Infected: " + numInfected + "\n");
+            }
+            
+            return true; // Save successful
+        } catch (IOException e) {
+            System.out.println("Error saving to file: " + e.getMessage());
+            return false; // Save failed
         }
-        return "Invalid age";
     }
 
     // Simulate one step of disease spread
-    public void simulateSpread(int x, int y, int days) {
-        numInfected += chosenDisease.spread(populationMap, x, y, days, infectionDays);
+    public void simulateSpread() {
+        numInfected += chosenDisease.spread(populationMap, x, y, days, infectedPeople);
         // Update map or other simulation state as needed
     }
 
-    public void infectPatientZero() {
-    Person p = populationMap[x][y];
-    if (p.getHealthStatus() == Person.HEALTHY) {
-        p.infect(chosenDisease);
-        populationInfected++;
-        numInfected++;
+    public int countDead() {
+        int count = 0;
+        for (int i = 0; i < MAP_LENGTH; i++) {
+            for (int j = 0; j < MAP_WIDTH; j++) {
+                Person person = populationMap[i][j];
+                if (person != null && person.isDead()) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
+    public int countHealthy() {
+        int count = 0;
+        for (int i = 0; i < MAP_LENGTH; i++) {
+            for (int j = 0; j < MAP_WIDTH; j++) {
+                Person person = populationMap[i][j];
+                if (person != null && person.isHealthy()) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public double getInfectionRate() {
+        return (double) numInfected / population;
+    }
+
+    public double getTotalMortalityRate() {
+        int deadCount = countDead();
+        if (deadCount == 0) return 0.0; // Avoid division by zero
+        return (double) deadCount / population;
+    }
+
+    //pritn health status map
+    public void printMap() {
+        for (int i = 0; i < MAP_LENGTH; i++) {
+            for (int j = 0; j < MAP_WIDTH; j++) {
+                Person person = populationMap[i][j];
+                if (person != null) {
+                    char healthStatus = person.getHealthStatus();
+                    System.out.print(healthStatus + " ");
+                } else {
+                    System.out.print("N "); // N for no person
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    //print region map
+    public void printRegionMap() {
+        for (int i = 0; i < MAP_LENGTH; i++) {
+            for (int j = 0; j < MAP_WIDTH; j++) {
+                Region region = regionMap[i][j];
+                if (region != null) {
+                    System.out.print(region.getName() + " ");
+                } else {
+                    System.out.print("N "); // N for no region
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    
     
 }

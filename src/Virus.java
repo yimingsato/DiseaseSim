@@ -14,21 +14,21 @@ public class Virus extends Disease {
         this.mutationRate = mutationRate;
     }
 
-    public int spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays) {
-        return spreadFromOrigin(grid, x, y, 0, dayLimit, infectionDays);
+    public int spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectedPeople) {
+        return spreadFromOrigin(grid, x, y, 0, dayLimit, infectedPeople);
     }
 
-    private int spreadFromOrigin(Person[][] grid, int x, int y, int currentDay, int dayLimit, int[][] infectionDays) {
+    private int spreadFromOrigin(Person[][] grid, int x, int y, int currentDay, int dayLimit, int[][] infectedDays) {
         if (currentDay > dayLimit) return 0;
 
         Person current = grid[x][y];
         if (current == null || current.isDead()) return 0;
 
         // Check if we've already reached this person earlier
-        if (infectionDays[x][y] != -1 && infectionDays[x][y] <= currentDay) return 0;
+        if (infectedDays[x][y] != -1 && infectedDays[x][y] <= currentDay) return 0;
 
         // Update day of infection arrival
-        infectionDays[x][y] = currentDay;
+        infectedDays[x][y] = currentDay;
 
         int infectedCount = 0;
 
@@ -47,7 +47,7 @@ public class Virus extends Disease {
         for (int[] dir : directions) {
             int nx = x + dir[0];
             int ny = y + dir[1];
-            infectedCount += spreadFromOrigin(grid, nx, ny, currentDay + 1, dayLimit, infectionDays);
+            infectedCount += spreadFromOrigin(grid, nx, ny, currentDay + 1, dayLimit, infectedDays);
         }
 
         return infectedCount;
