@@ -8,6 +8,37 @@ public class DiseaseManager {
         diseases = new ArrayList<>();
     }
 
+    public DiseaseManager(String filename) {
+        diseases = new ArrayList<>();
+        diseases.clear();
+        try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
+            int count = Integer.parseInt(in.readLine());
+            for (int i = 0; i < count; i++) {
+                String type = in.readLine();
+                String name = in.readLine();
+                int diseaseID = Integer.parseInt(in.readLine());
+                double transmissionRate = Double.parseDouble(in.readLine());
+                double mortalityRate = Double.parseDouble(in.readLine());
+
+                if (type.equalsIgnoreCase("Bacteria")) {
+                    double resistanceLevel = Double.parseDouble(in.readLine());
+                    diseases.add(new Bacteria(name, diseaseID, transmissionRate, mortalityRate, resistanceLevel));
+                    System.out.println("Disease #" + (i+1) + " added successfully.");
+                } else if (type.equalsIgnoreCase("Virus")) {
+                    double mutationRate = Double.parseDouble(in.readLine());
+                    diseases.add(new Virus(name, diseaseID, transmissionRate, mortalityRate, mutationRate));
+                    System.out.println("Disease #" + (i+1) + " added successfully.");
+                } else {
+                    System.out.println("Unknown disease type: " + type);
+                }
+            }
+
+            in.close();
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+
     public boolean loadDiseases(String filename) {
         diseases.clear();
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {

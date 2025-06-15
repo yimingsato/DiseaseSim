@@ -8,6 +8,33 @@ public class CureManager {
         cures = new ArrayList<>();
     }
 
+    public CureManager(String filename) {
+        cures = new ArrayList<>();
+        cures.clear();
+        try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
+            int count = Integer.parseInt(in.readLine());
+            for (int i = 0; i < count; i++) {
+                String type = in.readLine();
+                String name = in.readLine();
+                int cureID = Integer.parseInt(in.readLine());
+                double efficacyRate = Double.parseDouble(in.readLine());
+
+                if (type.equalsIgnoreCase("Vaccine")) {
+                    cures.add(new Vaccine(name, cureID, efficacyRate));
+                    System.out.println("Cure #" + (i+1) + " added successfully.");
+                } else if (type.equalsIgnoreCase("Antibiotic")) {
+                    cures.add(new Antibiotic(name, cureID, efficacyRate));
+                    System.out.println("Cure #" + (i+1) + " added successfully.");
+                } else {
+                    System.out.println("Unknown cure type: " + type);
+                }
+            }
+            in.close();
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+
     public boolean loadCures(String filename) {
         cures.clear();
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
