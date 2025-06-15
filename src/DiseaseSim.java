@@ -85,19 +85,8 @@ public class DiseaseSim {
     }
 
     // Simulate one step of disease spread
-    public void simulateStep() {
-        for (Person p : population) {
-            if (p.isInfected()) {
-                // Try to infect nearby people
-                for (Person other : population) {
-                    if (!other.isInfected() && isNearby(p, other)) {
-                        if (new Random().nextDouble() < disease.getInfectionRate()) {
-                            other.infect();
-                        }
-                    }
-                }
-            }
-        }
+    public void simulateStep(int x, int y, int days) {
+        chosenDisease.spread();
         // Update map or other simulation state as needed
     }
     

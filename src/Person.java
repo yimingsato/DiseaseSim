@@ -78,12 +78,25 @@ public abstract class Person {
     public void setLocation(Region location) {
         this.location = location;
     }
-    public void setBaseImmunityLevel(int immunityLevel) {
+    public void setBaseImmunityLevel(double immunityLevel) {
         this.baseImmunityLevel = immunityLevel;
     }
     public void setCure(Cure cure) {
         this.cure = cure;
     }
+    public boolean isHealthy() {
+        return healthStatus == HEALTHY;
+    }
+    public boolean isInfected() {
+        return healthStatus == INFECTED;
+    }
+    public boolean isDead() {
+        return healthStatus == DEAD;
+    }
+    public boolean isRecovered() {
+        return healthStatus == RECOVERED;
+    }
+
 
     public boolean hasCureForDisease(Disease disease) {
         if (disease == null) return false;
@@ -107,16 +120,10 @@ public abstract class Person {
 
     public double calcBaseRiskFactor(Disease d) {
         if (d instanceof Bacteria) {
-            if (hasCureForDisease(d)) {
-                baseImmunityLevel += getCureForDisease(d).getEfficacyRate();
-            }
             double antibioticResistance = ((Bacteria)d).getAntibioticResistance();
             baseImmunityLevel -=  antibioticResistance ;
         } else if (d instanceof Virus) {
             double mutationRate = ((Virus)d).getMutationRate();
-            if (hasCureForDisease(d)) {
-                baseImmunityLevel += getCureForDisease(d).getEfficacyRate();
-            }
             baseImmunityLevel -= (mutationRate + 0.05);
         }
 
@@ -129,6 +136,11 @@ public abstract class Person {
 
     @Override
     public String toString() {
-        return ""; //placehholder for now
+        return "Person ID: " + personID +
+                "\nAge: " + age +
+                "\nHealth Status: " + healthStatus +
+                "\nLocation: " + (location != null ? location.getName() : "Unknown") +
+                "\nBase Immunity Level: " + baseImmunityLevel +
+                "\nCure: " + (cure != null ? cure.getName() : "None");
     }
 }
