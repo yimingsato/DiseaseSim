@@ -41,7 +41,7 @@ public abstract class Disease {
         this.diseaseID = diseaseID;
     }
 
-    public abstract void spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
+    public abstract int spread(Person[][] grid, int x, int y, int dayLimit, int width, int height);
 
     public boolean infect(Person person) {
         if (!(person.getHealthStatus() == Person.HEALTHY)) {

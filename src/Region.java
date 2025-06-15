@@ -3,20 +3,20 @@ public abstract class Region {
     private double temp;
 
     // Constructor
-    public Region(char name, double temp) {
-        this.name = name;
+    public Region(char type, double temp) {
+        this.type = type;
         this.temp = temp;
     }
 
     // Accessor mutators
     public char getName() {
-        return name;
+        return type;
     }
     public double getTemp() {
         return temp;
     }
-    public void setName(char name) {
-        this.name = name;
+    public void setType(char name) {
+        this.type = name;
     }
     public void setTemp(double temp) {
         this.temp = temp;
@@ -30,7 +30,7 @@ public abstract class Region {
 
     public String toString() {
         return "Region{" +
-                "name=" + name +
+                "Type=" + type +
                 ", temp=" + temp +
                 '}';
     }
