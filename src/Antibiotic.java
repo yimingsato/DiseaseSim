@@ -1,3 +1,8 @@
+/*
+Filename: Antibiotic.java
+Description: This class represents an antibiotic cure that can be applied to a person to enhance their immunity based on various factors.
+*/
+
 public class Antibiotic extends Cure {
 
     //Constructor
@@ -5,6 +10,11 @@ public class Antibiotic extends Cure {
         super(name, ID, efficacyRate);
     }
 
+    /*
+    * Applies the antibiotic cure to a person, enhancing their immunity level based on their age.
+    * The efficacy of the antibiotic is adjusted based on the person's age group
+    * @param person The person to whom the antibiotic is applied.
+    */
     public void applyTo(Person person) {
         double efficacy = this.getEfficacyRate();
         double newImmunity = person.getBaseImmunityLevel();
@@ -24,7 +34,10 @@ public class Antibiotic extends Cure {
         person.setBaseImmunityLevel(newImmunity);
     }
 
-    @Override
+    /*
+    * Returns a string representation of the antibiotic cure, including its name and efficacy rate.
+    * @return A string representation of the antibiotic cure.
+    */
     public String toString() {
         return this.getName() + "\nAntibiotic\n" + this.getEfficacyRate();
     }

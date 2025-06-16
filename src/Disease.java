@@ -1,3 +1,8 @@
+/*
+Filename: Disease.java
+Description: This class represents a disease with properties such as name, disease ID, transmission rate, mortality rate, and the number of infected individuals. It includes methods for infection, symptom display, and comparison of mortality rates. The class is abstract, requiring subclasses to implement the spread method.
+*/
+
 public abstract class Disease {
     private String name;
     private int diseaseID;

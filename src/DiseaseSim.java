@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class DiseaseSim {
-    public static final int MAP_LENGTH = 100;
-    public static final int MAP_WIDTH = 100;
+    public static final int MAP_LENGTH = 10;
+    public static final int MAP_WIDTH = 10;
 
     private int population;
     private int populationInfected;
@@ -13,8 +13,10 @@ public class DiseaseSim {
     private Region[][] regionMap; //parallel array with populationMap
     private Disease chosenDisease;
     private int x, y;
-    private int numInfected;
-    private int days;
+    private int numDead;
+    private int numHealthy;
+    private int totalDaysToInfect;
+    private int currentDay;
     private int[][] infectedPeople;
 
     public DiseaseSim(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String regionFile, int x, int y, int days) {
@@ -25,8 +27,11 @@ public class DiseaseSim {
         this.populationInfected = 0; //initialize infected population to 0
         this.x = x;
         this.y = y;
-        this.days = days;
-        numInfected = 0;
+        this.totalDaysToInfect = days;
+        currentDay = 0;
+        populationInfected = 0;
+        numHealthy = population;
+        numDead = 0;
         
         //initialize populationMap and regionMap
         populationMap = new Person[MAP_LENGTH][MAP_WIDTH]; //initialize people by reading in people file
@@ -55,7 +60,6 @@ public class DiseaseSim {
                     }
                 }
             }
-            in.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         } catch (IOException e) {
@@ -69,7 +73,7 @@ public class DiseaseSim {
                 for (int j = 0; j < MAP_WIDTH; j++) {
                     char regionType = in.readLine().charAt(0);
                     int temp = Integer.parseInt(in.readLine());
-                    if (regionType == 'c' || regionType == 'c') { //cold region
+                    if (regionType == 'c' || regionType == 'C') { //cold region
                         boolean snowCoverage = in.readLine().charAt(0) == 'Y';
                         boolean crowdedIndoors = in.readLine().charAt(0) == 'Y';
                         regionMap[i][j] = new Cold(regionType, temp, snowCoverage, crowdedIndoors);
@@ -81,7 +85,6 @@ public class DiseaseSim {
                 }
             }
         
-            in.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not fouund");
         } catch (IOException e) {
@@ -133,12 +136,13 @@ public class DiseaseSim {
     public int getY() {
         return y;
     }
-    public int getNumInfected() {
-        return numInfected;
+    public int getTotalDaysToInfect() {
+        return totalDaysToInfect;
     }
-    public int getDays() {
-        return days;
+    public int getCurrentDay() {
+        return currentDay;
     }
+
     public void setPopulation(int population) {
         this.population = population;
     }
@@ -166,11 +170,8 @@ public class DiseaseSim {
     public void setY(int y) {
         this.y = y;
     }
-    public void setNumInfected(int numInfected) {
-        this.numInfected = numInfected;
-    }
-    public void setDays(int days) {
-        this.days = days;
+    public void settDays(int days) {
+        this.totalDaysToInfect = days;
     }
 
     //Save the current state of the simulation to files
@@ -200,7 +201,6 @@ public class DiseaseSim {
                         }
                     }
                 }
-                out.close();
             }
 
             // Save cure data
@@ -239,7 +239,6 @@ public class DiseaseSim {
                 out.write("Chosen Disease: " + chosenDisease.getName() + "\n");
                 out.write("Starting X: " + x + "\n");
                 out.write("Starting Y: " + y + "\n");
-                out.write("Number of Infected: " + numInfected + "\n");
             }
             
             return true; // Save successful
@@ -250,9 +249,35 @@ public class DiseaseSim {
     }
 
     // Simulate one step of disease spread
-    public void simulateSpread() {
-        numInfected += chosenDisease.spread(populationMap, x, y, days, infectedPeople);
+    public void simulateSpread(int days) {
+        populationInfected += chosenDisease.spread(populationMap, x, y, days, infectedPeople);
+        numDead = countDead();
+        numHealthy = countHealthy();
+        
         // Update map or other simulation state as needed
+    }
+
+    public void applyCuresOverDays(int numToCurePerDay, int numDays) {
+        Cure cure = cureDatabase.searchByDisease(chosenDisease);
+        if (cure == null) {
+            System.out.println("No cure found for the selected disease.");
+            return;
+        }
+
+        for (int day = 1; day <= numDays; day++) {
+            System.out.println("Day " + day + ": Applying cure to " + numToCurePerDay + " people...");
+            for (int i = 0; i < numToCurePerDay; i++) {
+                int row = (int) (Math.random() * MAP_LENGTH);
+                int col = (int) (Math.random() * MAP_WIDTH);
+
+                Person person = populationMap[row][col];
+                if (person != null) {
+                    person.setCure(cure);
+                }
+            }
+        }
+
+        System.out.println("Cure applied over " + numDays + " days.");
     }
 
     public int countDead() {
@@ -282,7 +307,7 @@ public class DiseaseSim {
     }
 
     public double getInfectionRate() {
-        return (double) numInfected / population;
+        return (double) populationInfected / population;
     }
 
     public double getTotalMortalityRate() {
