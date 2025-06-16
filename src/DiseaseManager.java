@@ -41,7 +41,6 @@ public class DiseaseManager {
                 }
                 in.readLine();
             }
-
             in.close();
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());

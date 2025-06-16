@@ -103,7 +103,11 @@ public abstract class Disease {
      * @return A string representation of the disease.
      */
     public String toString() {
-        return name +"\n" + "Disease\n" + transmissionRate + "\n" + mortalityRate + "\n";
+        return "Name: " + name + 
+               "\n\t Disease ID: " + diseaseID + 
+               "\n\t Transmission Rate: " + transmissionRate + 
+               "\n\t Mortality Rate: " + mortalityRate + 
+               "\n\t Number of Infected: " + numInfected;
     }
 
 }

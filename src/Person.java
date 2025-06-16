@@ -45,17 +45,6 @@ public abstract class Person {
     public int getAge() {
         return age;
     }
-    public String getAgeCategory() {
-        if (age > 0 && age < CHILD){
-            return "Child";
-        } else if (age >= CHILD && age <= SENIOR) {
-            return "Adult";
-        } else if (age >= SENIOR && age <= AGE_LIMIT) {
-            return "Senior";
-        } else {
-            return "Invalid age";
-        }
-    }
     public char getHealthStatus() {
         return healthStatus;
     }

@@ -68,6 +68,7 @@ public class CureManager {
                 } else {
                     System.out.println("Unknown cure type: " + type);
                 }
+                in.readLine();
             }
             in.close();
             return true;

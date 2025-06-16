@@ -47,37 +47,43 @@ public class Virus extends Disease {
 
         if (infectedDays[x][y] != -1 && infectedDays[x][y] <= currentDay) return new int[]{0, 0};
 
-        infectedDays[x][y] = currentDay;
-
         int infectedCount = 0;
         int deathCount = 0;
 
         if (current.isHealthy()) {
             boolean infected = this.infect(current);
-            if (!infected) return new int[]{0, 0};
+            if (!infected) return new int[]{0, 0}; // stop if can't infect
+
+            infectedDays[x][y] = currentDay; // only mark as infected if infection succeeds
             infectedCount++;
 
             if (current.killedByDisease(this)) {
                 deathCount++;
+            }
+        } else {
+            infectedDays[x][y] = currentDay; // aready infected or immune but mark visit to avoid revisiting
         }
+
+        int[][] directions = {
+            {-1, 0}, {0, 1},
+            {1, 0}, {0, -1}
+        };
+
+        for (int[] dir : directions) {
+            int nx = x + dir[0];
+            int ny = y + dir[1];
+
+            if (nx >= 0 && nx < grid.length && ny >= 0 && ny < grid[0].length) { // check bounds
+                
+                int[] result = spreadFromOrigin(grid, nx, ny, currentDay + 1, dayLimit, infectedDays);
+                infectedCount += result[0];
+                deathCount += result[1];
+            }
+        }
+
+        return new int[]{infectedCount, deathCount};
     }
 
-    int[][] directions = {
-        {-1, 0}, {0, 1},
-        {1, 0}, {0, -1},
-    };
-
-    for (int[] dir : directions) {
-        int nx = x + dir[0];
-        int ny = y + dir[1];
-
-        int[] result = spreadFromOrigin(grid, nx, ny, currentDay + 1, dayLimit, infectedDays);
-        infectedCount += result[0];
-        deathCount += result[1];
-    }
-
-    return new int[]{infectedCount, deathCount};
-}
 
     /*
      * Method to infect a person based on the disease's transmission rate and the person's health status.
