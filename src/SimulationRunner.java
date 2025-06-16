@@ -267,103 +267,116 @@ public class SimulationRunner {
         }
 
 
-        System.out.println("\n============== SIMULATION SETUP ==============");
+        boolean runAgain = true;
 
-        Disease chosenDisease = null;
-        while (chosenDisease == null) {
-            System.out.print("Enter disease name: ");
-            String diseaseName = input.nextLine();
-            chosenDisease = diseaseManager.searchByName(diseaseName);
-            if (chosenDisease == null) {
-                System.out.println("Disease not found in the database. Please try again.");
-            }
-        }
+        while (runAgain) {
+            System.out.println("\n============== SIMULATION SETUP ==============");
 
-        System.out.print("Enter the people file name: (people.txt) ");
-        peopleFile = input.nextLine();
-
-        System.out.print("Enter the region file name: (regions.txt) ");
-        regionFile = input.nextLine(); 
-
-        int x = -1, y = -1;
-        // Get valid x coordinate
-        boolean validX = false;
-        while (!validX) {
-            try {
-                System.out.print("Enter starting x coordinate (0-9): ");
-                x = input.nextInt();
-                if (x >= 0 && x <= 9) {
-                    validX = true;
-                } else {
-                    System.out.println("X must be between 0 and 9.");
+            Disease chosenDisease = null;
+            while (chosenDisease == null) {
+                System.out.print("Enter disease name: ");
+                String diseaseName = input.nextLine();
+                chosenDisease = diseaseManager.searchByName(diseaseName);
+                if (chosenDisease == null) {
+                    System.out.println("Disease not found in the database. Please try again.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter an integer.");
-                input.next(); // Clear the invalid token
             }
-        }
 
-        // Get valid y coordinate
-        boolean validY = false;
-        while (!validY) {
-            try {
-                System.out.print("Enter starting y coordinate (0-9): ");
-                y = input.nextInt();
-                if (y >= 0 && y <= 9) {
-                    validY = true;
-                } else {
-                    System.out.println("Y must be between 0 and 9.");
+            System.out.print("Enter the people file name: (people.txt) ");
+            peopleFile = input.nextLine();
+
+            System.out.print("Enter the region file name: (regions.txt) ");
+            regionFile = input.nextLine(); 
+
+            int x = -1, y = -1;
+            boolean validX = false;
+            while (!validX) {
+                try {
+                    System.out.print("Enter starting x coordinate (1-10): ");
+                    x = input.nextInt();
+                    if (x >= 1 && x <= 10) {
+                        validX = true;
+                    } else {
+                        System.out.println("X must be between 1 and 10.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter an integer.");
+                    input.next(); // clear
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter an integer.");
-                input.next(); // Clear the invalid token
             }
-        }
-        
-        System.out.print("Do you want to apply cures during the simulation? (yes/no): ");
-        input.nextLine(); // consume newline
-        String applyCureResponse = input.nextLine();
-        boolean applyCure = applyCureResponse.equalsIgnoreCase("yes");
 
-        System.out.println();
-        simulation = new DiseaseSim(chosenDisease, cureFile, diseaseFile, peopleFile, regionFile, x, y); 
-        System.out.println();
+            boolean validY = false;
+            while (!validY) {
+                try {
+                    System.out.print("Enter starting y coordinate (1-10): ");
+                    y = input.nextInt();
+                    if (y >= 1 && y <= 10) {
+                        validY = true;
+                    } else {
+                        System.out.println("Y must be between 1 and 10.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter an integer.");
+                    input.next(); // clear
+                }
+            }
 
-        System.out.println("Simulation initialized with the following parameters:");
-        System.out.println("Disease: \n" + chosenDisease);
-        System.out.printf("Cure File: %s\n", cureFile);
-        System.out.printf("Starting Coordinates: (%d, %d)\n", x, y);
-        if (applyCure) {
-            System.out.print("Enter number of people to cure per day: ");
-            int numToCure = input.nextInt();
-            simulation.applyCuresOverDays(numToCure, 1);
-        }
-        
-        boolean finished = false;
-        while (!finished) {
-            System.out.print("Enter number of days to simulate (0 to stop): ");
-            int days = input.nextInt();
-            if (days <= 0) {
-                System.out.println("Simulation stopped by user.");
-                finished = true;
-            } else {
-                System.out.printf("Total Days to Simulate: %d\n", days);
+            input.nextLine(); // consume leftover newline
+            System.out.print("Do you want to apply cures during the simulation? (yes/no): ");
+            String applyCureResponse = input.nextLine();
+            boolean applyCure = applyCureResponse.equalsIgnoreCase("yes");
+
+            simulation = new DiseaseSim(chosenDisease, cureFile, diseaseFile, peopleFile, regionFile, x, y); 
+            System.out.println("\nSimulation initialized with the following parameters:");
+            System.out.println("Disease: \n" + chosenDisease + "\n");
+            System.out.printf("Cure File: %s\n", cureFile);
+            System.out.printf("Starting Coordinates: (%d, %d)\n", x, y);
             
-                simulation.simulateSpread(days); 
+            // int numToCure = 0;
+            // if (applyCure) {
+            //     System.out.print("Enter number of people to cure per day: ");
+            //     numToCure = input.nextInt();
+            // }
 
-                System.out.printf("Infection Rate: %.2f%%\n", simulation.getInfectionRate() * 100);
-                System.out.printf("Mortality Rate: %.2f%%\n", simulation.getTotalMortalityRate() * 100);
+            boolean finished = false;
+            while (!finished) {
+                System.out.print("Enter number of days to simulate (0 to stop): ");
+                int days = input.nextInt();
+                
+                // if(applyCure) {
+                //     simulation.applyCuresOverDays(numToCure, days);
+                // } 
 
-                System.out.println("\nSimulation Complete.");
-                System.out.printf("Total Infected: %d out of %d\n", simulation.getPopulationInfected(), simulation.getPopulation());
-
-                simulation.printMap();
-                if (simulation.isEveryoneInfectedOrDead(simulation.getPopulationMap())) {
-                    System.out.println("All individuals are either infected or dead.");
+                if (days <= 0) {
+                    System.out.println("Simulation stopped by user.");
                     finished = true;
+                } else {
+                    System.out.printf("Total Days to Simulate: %d\n", days);
+
+                    simulation.simulateSpread(days); 
+
+                    System.out.printf("Infection Rate: %.2f%%\n", simulation.getInfectionRate() * 100);
+                    System.out.printf("Mortality Rate: %.2f%%\n", simulation.getTotalMortalityRate() * 100);
+
+                    System.out.println("\nSimulation Complete.");
+                    System.out.printf("Total Infected: %d out of %d\n", simulation.getPopulationInfected(), simulation.getPopulation());
+
+                    simulation.displayMap(simulation.getPopulationMap());
+                    if (simulation.isEveryoneInfectedOrDead(simulation.getPopulationMap())) {
+                        System.out.println("All individuals are either infected or dead.");
+                        finished = true;
+                    }
                 }
+            }
+
+            input.nextLine(); // clear buffer
+            System.out.print("\nDo you want to run another simulation? (yes/no): ");
+            String response = input.nextLine();
+            if (!response.equalsIgnoreCase("yes")) {
+                runAgain = false;
+                System.out.println("Exiting simulation program. Goodbye.");
             }
         }
         input.close();
-    } 
+    }
 }

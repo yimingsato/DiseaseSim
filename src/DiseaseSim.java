@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class DiseaseSim {
-    public static final int MAP_LENGTH = 10;
-    public static final int MAP_WIDTH = 10;
+    public static final int MAP_LENGTH = 11; //Borders will be padded with null values
+    public static final int MAP_WIDTH = 11;
 
     private int population;
     private int populationInfected;
@@ -21,7 +21,7 @@ public class DiseaseSim {
         this.chosenDisease = disease;
         this.cureDatabase = new CureManager(cureFileName); //initialize cureDatabase
         this.diseaseDatabase = new DiseaseManager(diseaseFileName);
-        this.population = MAP_LENGTH * MAP_WIDTH; //total population is the size of the map
+        this.population = (MAP_LENGTH-2) * (MAP_WIDTH-2); //total population is the size of the map
         this.populationInfected = 0; //initialize infected population to 0
         this.x = x;
         this.y = y;
@@ -32,8 +32,8 @@ public class DiseaseSim {
         //initialize populationMap and regionMap
         populationMap = new Person[MAP_LENGTH][MAP_WIDTH]; //initialize people by reading in people file
         try (BufferedReader in = new BufferedReader(new FileReader(peopleFileName))) {
-            for (int i = 0; i < MAP_LENGTH; i++) {
-                for (int j = 0; j < MAP_WIDTH; j++) {   
+            for (int i = 1; i < MAP_LENGTH-1; i++) {
+                for (int j = 1; j < MAP_WIDTH-1; j++) {   
                     int personID = Integer.parseInt(in.readLine());
                     int age = Integer.parseInt(in.readLine());
                     char healthStatus = Person.HEALTHY; //everyone starts out healthy
@@ -65,8 +65,8 @@ public class DiseaseSim {
         //initialize regionMap by reading in region file
         regionMap = new Region[MAP_LENGTH][MAP_WIDTH];
         try (BufferedReader in = new BufferedReader(new FileReader(regionFile))) {
-            for (int i = 0; i < MAP_LENGTH; i++) {
-                for (int j = 0; j < MAP_WIDTH; j++) {
+            for (int i = 1; i < MAP_LENGTH-1; i++) {
+                for (int j = 1; j < MAP_WIDTH-1; j++) {
                     char regionType = in.readLine().charAt(0);
                     int temp = Integer.parseInt(in.readLine());
                     if (regionType == 'c' || regionType == 'C') { //cold region
@@ -247,28 +247,9 @@ public class DiseaseSim {
         // Update map or other simulation state as needed
     }
 
-    public void applyCuresOverDays(int numToCurePerDay, int numDays) {
-        Cure cure = cureDatabase.searchByDisease(chosenDisease);
-        if (cure == null) {
-            System.out.println("No cure found for the selected disease.");
-            return;
-        }
-
-        for (int day = 1; day <= numDays; day++) {
-            System.out.println("Day " + day + ": Applying cure to " + numToCurePerDay + " people...");
-            for (int i = 0; i < numToCurePerDay; i++) {
-                int row = (int) (Math.random() * MAP_LENGTH);
-                int col = (int) (Math.random() * MAP_WIDTH);
-
-                Person person = populationMap[row][col];
-                if (person != null) {
-                    person.setCure(cure);
-                }
-            }
-        }
-
-        System.out.println("Cure applied over " + numDays + " days.");
-    }
+    // public void applyCuresRandomly(int numToCure) {
+        
+    // }
 
     public int countHealthy() {
         int count = 0;
@@ -292,22 +273,6 @@ public class DiseaseSim {
         return (double) numDead / population;
     }
 
-    //pritn health status map
-    public void printMap() {
-        for (int i = 0; i < MAP_LENGTH; i++) {
-            for (int j = 0; j < MAP_WIDTH; j++) {
-                Person person = populationMap[i][j];
-                if (person != null) {
-                    char healthStatus = person.getHealthStatus();
-                    System.out.print(healthStatus + " ");
-                } else {
-                    System.out.print("N "); // N for no person
-                }
-            }
-            System.out.println();
-        }
-    }
-
     //print region map
     public void printRegionMap() {
         for (int i = 0; i < MAP_LENGTH; i++) {
@@ -316,7 +281,7 @@ public class DiseaseSim {
                 if (region != null) {
                     System.out.print(region.getName() + " ");
                 } else {
-                    System.out.print("N "); // N for no region
+                    System.out.print(". "); // N for no region
                 }
             }
             System.out.println();

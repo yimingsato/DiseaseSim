@@ -1,6 +1,6 @@
 5
 Bacteria
-Staphylococcus Aureus
+Staphylococcus
 1
 0.65
 0.30
@@ -14,7 +14,7 @@ Influenza A
 0.25
 
 Bacteria
-Escherichia Coli
+E. Coli
 3
 0.50
 0.15
@@ -28,7 +28,7 @@ HIV
 0.95
 
 Bacteria
-Mycobacterium Tuberculosis
+Tuberculosis
 5
 0.70
 0.60
