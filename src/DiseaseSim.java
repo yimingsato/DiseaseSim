@@ -15,10 +15,9 @@ public class DiseaseSim {
     private int x, y;
     private int numDead;
     private int numHealthy;
-    private int totalDaysToInfect;
     private int[][] infectedPeople;
 
-    public DiseaseSim(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String regionFile, int x, int y, int days) {
+    public DiseaseSim(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String regionFile, int x, int y) {
         this.chosenDisease = disease;
         this.cureDatabase = new CureManager(cureFileName); //initialize cureDatabase
         this.diseaseDatabase = new DiseaseManager(diseaseFileName);
@@ -26,7 +25,6 @@ public class DiseaseSim {
         this.populationInfected = 0; //initialize infected population to 0
         this.x = x;
         this.y = y;
-        this.totalDaysToInfect = days;
         populationInfected = 0;
         numHealthy = population;
         numDead = 0;
@@ -136,9 +134,6 @@ public class DiseaseSim {
     public int getY() {
         return y;
     }
-    public int getTotalDaysToInfect() {
-        return totalDaysToInfect;
-    }
     public void setPopulation(int population) {
         this.population = population;
     }
@@ -166,10 +161,7 @@ public class DiseaseSim {
     public void setY(int y) {
         this.y = y;
     }
-    public void settDays(int days) {
-        this.totalDaysToInfect = days;
-    }
-
+    
     //Save the current state of the simulation to files
     public boolean saveToFile(String peopleFileName, String cureFileName, String diseaseFileName, String regionFile, String simulationData) {
         try {
@@ -331,7 +323,7 @@ public class DiseaseSim {
         }
     }
 
-    public static void displayMap(Person[][] people) {
+    public void displayMap(Person[][] people) {
         char[][] map = new char[people.length][people[0].length];
 
         for (int i = 0; i < people.length; i++) {
@@ -341,9 +333,9 @@ public class DiseaseSim {
                     map[i][j] = '.';
                 } else {
                     switch (p.getHealthStatus()) {
-                        case 'H' -> map[i][j] = 'H';
-                        case 'I' -> map[i][j] = 'I';
-                        case 'D' -> map[i][j] = 'D';
+                        case Person.HEALTHY -> map[i][j] = 'H';
+                        case Person.INFECTED -> map[i][j] = 'I';
+                        case Person.DEAD -> map[i][j] = 'D';
                         default -> map[i][j] = '?';
                     }
                 }
@@ -356,6 +348,17 @@ public class DiseaseSim {
             }
             System.out.println();
         }
+    }
+
+    public boolean isEveryoneInfectedOrDead(Person[][] people) {
+        for (Person[] row : people) {
+            for (Person p : row) {
+                if (p != null && p.getHealthStatus() != Person.INFECTED && p.getHealthStatus() != Person.DEAD) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     
