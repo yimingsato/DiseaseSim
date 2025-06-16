@@ -1,8 +1,20 @@
+/*
+Filename: Hot.java
+Description: This class represents a hot region with properties such as healthy sun exposure and dry climate. It extends the Region class and overrides methods to calculate the influence of these properties on disease transmission rates.
+*/
+
 public class Hot extends Region{
     private boolean healthySunExposure;
     private boolean dryClimate;
 
-    //Accessor/Mutator
+    //Constructor
+    public Hot(char name, int temp, boolean healthySunExposure, boolean dryClimate) {
+        super(name, temp);
+        this.healthySunExposure = healthySunExposure;
+        this.dryClimate = dryClimate;
+    }
+
+    //Accessor and Mutator methods
     public boolean isHealthySunExposure() {
         return healthySunExposure;
     }
@@ -15,15 +27,12 @@ public class Hot extends Region{
     public void setDryClimate(boolean dryClimate) {
         this.dryClimate = dryClimate;
     }
-    //Hot(String, double, int, double, int, int)
-    public Hot(char name, int temp, boolean healthySunExposure, boolean dryClimate) {
-        super(name, temp);
-        this.healthySunExposure = healthySunExposure;
-        this.dryClimate = dryClimate;
-    }
 
-    //calcInfectionRateInfluence(int baseInfectionRate ); returns a modified transmission rate
-    @Override
+    /*
+     * Calculates the influence of the region's properties on the infection rate of a disease.
+     * @param d The Disease object for which the infection rate influence is calculated.
+     * @return The adjusted transmission rate based on the region's properties.
+     */
     public double calcInfectionRateInfluence(Disease d) {
         double transmissionRate = d.getTransmissionRate();
         if (d instanceof Virus) {
@@ -44,7 +53,7 @@ public class Hot extends Region{
         return Math.max(0, Math.min(1, transmissionRate)); // Ensure transmission rate is between 0 and 1
     }
 
-    @Override
+    /`
     public String toString() {
         return "Hot{" +
                 "name=" + getName() +
