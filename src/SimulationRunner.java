@@ -17,7 +17,7 @@ public class SimulationRunner {
         boolean setupComplete = false;
 
         while (!setupComplete) {
-            System.out.println("\n==== DISEASE & CURE DATABASE SETUP MENU (1 & 13 must be done first) ====");
+            System.out.println("\n==== DISEASE & CURE DATABASE SETUP MENU (1 & 12 must be done first) ====");
             System.out.println("1. Load Diseases from File");
             System.out.println("2. Save Diseases to a File");
             System.out.println("3. Add Disease");
@@ -177,7 +177,7 @@ public class SimulationRunner {
                                 String saveFile = input.nextLine();
                                 cureManager.saveCures(saveFile);
                             } else {
-                                System.out.println("Please load cures first (option 13).");
+                                System.out.println("Please load cures first (option 12).");
                             }
                         }
                         case 14 -> {
@@ -199,7 +199,7 @@ public class SimulationRunner {
                                     System.out.println("Invalid cure type.");
                                 }
                             } else {
-                                System.out.println("Please load cures first (option 13).");
+                                System.out.println("Please load cures first (option 12).");
                             }
                         }
                         case 15 -> {
@@ -209,7 +209,7 @@ public class SimulationRunner {
                                 Disease disease = diseaseManager.searchByID(id);
                                 cureManager.searchByDisease(disease);
                             } else {
-                                System.out.println("Please load cures first (option 13).");
+                                System.out.println("Please load cures first (option 12).");
                             }
                         }
                         case 16 -> {
@@ -218,42 +218,42 @@ public class SimulationRunner {
                                 int id = Integer.parseInt(input.nextLine());
                                 cureManager.searchByID(id);
                             } else {
-                                System.out.println("Please load cures first (option 13).");
+                                System.out.println("Please load cures first (option 12).");
                             }
                         }
                         case 17 -> {
                             if (curesLoaded) {
                                 cureManager.sortByEfficacyRate();
                             } else {
-                                System.out.println("Please load cures first (option 13).");
+                                System.out.println("Please load cures first (option 12).");
                             }
                         }
                         case 18 -> {
                             if (curesLoaded) {
                                 cureManager.listAllCures();
                             } else {
-                                System.out.println("Please load cures first (option 13).");
+                                System.out.println("Please load cures first (option 12).");
                             }
                         }
                         case 19 -> {
                             if (curesLoaded) {
                                 cureManager.listAllAntibiotics();
                             } else {
-                                System.out.println("Please load cures first (option 13).");
+                                System.out.println("Please load cures first (option 12).");
                             }
                         }
                         case 20 -> {
                             if (curesLoaded) {
                                 cureManager.listAllVaccines();
                             } else {
-                                System.out.println("Please load cures first (option 13).");
+                                System.out.println("Please load cures first (option 12).");
                             }
                         }
                         case 0 -> {
                             if (diseasesLoaded && curesLoaded) {
                                 setupComplete = true;
                             } else {
-                                System.out.println("You must load both diseases (1) and cures (13) first.");
+                                System.out.println("You must load both diseases (1) and cures (12) first.");
                             }
                         }
                         default -> System.out.println("Invalid choice. Try again.");
