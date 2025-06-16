@@ -132,6 +132,21 @@ public class DiseaseManager {
         return false;
     }
 
+    /* Method to find the index of a disease by its id.
+     * @param name The name of the disease to search for.
+     * @return the index of the disease if found, -1 otherwise.
+     */
+
+    public int indexOfDisease(int id) {
+        for (int i = 0; i < diseases.size(); i++) {
+            if (diseases.get(i).getDiseaseID() == id) {
+                return i;
+            }
+        }
+        return -1; // not found
+    }
+
+
     /* 
      * Method to find the most deadly disease in the collection.
      * @return the Disease object with the highest mortality rate, or null if the list is empty.
@@ -201,7 +216,7 @@ public class DiseaseManager {
      * It assumes that the diseases list is sorted by ID.
      * @return the Disease object with the targetID.
      */
-    public Disease binarySearchByID(int targetID) {
+    public Disease searchByID(int targetID) {
         int bottom = 0;
         int top = diseases.size() - 1;
 
@@ -259,17 +274,5 @@ public class DiseaseManager {
      */
     public ArrayList<Disease> getDiseases() {
         return diseases;
-    }
-
-    /* 
-     * Method to get a disease by its ID.
-     * @param id The ID of the disease to search for.
-     * @return the Disease object if found, null otherwise.
-     */
-    public Disease getDiseaseByID(int id) {
-        for (Disease d : diseases) {
-            if (d.getDiseaseID() == id) return d;
-        }
-        return null;
     }
 }

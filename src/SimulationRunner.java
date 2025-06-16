@@ -10,18 +10,37 @@ public class SimulationRunner {
 
         DiseaseManager diseaseManager = null;
         CureManager cureManager = null;
-        DiseaseSim diseaseSim = null;
+        DiseaseSim simulation = null;
 
+        boolean diseasesLoaded = false;
+        boolean curesLoaded = false;
         boolean setupComplete = false;
+
         while (!setupComplete) {
-            System.out.println("\n==== DATABASE SETUP MENU ==== (1 and 2 must be done initally)");
+            System.out.println("\n==== DISEASE & CURE DATABASE SETUP MENU (1 & 13 must be done first) ====");
             System.out.println("1. Load Diseases from File");
-            System.out.println("2. Load Cures from File");
+            System.out.println("2. Save Diseases to a File");
             System.out.println("3. Add Disease");
-            System.out.println("4. Add Cure");
-            System.out.println("5. List Diseases");
-            System.out.println("6. List Cures");
-            System.out.println("0. Proceed to Simulation");
+            System.out.println("4. Remove Disease (Will also remove associated cure)");
+            System.out.println("5. Search Disease by Name (Linear)");
+            System.out.println("6. Search Disease by ID (Binary, assumes sorted by ID)");
+            System.out.println("7. Sort by ID");
+            System.out.println("8. Sort by Mortality Rate");
+            System.out.println("9. List Diseases");
+            System.out.println("10. List Bacteria");
+            System.out.println("11. List Viruses");
+
+            System.out.println("12. Load Cures from File");
+            System.out.println("13. Save Cures to a File");
+            System.out.println("14. Add Cure");
+            System.out.println("15. Search Cure by Disease");
+            System.out.println("16. Search Cure by ID");
+            System.out.println("17. Sort Cures by Efficacy Rate");
+            System.out.println("18. List Cures");
+            System.out.println("19. List Antibiotics");
+            System.out.println("20. List Vaccines");
+
+            System.out.println("\n0. BEGIN SIMULATION");
 
             boolean validChoice = false;
             while (!validChoice) {
@@ -29,65 +48,220 @@ public class SimulationRunner {
                 try {
                     int choice = input.nextInt();
                     input.nextLine(); // consume newline
+                    validChoice = true;
+
                     switch (choice) {
                         case 1 -> {
                             System.out.print("Enter disease file name: ");
                             diseaseFile = input.nextLine();
                             diseaseManager = new DiseaseManager(diseaseFile);
+                            diseasesLoaded = true;
                         }
                         case 2 -> {
-                            System.out.print("Enter cure file name: ");
-                            cureFile = input.nextLine();
-                            cureManager = new CureManager(cureFile);
+                            if (diseasesLoaded) {
+                                System.out.println("Enter disease file name to save: ");
+                                String saveFile = input.nextLine();
+                                diseaseManager.saveDiseases(saveFile);
+                            } else {
+                                System.out.println("Please load diseases first (option 1).");
+                            }
                         }
                         case 3 -> {
-                            System.out.print("Enter type (Bacteria/Virus): ");
-                            String type = input.nextLine();
-                            System.out.print("Enter name: ");
-                            String name = input.nextLine();
-                            System.out.print("Enter ID: ");
-                            int id = Integer.parseInt(input.nextLine());
-                            System.out.print("Enter transmission rate: ");
-                            double tRate = Double.parseDouble(input.nextLine());
-                            System.out.print("Enter mortality rate: ");
-                            double mRate = Double.parseDouble(input.nextLine());
+                            if (diseasesLoaded) {
+                                System.out.print("Enter type (Bacteria/Virus): ");
+                                String type = input.nextLine();
+                                System.out.print("Enter name: ");
+                                String name = input.nextLine();
+                                System.out.print("Enter ID: ");
+                                int id = Integer.parseInt(input.nextLine());
+                                System.out.print("Enter transmission rate: ");
+                                double tRate = Double.parseDouble(input.nextLine());
+                                System.out.print("Enter mortality rate: ");
+                                double mRate = Double.parseDouble(input.nextLine());
 
-                            if (type.equalsIgnoreCase("Bacteria")) {
-                                System.out.print("Enter resistance level: ");
-                                double resistance = Double.parseDouble(input.nextLine());
-                                diseaseManager.addDisease(new Bacteria(name, id, tRate, mRate, resistance));
-                            } else if (type.equalsIgnoreCase("Virus")) {
-                                System.out.print("Enter mutation rate: ");
-                                double mutation = Double.parseDouble(input.nextLine());
-                                diseaseManager.addDisease(new Virus(name, id, tRate, mRate, mutation));
+                                if (type.equalsIgnoreCase("Bacteria")) {
+                                    System.out.print("Enter resistance level: ");
+                                    double resistance = Double.parseDouble(input.nextLine());
+                                    diseaseManager.addDisease(new Bacteria(name, id, tRate, mRate, resistance));
+                                } else if (type.equalsIgnoreCase("Virus")) {
+                                    System.out.print("Enter mutation rate: ");
+                                    double mutation = Double.parseDouble(input.nextLine());
+                                    diseaseManager.addDisease(new Virus(name, id, tRate, mRate, mutation));
+                                } else {
+                                    System.out.println("Invalid disease type.");
+                                }
+                            } else {
+                                System.out.println("Please load diseases first (option 1).");
                             }
                         }
                         case 4 -> {
-                            System.out.print("Enter type (Vaccine/Antibiotic): ");
-                            String type = input.nextLine();
-                            System.out.print("Enter name: ");
-                            String name = input.nextLine();
-                            System.out.print("Enter ID: ");
-                            int id = Integer.parseInt(input.nextLine());
-                            System.out.print("Enter efficacy rate: ");
-                            double eff = Double.parseDouble(input.nextLine());
-
-                            if (type.equalsIgnoreCase("Vaccine")) {
-                                cureManager.addCure(new Vaccine(name, id, eff));
-                            } else if (type.equalsIgnoreCase("Antibiotic")) {
-                                cureManager.addCure(new Antibiotic(name, id, eff));
+                            if (diseasesLoaded && curesLoaded) {
+                                System.out.print("Enter disease ID to remove: ");
+                                int id = Integer.parseInt(input.nextLine());
+                                diseaseManager.indexOfDisease(id); 
+                                if (diseaseManager.indexOfDisease(id) == -1) {
+                                    System.out.println("Disease with ID " + id + " not found.");
+                                    
+                                } else {
+                                    diseaseManager.removeDisease(id);
+                                    cureManager.removeCure(id); 
+                                    System.out.println("Disease with ID " + id + " and associated cure removed successfully.");     
+                                }
+                                
+                            } else {
+                                System.out.println("Please load both diseases and cures first.");
                             }
                         }
-                        case 5 -> diseaseManager.listAllDisease();
-                        case 6 -> cureManager.listAllCures();
-                        case 0 -> setupComplete = true;
+                        case 5 -> {
+                            if (diseasesLoaded) {
+                                System.out.print("Enter disease name: ");
+                                String name = input.nextLine();
+                                diseaseManager.searchByName(name);
+                            } else {
+                                System.out.println("Please load diseases first (option 1).");
+                            }
+                        }
+                        case 6 -> {
+                            if (diseasesLoaded) {
+                                System.out.print("Enter disease ID: ");
+                                int id = Integer.parseInt(input.nextLine());
+                                diseaseManager.searchByID(id);
+                            } else {
+                                System.out.println("Please load diseases first (option 1).");
+                            }
+                        }
+                        case 7 -> {
+                            if (diseasesLoaded) {
+                                diseaseManager.sortByID();;
+                            } else {
+                                System.out.println("Please load diseases first (option 1).");
+                            }
+                        }
+                        case 8 -> {
+                            if (diseasesLoaded) {
+                                diseaseManager.sortByMortality();
+                            } else {
+                                System.out.println("Please load diseases first (option 1).");
+                            }
+                        }
+                        case 9 -> {
+                            if (diseasesLoaded) {
+                                diseaseManager.listAllDisease();
+                            } else {
+                                System.out.println("Please load diseases first (option 1).");
+                            }
+                        }
+                        case 10 -> {
+                            if (diseasesLoaded) {
+                                diseaseManager.listBacteria();
+                            } else {
+                                System.out.println("Please load diseases first (option 1).");
+                            }
+                        }
+                        case 11 -> {
+                            if (diseasesLoaded) {
+                                diseaseManager.listVirus();
+                            } else {
+                                System.out.println("Please load diseases first (option 1).");
+                            }
+                        }
+                        case 12 -> {
+                            System.out.print("Enter cure file name: ");
+                            cureFile = input.nextLine();
+                            cureManager = new CureManager(cureFile);
+                            curesLoaded = true;
+                        }
+                        case 13 -> {
+                            if (curesLoaded) {
+                                System.out.println("Enter cure file name to save: ");
+                                String saveFile = input.nextLine();
+                                cureManager.saveCures(saveFile);
+                            } else {
+                                System.out.println("Please load cures first (option 13).");
+                            }
+                        }
+                        case 14 -> {
+                            if (curesLoaded) {
+                                System.out.print("Enter type (Vaccine/Antibiotic): ");
+                                String type = input.nextLine();
+                                System.out.print("Enter name: ");
+                                String name = input.nextLine();
+                                System.out.print("Enter ID: ");
+                                int id = Integer.parseInt(input.nextLine());
+                                System.out.print("Enter efficacy rate: ");
+                                double eff = Double.parseDouble(input.nextLine());
+
+                                if (type.equalsIgnoreCase("Vaccine")) {
+                                    cureManager.addCure(new Vaccine(name, id, eff));
+                                } else if (type.equalsIgnoreCase("Antibiotic")) {
+                                    cureManager.addCure(new Antibiotic(name, id, eff));
+                                } else {
+                                    System.out.println("Invalid cure type.");
+                                }
+                            } else {
+                                System.out.println("Please load cures first (option 13).");
+                            }
+                        }
+                        case 15 -> {
+                            if (curesLoaded) {
+                                System.out.print("Enter disease ID: ");
+                                int id = Integer.parseInt(input.nextLine());
+                                Disease disease = diseaseManager.searchByID(id);
+                                cureManager.searchByDisease(disease);
+                            } else {
+                                System.out.println("Please load cures first (option 13).");
+                            }
+                        }
+                        case 16 -> {
+                            if (curesLoaded) {
+                                System.out.print("Enter cure ID: ");
+                                int id = Integer.parseInt(input.nextLine());
+                                cureManager.searchByID(id);
+                            } else {
+                                System.out.println("Please load cures first (option 13).");
+                            }
+                        }
+                        case 17 -> {
+                            if (curesLoaded) {
+                                cureManager.sortByEfficacyRate();
+                            } else {
+                                System.out.println("Please load cures first (option 13).");
+                            }
+                        }
+                        case 18 -> {
+                            if (curesLoaded) {
+                                cureManager.listAllCures();
+                            } else {
+                                System.out.println("Please load cures first (option 13).");
+                            }
+                        }
+                        case 19 -> {
+                            if (curesLoaded) {
+                                cureManager.listAllAntibiotics();
+                            } else {
+                                System.out.println("Please load cures first (option 13).");
+                            }
+                        }
+                        case 20 -> {
+                            if (curesLoaded) {
+                                cureManager.listAllVaccines();
+                            } else {
+                                System.out.println("Please load cures first (option 13).");
+                            }
+                        }
+                        case 0 -> {
+                            if (diseasesLoaded && curesLoaded) {
+                                setupComplete = true;
+                            } else {
+                                System.out.println("You must load both diseases (1) and cures (13) first.");
+                            }
+                        }
                         default -> System.out.println("Invalid choice. Try again.");
                     }
 
-                    validChoice = true; // only mark as valid if no exception and valid int input
-
-                } catch (NumberFormatException e) {
+                } catch (NumberFormatException | InputMismatchException e) {
                     System.out.println("Invalid input. Please enter a valid integer choice.");
+                    input.nextLine(); 
                 }
             }
         }
@@ -152,7 +326,7 @@ public class SimulationRunner {
         boolean applyCure = applyCureResponse.equalsIgnoreCase("yes");
 
         System.out.println();
-        DiseaseSim simulation = new DiseaseSim(chosenDisease, cureFile, diseaseFile, peopleFile, regionFile, x, y); 
+        simulation = new DiseaseSim(chosenDisease, cureFile, diseaseFile, peopleFile, regionFile, x, y); 
         System.out.println();
 
         System.out.println("Simulation initialized with the following parameters:");

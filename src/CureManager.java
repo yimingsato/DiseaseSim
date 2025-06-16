@@ -141,7 +141,7 @@ public class CureManager {
     }
 
     /* 
-     * Method to search for a cure by its ID.
+     * Method to search for a cure by its ID, linear search.
      * @param id The ID of the cure to search for.
      * @return the Cure object if found, null otherwise.
      */
@@ -170,7 +170,7 @@ public class CureManager {
     }
 
     /* 
-     * Method to sort the list of cures by their ID in ascending order.
+     * method to list all cures in the collection.
      */
     public void listAllCures() {
         for (Cure cure : cures) {

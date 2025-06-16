@@ -81,15 +81,6 @@ public abstract class Disease {
     }
 
     /*
-     * Method to display the symptoms of the disease.
-     * This method prints a predefined list of symptoms associated with the disease.
-     */
-    public void displaySymptoms() {
-        System.out.println("Symptoms of " + name + ":");
-        System.out.println("Fever, Cough, Fatigue");
-    }
-
-    /*
      * Compares the mortality rate of this disease with another disease.
      * @param other The other Disease object to compare with.
      * @return A double representing the difference in mortality rates.
