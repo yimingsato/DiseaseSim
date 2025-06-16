@@ -16,7 +16,6 @@ public class DiseaseSim {
     private int numDead;
     private int numHealthy;
     private int totalDaysToInfect;
-    private int currentDay;
     private int[][] infectedPeople;
 
     public DiseaseSim(Disease disease, String cureFileName, String diseaseFileName, String peopleFileName, String regionFile, int x, int y, int days) {
@@ -28,7 +27,6 @@ public class DiseaseSim {
         this.x = x;
         this.y = y;
         this.totalDaysToInfect = days;
-        currentDay = 0;
         populationInfected = 0;
         numHealthy = population;
         numDead = 0;
@@ -77,10 +75,12 @@ public class DiseaseSim {
                         boolean snowCoverage = in.readLine().charAt(0) == 'Y';
                         boolean crowdedIndoors = in.readLine().charAt(0) == 'Y';
                         regionMap[i][j] = new Cold(regionType, temp, snowCoverage, crowdedIndoors);
+                        populationMap[i][j].setLocation(regionMap[i][j]); //set region for each person
                     } else if (regionType == 'h' || regionType == 'H') { //hot region
                         boolean healthySunExposure = in.readLine().charAt(0) == 'Y';
                         boolean dryClimate = in.readLine().charAt(0) == 'Y';
                         regionMap[i][j] = new Hot(regionType, temp, healthySunExposure, dryClimate);
+                        populationMap[i][j].setLocation(regionMap[i][j]); //set region for each person
                     }
                 }
             }
@@ -139,10 +139,6 @@ public class DiseaseSim {
     public int getTotalDaysToInfect() {
         return totalDaysToInfect;
     }
-    public int getCurrentDay() {
-        return currentDay;
-    }
-
     public void setPopulation(int population) {
         this.population = population;
     }
@@ -250,8 +246,10 @@ public class DiseaseSim {
 
     // Simulate one step of disease spread
     public void simulateSpread(int days) {
-        populationInfected += chosenDisease.spread(populationMap, x, y, days, infectedPeople);
-        numDead = countDead();
+        int[] counts = new int[2];
+        counts = chosenDisease.spread(populationMap, x, y, days, infectedPeople);
+        populationInfected += counts[0];
+        numDead += counts[1];
         numHealthy = countHealthy();
         
         // Update map or other simulation state as needed
@@ -280,19 +278,6 @@ public class DiseaseSim {
         System.out.println("Cure applied over " + numDays + " days.");
     }
 
-    public int countDead() {
-        int count = 0;
-        for (int i = 0; i < MAP_LENGTH; i++) {
-            for (int j = 0; j < MAP_WIDTH; j++) {
-                Person person = populationMap[i][j];
-                if (person != null && person.isDead()) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
     public int countHealthy() {
         int count = 0;
         for (int i = 0; i < MAP_LENGTH; i++) {
@@ -311,9 +296,8 @@ public class DiseaseSim {
     }
 
     public double getTotalMortalityRate() {
-        int deadCount = countDead();
-        if (deadCount == 0) return 0.0; // Avoid division by zero
-        return (double) deadCount / population;
+        if (numDead == 0) return 0.0; // Avoid division by zero
+        return (double) numDead / population;
     }
 
     //pritn health status map
@@ -347,6 +331,37 @@ public class DiseaseSim {
         }
     }
 
+    public static void displayMap(Person[][] people) {
+        char[][] map = new char[people.length][people[0].length];
+
+        for (int i = 0; i < people.length; i++) {
+            for (int j = 0; j < people[i].length; j++) {
+                Person p = people[i][j];
+                if (p == null) {
+                    map[i][j] = '.';
+                } else {
+                    switch (p.getHealthStatus()) {
+                        case 'H' -> map[i][j] = 'H';
+                        case 'I' -> map[i][j] = 'I';
+                        case 'D' -> map[i][j] = 'D';
+                        default -> map[i][j] = '?';
+                    }
+                }
+            }
+        }
+
+        for (char[] row : map) {
+            for (char c : row) {
+                System.out.print(c + " ");
+            }
+            System.out.println();
+        }
+    }
+
     
     
 }
+
+
+
+

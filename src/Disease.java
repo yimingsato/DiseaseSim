@@ -58,7 +58,7 @@ public abstract class Disease {
      * @param infectionDays A 2D array to track the days on which each person gets infected.
      * @return The number of new infections caused by this spread operation.
      */
-    public abstract int spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
+    public abstract int[] spread(Person[][] grid, int x, int y, int dayLimit, int[][] infectionDays);
 
     /*
      * Method to infect a person based on the disease's transmission rate and the person's health status.

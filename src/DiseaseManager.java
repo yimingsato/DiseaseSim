@@ -1,13 +1,21 @@
+/*
+Filename: DiseaseManager.java
+Description: This class manages a collection of diseases, allowing for loading, saving, adding, removing, and listing diseases. It also provides functionality to find the most deadly disease and sort diseases by mortality rate.
+*/
+
 import java.io.*;
 import java.util.*;
 
 public class DiseaseManager {
     private ArrayList<Disease> diseases;
 
+    //Constructor
+    // Initializes an empty list of diseases
     public DiseaseManager() {
         diseases = new ArrayList<>();
     }
 
+    // Constructor that loads diseases from a file
     public DiseaseManager(String filename) {
         diseases = new ArrayList<>();
         diseases.clear();
@@ -31,6 +39,7 @@ public class DiseaseManager {
                 } else {
                     System.out.println("Unknown disease type: " + type);
                 }
+                in.readLine();
             }
 
             in.close();
@@ -39,6 +48,11 @@ public class DiseaseManager {
         }
     }
 
+    /* 
+    * Method to load diseases from a file.
+     * @param filename The name of the file to read diseases from.
+     * @return true if diseases were loaded successfully, false otherwise.
+     */
     public boolean loadDiseases(String filename) {
         diseases.clear();
         try (BufferedReader in = new BufferedReader(new FileReader(filename))) {
@@ -72,6 +86,11 @@ public class DiseaseManager {
         }
     }
 
+    /* 
+     * Method to save diseases to a file.
+     * @param filename The name of the file to write diseases to.
+     * @return true if diseases were saved successfully, false otherwise.
+     */
     public boolean saveDiseases(String filename) {
         try (BufferedWriter out = new BufferedWriter(new FileWriter(filename))) {
             out.write(Integer.toString(diseases.size()));
@@ -88,6 +107,11 @@ public class DiseaseManager {
         }
     }
 
+    /* 
+     * Method to add a disease to the collection.
+     * @param disease The Disease object to be added.
+     * @return true if the disease was added successfully, false if it is null or already exists.
+     */
     public boolean addDisease(Disease disease) {
         if (disease != null && !diseases.contains(disease)) {
             diseases.add(disease);
@@ -96,6 +120,11 @@ public class DiseaseManager {
         return false;
     }
 
+    /* 
+     * Method to remove a disease by its index.
+     * @param index The index of the disease to be removed.
+     * @return true if the disease was removed successfully, false if the index is out of bounds.
+     */
     public boolean removeDisease(int index) {
         if (index >= 0 && index < diseases.size()) {
             diseases.remove(index);
@@ -104,6 +133,10 @@ public class DiseaseManager {
         return false;
     }
 
+    /* 
+     * Method to find the most deadly disease in the collection.
+     * @return the Disease object with the highest mortality rate, or null if the list is empty.
+     */
     public Disease mostDeadlyDisease() {
         if (diseases.isEmpty()) return null;
         Disease mostDeadly = diseases.get(0);
@@ -115,7 +148,10 @@ public class DiseaseManager {
         return mostDeadly;
     }
 
-    // Selection Sort by mortality rate (descending)
+    /* 
+     * Method to sort the diseases by their mortality rate in descending order.
+     * It uses a selection sort algorithm to rearrange the diseases based on their mortality rates.
+     */
     public void sortByMortality() {
         for (int i = 0; i < diseases.size() - 1; i++) {
             int maxIndex = i;
@@ -132,12 +168,73 @@ public class DiseaseManager {
         }
     }
 
+    public Disease searchByName(String name) {
+        for (Disease d : diseases) {
+            if (d.getName().equalsIgnoreCase(name)) {
+                return d;
+            }
+        }
+        return null; // not found
+    }
+
+    /* 
+     * Method to sort the diseases by their ID rate in descending order.
+     * It uses a selection sort algorithm.
+     */
+    public void sortByID() {
+        for (int i = 0; i < diseases.size() - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < diseases.size(); j++) {
+                if (diseases.get(j).getDiseaseID() < diseases.get(minIndex).getDiseaseID()) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                Disease temp = diseases.get(i);
+                diseases.set(i, diseases.get(minIndex));
+                diseases.set(minIndex, temp);
+            }
+        }
+    }
+
+    /* 
+     * Method to find the disease with a specific ID using binary search.
+     * It assumes that the diseases list is sorted by ID.
+     * @return the Disease object with the targetID.
+     */
+    public Disease binarySearchByID(int targetID) {
+        int bottom = 0;
+        int top = diseases.size() - 1;
+
+        while (bottom <= top) {
+            int mid = (bottom + top) / 2;
+            int midID = diseases.get(mid).getDiseaseID();
+
+            if (midID == targetID) {
+                return diseases.get(mid);
+            } else if (midID < targetID) {
+                bottom = mid + 1;
+            } else {
+                top = mid - 1;
+            }
+        }
+        return null; // not found
+    }
+
+    /* 
+     * Method to list all diseases in the collection.
+     * It iterates through the list of diseases and prints each one.
+     */
     public void listAllDisease() {
         for (Disease d : diseases) {
             System.out.println(d);
         }
     }
 
+    /* 
+     * Method to list all bacteria in the collection.
+     * It iterates through the list of diseases and prints only those that are instances of Bacteria.
+     */
     public void listBacteria() {
         for (Disease d : diseases) {
             if (d instanceof Bacteria) {
@@ -145,7 +242,10 @@ public class DiseaseManager {
             }
         }
     }
-
+    /* 
+     * Method to list all viruses in the collection.
+     * It iterates through the list of diseases and prints only those that are instances of Virus.
+     */
     public void listVirus() {
         for (Disease d : diseases) {
             if (d instanceof Virus) {
@@ -154,10 +254,19 @@ public class DiseaseManager {
         }
     }
 
+    /* 
+     * Method to get the list of all diseases.
+     * @return the ArrayList of Disease objects.
+     */
     public ArrayList<Disease> getDiseases() {
         return diseases;
     }
 
+    /* 
+     * Method to get a disease by its ID.
+     * @param id The ID of the disease to search for.
+     * @return the Disease object if found, null otherwise.
+     */
     public Disease getDiseaseByID(int id) {
         for (Disease d : diseases) {
             if (d.getDiseaseID() == id) return d;

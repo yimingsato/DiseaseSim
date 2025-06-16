@@ -53,7 +53,7 @@ public class Hot extends Region{
         return Math.max(0, Math.min(1, transmissionRate)); // Ensure transmission rate is between 0 and 1
     }
 
-    /`
+    
     public String toString() {
         return "Hot{" +
                 "name=" + getName() +

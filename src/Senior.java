@@ -1,14 +1,20 @@
+/*Filename: Senior.java
+Description: This file defines the Senior class, which extends the Person class to represent senior citizens in a disease simulation model.
+*/
+
 public class Senior extends Person {
     private boolean inCareHome;
     private int mobilityLevel;
 
     // Constructor
+    // This constructor initializes a Senior object with the given parameters.
     public Senior(int id, int age, char healthStatus, Region location, double immunityLevel, Cure cure, boolean inCareHome, int mobilityLevel) {
         super(id, age, healthStatus, location, immunityLevel, cure);
         this.inCareHome = inCareHome;
         this.mobilityLevel = mobilityLevel;
     }
 
+    // Overloaded constructor for cases where cure is not applicable
     public Senior(int id, int age, char healthStatus, double immunityLevel, boolean inCareHome, int mobilityLevel) {
         super(id, age, healthStatus, immunityLevel);
         this.inCareHome = inCareHome;
@@ -29,11 +35,14 @@ public class Senior extends Person {
         this.mobilityLevel = mobilityLevel;
     }
 
-    @Override
-    /*Takes in base immunity, disease transmission rate, cure or no cure and any cure influence
+    /*
+    Takes in base immunity, disease transmission rate, cure or no cure and any cure influence
     (antibotic resistance/mutation rate of virus),
     region influence and mobility level and whether or not in care home attended as a senior to
-      calculate risk factor, higher risk returns higher num */
+    calculate risk factor, higher risk returns higher num 
+    * @param d The disease for which the risk factor is calculated.
+    * @return The calculated risk factor as a double, between 0 and 1.
+    */
     public double calcRiskFactor(Disease d) {
         double baseRiskFactor = calcBaseRiskFactor(d);
         double modifiedTransmissionRate = getLocation().calcInfectionRateInfluence(d);

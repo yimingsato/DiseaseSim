@@ -16,6 +16,7 @@ public class Antibiotic extends Cure {
     * @param person The person to whom the antibiotic is applied.
     */
     public void applyTo(Person person) {
+        person.setCure(this);
         double efficacy = this.getEfficacyRate();
         double newImmunity = person.getBaseImmunityLevel();
 

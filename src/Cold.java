@@ -58,7 +58,11 @@ public class Cold extends Region{
      * @return A string representation of the cold region.
      */
     public String toString() {
-        return "Cold\n" + getName() + "\n" + getTemp() + "\n" + snowCoverage +
-                "\n" + crowdedIndoors + "\n";
+        return "Cold{" +
+                "name=" + getName() +
+                ", temp=" + getTemp() +
+                ", snowCoverage=" + snowCoverage +
+                ", crowdedIndoors=" + crowdedIndoors +
+                '}';
     }
 }

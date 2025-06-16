@@ -1,3 +1,8 @@
+/**
+Filename: Vaccine.java
+Description: This class represents a Vaccine that extends the Cure class. It applies
+*/
+
 public class Vaccine extends Cure{
 
     // Constructor
@@ -5,7 +10,12 @@ public class Vaccine extends Cure{
         super(name, id, efficacyRate);
     }
 
+    /*
+     * Applies the vaccine to a person, modifying their immunity level based on their age.
+     * @param person The person to whom the vaccine is applied.
+     */
     public void applyTo(Person person) {
+        person.setCure(this);
         double efficacy = this.getEfficacyRate();
         double newImmunity = person.getBaseImmunityLevel();
 
@@ -22,7 +32,10 @@ public class Vaccine extends Cure{
         person.setBaseImmunityLevel(newImmunity);
     }
 
-    @Override
+    /*
+     * Returns a string representation of the Vaccine object.
+     * @return A string containing the name and efficacy rate of the vaccine.
+     */
     public String toString() {
         return this.getName() + "\nVaccine\n" + this.getEfficacyRate();
     }
