@@ -32,7 +32,7 @@ public abstract class Cure {
     public void setCureId(int id) {
         this.cureID = id;
     }
-    public void setEfficacyRate(int efficacyRate) {
+    public void setEfficacyRate(double efficacyRate) {
         this.efficacyRate = efficacyRate;
     }
 

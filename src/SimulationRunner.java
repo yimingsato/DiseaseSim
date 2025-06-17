@@ -40,6 +40,7 @@ public class SimulationRunner {
             System.out.println("20. List Cures");
             System.out.println("21. List Antibiotics");
             System.out.println("22. List Vaccines");
+            System.out.println("23. Modify cure efficacy rate by ID");
 
             System.out.println("-1. Exit");
             System.out.println("\n0. BEGIN SIMULATION");
@@ -370,6 +371,24 @@ public class SimulationRunner {
                             if (curesLoaded) {
                                 System.out.println("Listing all vaccines:");
                                 cureManager.listAllVaccines();
+                            } else {
+                                System.out.println("Please load cures first (option 12).");
+                            }
+                        }
+
+                        case 23 -> {
+                            if (curesLoaded) {
+                                System.out.print("Enter cure ID to modify: ");
+                                int id = Integer.parseInt(input.nextLine());
+                                Cure cure = cureManager.searchByID(id);
+                                if (cure == null) {
+                                    System.out.println("Cure with ID " + id + " not found.");
+                                } else {
+                                    System.out.print("Enter new efficacy rate: ");
+                                    double newEfficacy = Double.parseDouble(input.nextLine());
+                                    cure.setEfficacyRate(newEfficacy);
+                                    System.out.println("Cure efficacy rate updated successfully.");
+                                }
                             } else {
                                 System.out.println("Please load cures first (option 12).");
                             }
