@@ -37,6 +37,6 @@ public class Vaccine extends Cure{
      * @return A string containing the name and efficacy rate of the vaccine.
      */
     public String toString() {
-        return this.getName() + "\nVaccine\n" + this.getEfficacyRate();
+        return "Vaccine\n" + this.getName() + "\n" + getCureID() + "\n" + this.getEfficacyRate() + "\n\n";
     }
 }

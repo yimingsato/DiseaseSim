@@ -97,6 +97,7 @@ public class DiseaseManager {
             for (Disease d : diseases) {
                 out.write(d.toString());
                 out.newLine();
+                out.newLine();
             }
             out.close();
             return true;
@@ -162,24 +163,42 @@ public class DiseaseManager {
         return mostDeadly;
     }
 
-    /* 
-     * Method to sort the diseases by their mortality rate in descending order.
-     * It uses a selection sort algorithm to rearrange the diseases based on their mortality rates.
-     */
-    public void sortByMortality() {
+    //Sort by mortality rate first, then by transmission rate
+    public void sortByMortalityThenTransmission() {
         for (int i = 0; i < diseases.size() - 1; i++) {
             int maxIndex = i;
             for (int j = i + 1; j < diseases.size(); j++) {
-                if (diseases.get(j).getMortalityRate() > diseases.get(maxIndex).getMortalityRate()) {
+                Disease current = diseases.get(j);
+                Disease max = diseases.get(maxIndex);
+
+                // Compare by mortality rate first
+                if (current.getMortalityRate() > max.getMortalityRate()) {
                     maxIndex = j;
                 }
+                // If equal, break tie with transmission rate
+                else if (current.getMortalityRate() == max.getMortalityRate()) {
+                    if (current.getTransmissionRate() > max.getTransmissionRate()) {
+                        maxIndex = j;
+                    }
+                }
             }
+
+            // Swap if needed
             if (i != maxIndex) {
                 Disease temp = diseases.get(i);
                 diseases.set(i, diseases.get(maxIndex));
                 diseases.set(maxIndex, temp);
             }
         }
+    }
+    
+    public Disease searchByMortalityAndTransmission(double mortalityRate, double transmissionRate) {
+        for (Disease d : diseases) {
+            if (d.getMortalityRate() == mortalityRate && d.getTransmissionRate() == transmissionRate) {
+                return d;
+            }
+        }
+        return null; // not found
     }
 
     public Disease searchByName(String name) {
@@ -242,6 +261,7 @@ public class DiseaseManager {
     public void listAllDisease() {
         for (Disease d : diseases) {
             System.out.println(d);
+            System.out.println();
         }
     }
 
@@ -253,6 +273,7 @@ public class DiseaseManager {
         for (Disease d : diseases) {
             if (d instanceof Bacteria) {
                 System.out.println(d);
+                System.out.println();
             }
         }
     }
@@ -264,6 +285,7 @@ public class DiseaseManager {
         for (Disease d : diseases) {
             if (d instanceof Virus) {
                 System.out.println(d);
+                System.out.println();
             }
         }
     }

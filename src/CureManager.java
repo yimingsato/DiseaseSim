@@ -91,6 +91,7 @@ public class CureManager {
             for (Cure cure : cures) {
                 out.write(cure.toString());
                 out.newLine();
+                out.newLine(); 
             }
             out.close();
             return true;
@@ -175,6 +176,7 @@ public class CureManager {
     public void listAllCures() {
         for (Cure cure : cures) {
             System.out.println(cure);
+            System.out.println();
         }
     }
 
@@ -186,6 +188,7 @@ public class CureManager {
         for (Cure cure : cures) {
             if (cure instanceof Vaccine) {
                 System.out.println(cure);
+                System.out.println();
             }
         }
     }
@@ -198,6 +201,8 @@ public class CureManager {
         for (Cure cure : cures) {
             if (cure instanceof Antibiotic) {
                 System.out.println(cure);
+                System.out.println();
+
             }
         }
     }

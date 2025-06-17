@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class DiseaseSim {
-    public static final int MAP_LENGTH = 11; //Borders will be padded with null values
-    public static final int MAP_WIDTH = 11;
+    public static final int MAP_LENGTH = 12; //Borders will be padded with null values
+    public static final int MAP_WIDTH = 12;
 
     private int population;
     private int populationInfected;
@@ -89,7 +89,6 @@ public class DiseaseSim {
             System.out.println("Error reading file");
         }
 
-        // Initialize infectionDays with -1 (uninfected)
         infectedPeople = new int[MAP_LENGTH][MAP_WIDTH];
         for (int[] row : infectedPeople) {
             Arrays.fill(row, -1);
@@ -236,20 +235,55 @@ public class DiseaseSim {
         }
     }
 
-    // Simulate one step of disease spread
+    // Simulate disease spread
     public void simulateSpread(int days) {
         int[] counts = new int[2];
-        counts = chosenDisease.spread(populationMap, x, y, days, infectedPeople);
+        int[][] infectionDays = new int[populationMap.length][populationMap[0].length];
+        for (int i = 0; i < infectionDays.length; i++) {
+            Arrays.fill(infectionDays[i], -1); // -1 = not infected
+        }
+
+        counts = chosenDisease.spread(populationMap, x, y, days, infectionDays);
+
         populationInfected += counts[0];
         numDead += counts[1];
         numHealthy = countHealthy();
         
-        // Update map or other simulation state as needed
     }
 
-    // public void applyCuresRandomly(int numToCure) {
+    public int applyCureRandomly(Cure cure) {
+        List<Person> healthyPeople = new ArrayList<>();
         
-    // }
+        // Collect all healthy people in the map
+        for (int i = 1; i < MAP_LENGTH - 1; i++) {
+            for (int j = 1; j < MAP_WIDTH - 1; j++) {
+                Person p = populationMap[i][j];
+                if (p != null && p.isHealthy()) {
+                    healthyPeople.add(p);
+                }
+            }
+        }
+        
+        if (healthyPeople.isEmpty()) {
+            return 0; // No one healthy to cure
+        }
+        
+        Random rand = new Random();
+        
+        // Random number of people to cure (at least 1, at most healthyPeople.size())
+        int numToCure = 1 + rand.nextInt(healthyPeople.size());
+        
+        // Shuffle the list to get random unique people
+        Collections.shuffle(healthyPeople, rand);
+        
+        // Cure the first numToCure people from the shuffled list
+        for (int i = 0; i < numToCure; i++) {
+            healthyPeople.get(i).setCure(cure);
+        }
+        
+        return numToCure;
+    }
+
 
     public int countHealthy() {
         int count = 0;

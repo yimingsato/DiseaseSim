@@ -90,6 +90,15 @@ public abstract class Disease {
     }
 
     /*
+     * Compares the transmission rate of this disease with another disease.
+     * @param other The other Disease object to compare with.
+     * @return A double representing the difference in transmissionRates.
+     */
+    public double compareToTransmissionRate(Disease other) {
+        return this.transmissionRate - other.transmissionRate;
+    }
+
+    /*
      * Returns a string representation of the disease, including its name, disease ID, transmission rate, and mortality rate.
      * @return A string representation of the disease.
      */
