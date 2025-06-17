@@ -459,10 +459,6 @@ public class SimulationRunner {
                 System.out.print("Enter number of days to simulate (0 to stop): ");
                 int days = input.nextInt();
                 
-                // if(applyCure) {
-                //     simulation.applyCuresOverDays(numToCure, days);
-                // } 
-
                 if (days <= 0) {
                     System.out.println("Simulation stopped by user.");
                     finished = true;
