@@ -16,7 +16,7 @@ public class SimulationRunner {
         boolean setupComplete = false;
         
         while (!setupComplete) {
-            System.out.println("\n\n\n==== DISEASE & CURE DATABASE SETUP MENU (1 & 12 must be done first, -1 to exit) ====");
+            System.out.println("\n\n==== DISEASE & CURE DATABASE SETUP MENU (1 & 12 must be done first, -1 to exit) ====");
             System.out.println("1. Load Diseases from File");
             System.out.println("2. Save Diseases to a File");
             System.out.println("3. Add Disease");
