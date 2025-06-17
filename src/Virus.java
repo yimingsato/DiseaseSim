@@ -91,7 +91,7 @@ public class Virus extends Disease {
      * @return true if the person is successfully infected, false otherwise.
      */
     public String toString() {
-        return "Virus\n" + getName() + "\n" + getDiseaseID() + "\n" + getTransmissionRate() + "\n" + getMortalityRate() + "\n" + mutationRate + "\n\n";
+        return "Virus\n" + getName() + "\n" + getDiseaseID() + "\n" + getTransmissionRate() + "\n" + getMortalityRate() + "\n" + mutationRate + "\n";
     }
 
 }

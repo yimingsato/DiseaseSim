@@ -89,7 +89,7 @@ public class Bacteria extends Disease{
     * @return A string representation of the bacteria disease.
     */
     public String toString() {
-        return "Bacteria\n" + getName() + "\n" + getDiseaseID() + "\n" + getTransmissionRate() + "\n" + getMortalityRate() + "\n" + antibioticResistance + "\n\n";
+        return "Bacteria\n" + getName() + "\n" + getDiseaseID() + "\n" + getTransmissionRate() + "\n" + getMortalityRate() + "\n" + antibioticResistance + "\n";
     }
 
 }

@@ -5,7 +5,7 @@ public class SimulationRunner {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String diseaseFile = null, cureFile = null, peopleFile, regionFile;
-        System.out.println("Welcome to LAA's simple Disease Simulation project");
+        System.out.println("\nWelcome to LAA's simple Disease Simulation project");
 
         DiseaseManager diseaseManager = new DiseaseManager();
         CureManager cureManager = new CureManager();
@@ -16,7 +16,7 @@ public class SimulationRunner {
         boolean setupComplete = false;
 
         while (!setupComplete) {
-            System.out.println("==== DISEASE & CURE DATABASE SETUP MENU (1 & 12 must be done first, -1 to exit) ====");
+            System.out.println("\n\n\n==== DISEASE & CURE DATABASE SETUP MENU (1 & 12 must be done first, -1 to exit) ====");
             System.out.println("1. Load Diseases from File");
             System.out.println("2. Save Diseases to a File");
             System.out.println("3. Add Disease");
@@ -33,7 +33,7 @@ public class SimulationRunner {
             System.out.println("13. Load Cures from File");
             System.out.println("14. Save Cures to a File");
             System.out.println("15. Add Cure");
-            System.out.println("16. Search Cure by Disease");
+            System.out.println("16. Search Cure by Disease ID, (Assumes diseases are sorted by ID)");
             System.out.println("17. Search Cure by ID");
             System.out.println("18. Sort Cures by Efficacy Rate");
             System.out.println("19. List Cures");
@@ -188,6 +188,7 @@ public class SimulationRunner {
                         case 8 -> {
                             if (diseasesLoaded) {
                                 diseaseManager.sortByID();
+                                System.out.println("Diseases sorted by ID.");
                             } else {
                                 System.out.println("Please load diseases first (option 1).");
                             }
@@ -196,6 +197,7 @@ public class SimulationRunner {
                         case 9 -> {
                             if (diseasesLoaded) {
                                 diseaseManager.sortByMortalityThenTransmission();
+                                System.out.println("Diseases sorted by mortality rate (then transmission rate if equal).");
                             } else {
                                 System.out.println("Please load diseases first (option 1).");
                             }
@@ -203,6 +205,7 @@ public class SimulationRunner {
 
                         case 10 -> {
                             if (diseasesLoaded) {
+                                System.out.println("Listing all diseases:");
                                 diseaseManager.listAllDisease();
                             } else {
                                 System.out.println("Please load diseases first (option 1).");
@@ -211,6 +214,7 @@ public class SimulationRunner {
 
                         case 11 -> {
                             if (diseasesLoaded) {
+                                System.out.println("Listing all bacteria:");
                                 diseaseManager.listBacteria();
                             } else {
                                 System.out.println("Please load diseases first (option 1).");
@@ -219,6 +223,7 @@ public class SimulationRunner {
 
                         case 12 -> {
                             if (diseasesLoaded) {
+                                System.out.println("Listing all viruses:");
                                 diseaseManager.listVirus();
                             } else {
                                 System.out.println("Please load diseases first (option 1).");
@@ -286,11 +291,15 @@ public class SimulationRunner {
                                 System.out.print("Enter disease ID: ");
                                 int id = Integer.parseInt(input.nextLine());
                                 Disease disease = diseaseManager.searchByID(id);
-                                Cure cure = cureManager.searchByDisease(disease);
-                                if (cure == null) {
-                                    System.out.println("No cure found for disease with ID " + id);
+                                if (disease == null) {
+                                    System.out.println("Disease with ID " + id + " not found.");
                                 } else {
-                                    System.out.println("Cure by disease: " + cure);
+                                    Cure cure = cureManager.searchByDisease(disease);
+                                    if (cure == null) {
+                                        System.out.println("No cure found for disease with ID " + id);
+                                    } else {
+                                        System.out.println("Cure by disease: \n" + cure);
+                                    }
                                 }
                             } else {
                                 System.out.println("Please load cures first (option 12).");
@@ -314,6 +323,7 @@ public class SimulationRunner {
 
                         case 18 -> {
                             if (curesLoaded) {
+                                System.out.println("Sorting cures by efficacy rate...");
                                 cureManager.sortByEfficacyRate();
                             } else {
                                 System.out.println("Please load cures first (option 12).");
@@ -322,6 +332,7 @@ public class SimulationRunner {
 
                         case 19 -> {
                             if (curesLoaded) {
+                                System.out.println("Listing all cures:");
                                 cureManager.listAllCures();
                             } else {
                                 System.out.println("Please load cures first (option 12).");
@@ -330,6 +341,7 @@ public class SimulationRunner {
 
                         case 20 -> {
                             if (curesLoaded) {
+                                System.out.println("Listing all antibiotics:");
                                 cureManager.listAllAntibiotics();
                             } else {
                                 System.out.println("Please load cures first (option 12).");
@@ -338,6 +350,7 @@ public class SimulationRunner {
 
                         case 21 -> {
                             if (curesLoaded) {
+                                System.out.println("Listing all vaccines:");
                                 cureManager.listAllVaccines();
                             } else {
                                 System.out.println("Please load cures first (option 12).");
@@ -430,9 +443,9 @@ public class SimulationRunner {
 
             simulation = new DiseaseSim(chosenDisease, cureFile, diseaseFile, peopleFile, regionFile, x, y); 
             System.out.println("\nSimulation initialized with the following parameters:");
-            System.out.println("Disease: \n" + chosenDisease + "\n");
-            System.out.printf("Cure File: %s\n", cureFile);
-            System.out.printf("Starting Coordinates: (%d, %d)\n", x, y);
+            System.out.println("Disease: \n" + chosenDisease);
+            System.out.printf("Cure File: %s%n", cureFile);
+            System.out.printf("Starting Coordinates: (%d, %d)%n", x, y);
         
             if (applyCure) {
                 System.out.println("Cure will be applied before the simulation.");

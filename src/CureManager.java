@@ -91,7 +91,6 @@ public class CureManager {
             for (Cure cure : cures) {
                 out.write(cure.toString());
                 out.newLine();
-                out.newLine(); 
             }
             out.close();
             return true;

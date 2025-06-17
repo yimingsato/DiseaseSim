@@ -96,8 +96,7 @@ public class DiseaseManager {
             out.newLine();
             for (Disease d : diseases) {
                 out.write(d.toString());
-                out.newLine();
-                out.newLine();
+                out.newLine();;
             }
             out.close();
             return true;

@@ -40,7 +40,7 @@ public class Antibiotic extends Cure {
     * @return A string representation of the antibiotic cure.
     */
     public String toString() {
-        return "\nAntibiotic\n" + this.getName() + "\n" + getCureID() + "\n" + this.getEfficacyRate() + "\n\n";
+        return "Antibiotic\n" + this.getName() + "\n" + getCureID() + "\n" + this.getEfficacyRate() + "\n";
     }
 
 }

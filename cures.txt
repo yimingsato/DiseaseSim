@@ -1,21 +1,26 @@
 5
-Methicillin
 Antibiotic
+Methicillin
+1
 0.7
 
-Flu Vaccine
 Vaccine
+Flu Vaccine
+2
 0.6
 
-Amoxicillin
 Antibiotic
+Amoxicillin
+3
 0.65
 
-Antiretroviral Therapy
 Vaccine
+Antiretroviral Therapy
+4
 0.92
 
-Isoniazid
 Antibiotic
+Isoniazid
+5
 0.88
 
