@@ -140,6 +140,15 @@ public class CureManager {
         return null;
     }
 
+    public int indexOfCure(int id) {
+        for (int i = 0; i < cures.size(); i++) {
+            if (cures.get(i).getCureID() == id) {
+                return i;
+            }
+        }
+        return -1; // not found
+    }
+
     /* 
      * Method to search for a cure by its ID, linear search.
      * @param id The ID of the cure to search for.

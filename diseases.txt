@@ -1,4 +1,4 @@
-6
+7
 Virus
 Influenza A
 2
@@ -40,4 +40,11 @@ AZ
 0.5
 0.5
 0.5
+
+Bacteria
+Death
+666
+1.0
+1.0
+1.0
 

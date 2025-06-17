@@ -50,6 +50,12 @@ public class Virus extends Disease {
         int infectedCount = 0;
         int deathCount = 0;
 
+        if (current.isInfected()) {
+            if (current.killedByDisease(this)) {
+                deathCount++;
+            }
+        }
+        
         if (current.isHealthy()) {
             boolean infected = this.infect(current);
             if (!infected) return new int[]{0, 0}; // stop if can't infect

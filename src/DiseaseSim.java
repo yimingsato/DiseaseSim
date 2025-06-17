@@ -351,10 +351,10 @@ public class DiseaseSim {
         }
     }
 
-    public boolean isEveryoneInfectedOrDead(Person[][] people) {
+    public boolean isEveryoneDead(Person[][] people) {
         for (Person[] row : people) {
             for (Person p : row) {
-                if (p != null && p.getHealthStatus() != Person.INFECTED && p.getHealthStatus() != Person.DEAD) {
+                if (p != null && p.getHealthStatus() != Person.DEAD) {
                     return false;
                 }
             }
