@@ -163,7 +163,7 @@ public class DiseaseSim {
         this.y = y;
     }
     
-    //Save the current state of the simulation to files
+    //Save the current state of the simulation to files (NOT USED...)
     public boolean saveToFile(String peopleFileName, String cureFileName, String diseaseFileName, String regionFile, String simulationData) {
         try {
             // Save people data
@@ -253,6 +253,7 @@ public class DiseaseSim {
         
     }
 
+    //Method that applies cures at the beginning to random people
     public int applyCureRandomly(Cure cure) {
         List<Person> healthyPeople = new ArrayList<>();
         
@@ -267,18 +268,18 @@ public class DiseaseSim {
         }
         
         if (healthyPeople.isEmpty()) {
-            return 0; // No one healthy to cure
+            return 0; // 
         }
         
         Random rand = new Random();
         
-        // Random number of people to cure (at least 1, at most healthyPeople.size())
+        // random number of people to cure 
         int numToCure = 1 + rand.nextInt(healthyPeople.size());
         
-        // Shuffle the list to get random unique people
+        // shuffle the list to get random unique people
         Collections.shuffle(healthyPeople, rand);
         
-        // Cure the first numToCure people from the shuffled list
+        // cure the first numToCure people from the shuffled list
         for (int i = 0; i < numToCure; i++) {
             healthyPeople.get(i).setCure(cure);
         }
@@ -286,7 +287,7 @@ public class DiseaseSim {
         return numToCure;
     }
 
-
+    //Count num healthy
     public int countHealthy() {
         int count = 0;
         for (int i = 0; i < MAP_LENGTH; i++) {
@@ -300,16 +301,18 @@ public class DiseaseSim {
         return count;
     }
 
+    //Returns infectionRate of current state of simulation
     public double getInfectionRate() {
         return (double) populationInfected / population;
     }
 
+    //Returns mortality rate of current state of simulation
     public double getTotalMortalityRate() {
         if (numDead == 0) return 0.0; // Avoid division by zero
         return (double) numDead / population;
     }
 
-    //print region map
+    //print region map 
     public void printRegionMap() {
         for (int i = 0; i < MAP_LENGTH; i++) {
             for (int j = 0; j < MAP_WIDTH; j++) {
@@ -317,13 +320,14 @@ public class DiseaseSim {
                 if (region != null) {
                     System.out.print(region.getName() + " ");
                 } else {
-                    System.out.print(". "); // N for no region
+                    System.out.print(". "); 
                 }
             }
             System.out.println();
         }
     }
 
+    //Displays map status of people
     public void displayMap(Person[][] people) {
         char[][] map = new char[people.length][people[0].length];
 
@@ -351,6 +355,7 @@ public class DiseaseSim {
         }
     }
 
+    //Checks if everyone has died
     public boolean isEveryoneDead(Person[][] people) {
         for (Person[] row : people) {
             for (Person p : row) {
@@ -361,9 +366,6 @@ public class DiseaseSim {
         }
         return true;
     }
-
-    
-    
 }
 
 

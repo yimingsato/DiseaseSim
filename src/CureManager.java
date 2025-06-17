@@ -169,7 +169,7 @@ public class CureManager {
     public void sortByEfficacyRate() {
         for (int i = 0; i < cures.size() - 1; i++) {
             for (int j = 0; j < cures.size() - i - 1; j++) {
-                if (cures.get(j).getEfficacyRate() > cures.get(j + 1).getEfficacyRate()) {
+                if (cures.get(j).compareToEfficacy(cures.get(j + 1)) > 0) {
                     Cure temp = cures.get(j);
                     cures.set(j, cures.get(j + 1));
                     cures.set(j + 1, temp);

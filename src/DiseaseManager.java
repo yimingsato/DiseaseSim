@@ -170,14 +170,11 @@ public class DiseaseManager {
                 Disease current = diseases.get(j);
                 Disease max = diseases.get(maxIndex);
 
-                // compare by mortality rate first and then by transmission rate if theyre equal
-                if ( current.getMortalityRate() > max.getMortalityRate() ||
-                    (current.getMortalityRate() == max.getMortalityRate() &&
-                    current.getTransmissionRate() > max.getTransmissionRate())
-                ) {
+                if (current.compareToMortalityRate(max) > 0 ||
+                    (current.compareToMortalityRate(max) == 0 &&
+                    current.compareToTransmissionRate(max) > 0)) {
                     maxIndex = j;
-                }
-
+                    }
             }
 
             if (i != maxIndex) {
@@ -188,6 +185,12 @@ public class DiseaseManager {
         }
     }
     
+    /*
+     * Method to search by mortality rate and transmission rate,
+     * Returns Disease
+     * Takes in imputted mRate and tRate
+     * linear search
+     */
     public Disease searchByMortalityAndTransmission(double mortalityRate, double transmissionRate) {
         for (Disease d : diseases) {
             if (d.getMortalityRate() == mortalityRate && d.getTransmissionRate() == transmissionRate) {
@@ -197,6 +200,8 @@ public class DiseaseManager {
         return null; // not found
     }
 
+
+    //Method to search disease by name, takes in string returns disease, linear search
     public Disease searchByName(String name) {
         for (Disease d : diseases) {
             if (d.getName().equalsIgnoreCase(name)) {

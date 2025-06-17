@@ -16,7 +16,7 @@ public class SimulationRunner {
         boolean setupComplete = false;
         
         while (!setupComplete) {
-            System.out.println("\n\n==== DISEASE & CURE DATABASE SETUP MENU (1 & 12 must be done first, -1 to exit) ====");
+            System.out.println("\n\n==== DISEASE & CURE DATABASE SETUP MENU (1 & 13 must be done first, -1 to exit) ====");
             System.out.println("1. Load Diseases from File");
             System.out.println("2. Save Diseases to a File");
             System.out.println("3. Add Disease");
@@ -29,7 +29,7 @@ public class SimulationRunner {
             System.out.println("10. List Diseases");
             System.out.println("11. List Bacteria");
             System.out.println("12. List Viruses");
-            System.out.println("==========================================");
+            System.out.println("========================================================================================");
             System.out.println("13. Load Cures from File");
             System.out.println("14. Save Cures to a File");
             System.out.println("15. Add Cure");
@@ -508,7 +508,7 @@ public class SimulationRunner {
 
                     System.out.printf("Current Infection Rate: %.2f%%\n", simulation.getInfectionRate() * 100);
                     System.out.printf("Current Mortality Rate: %.2f%%\n", simulation.getTotalMortalityRate() * 100);
-
+                    System.out.printf("Current num of healthy people left: %d\n", simulation.countHealthy());
                     System.out.println("\nSimulation Complete.");
                     System.out.printf("Total Infected: %d out of %d\n", simulation.getPopulationInfected(), simulation.getPopulation());
 
