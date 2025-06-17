@@ -447,9 +447,11 @@ public class SimulationRunner {
             System.out.printf("Cure File: %s%n", cureFile);
             System.out.printf("Starting Coordinates: (%d, %d)%n", x, y);
         
-            if (applyCure) {
+            if (applyCure && cureManager.searchByDisease(chosenDisease) != null) {
                 System.out.println("Cure will be applied before the simulation.");
-                System.out.println(simulation.applyCureRandomly(cureManager.searchByDisease(chosenDisease)) + " individuals have the cure applied."); 
+                System.out.println(simulation.applyCureRandomly(cureManager.searchByDisease(chosenDisease)) + " individuals have the cure applied: " + cureManager.searchByDisease(chosenDisease)); 
+            } else {
+                System.out.println("No cure will be applied during the simulation.");
             }
 
             boolean finished = false;
@@ -466,7 +468,7 @@ public class SimulationRunner {
                     finished = true;
                 } else {
                     System.out.printf("Total Days to Simulate: %d\n", days);
-
+                    
                     simulation.simulateSpread(days); 
 
                     System.out.printf("Infection Rate: %.2f%%\n", simulation.getInfectionRate() * 100);

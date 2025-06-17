@@ -43,7 +43,7 @@ public class Virus extends Disease {
         if (currentDay > dayLimit) return new int[]{0, 0};
 
         Person current = grid[x][y];
-        if (current == null || current.isDead()) return new int[]{0, 0};
+        if (current == null) return new int[]{0, 0};
 
         if (infectedDays[x][y] != -1 && infectedDays[x][y] <= currentDay) return new int[]{0, 0};
 

@@ -25,7 +25,7 @@ public class DiseaseSim {
         this.populationInfected = 0; //initialize infected population to 0
         this.x = x;
         this.y = y;
-        populationInfected = 0;
+        populationInfected = 1; //start with one person infected at x y
         numHealthy = population;
         numDead = 0;
         
@@ -62,6 +62,8 @@ public class DiseaseSim {
             System.out.println("Error reading file");
         }
         
+        populationMap[x][y].setHealthStatus(Person.INFECTED); //set the person at x y to infected
+
         //initialize regionMap by reading in region file
         regionMap = new Region[MAP_LENGTH][MAP_WIDTH];
         try (BufferedReader in = new BufferedReader(new FileReader(regionFile))) {

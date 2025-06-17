@@ -162,7 +162,7 @@ public class DiseaseManager {
         return mostDeadly;
     }
 
-    //Sort by mortality rate first, then by transmission rate
+    //Sort by mortality rate first selection sort, then by transmission rate, sorts highest mortality and highest transmission to lowest
     public void sortByMortalityThenTransmission() {
         for (int i = 0; i < diseases.size() - 1; i++) {
             int maxIndex = i;
@@ -170,19 +170,16 @@ public class DiseaseManager {
                 Disease current = diseases.get(j);
                 Disease max = diseases.get(maxIndex);
 
-                // Compare by mortality rate first
-                if (current.getMortalityRate() > max.getMortalityRate()) {
+                // compare by mortality rate first and then by transmission rate if theyre equal
+                if ( current.getMortalityRate() > max.getMortalityRate() ||
+                    (current.getMortalityRate() == max.getMortalityRate() &&
+                    current.getTransmissionRate() > max.getTransmissionRate())
+                ) {
                     maxIndex = j;
                 }
-                // If equal, break tie with transmission rate
-                else if (current.getMortalityRate() == max.getMortalityRate()) {
-                    if (current.getTransmissionRate() > max.getTransmissionRate()) {
-                        maxIndex = j;
-                    }
-                }
+
             }
 
-            // Swap if needed
             if (i != maxIndex) {
                 Disease temp = diseases.get(i);
                 diseases.set(i, diseases.get(maxIndex));
